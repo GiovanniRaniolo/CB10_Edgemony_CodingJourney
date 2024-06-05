@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
 
+    let countdown
+
     function handleModalEvents(event) {
         if (event.target === openModalBtn) {
             modal.style.display = 'flex';
@@ -13,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             countdownDiv.style.display = 'block';
             let seconds = 5;
             timerElement.textContent = seconds; 
-            let countdown = setInterval(function() {
+            countdown = setInterval(function() {
                 --seconds;
                 timerElement.textContent = seconds; 
                 if (seconds <= 0) {
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1000);
         } else if (event.target === closeBtn) {
             modal.style.display = 'none';
+            clearInterval(countdown);
         } else if (event.target === yesBtn) {
             console.log('YES button clicked');
             logThis.call(event.target, event);
