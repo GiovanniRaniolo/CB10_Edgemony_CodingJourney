@@ -42,3 +42,35 @@ function logThis(event) {
     console.log('Valore di this:', this);
     console.log('Contesto di event.target:', event.target);
 }
+
+const nameInput = document.getElementById('nameInput');
+
+nameInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        showModalWithName(nameInput.value);
+    }
+});
+
+// Esercizio 6
+function showModalWithName(name) {
+    if (!name.trim()) {
+        alert('You must enter a name.'); 
+        return; 
+    }
+
+    const nameModal = document.createElement('div');
+    nameModal.classList.add('name-modal'); 
+    nameModal.textContent = 'Benvenuto ' + name;
+
+    // Aggiungi un pulsante di chiusura specifico per la nameModal
+    const closeBtn = document.createElement('span');
+    closeBtn.classList.add('name-close-btn');
+    closeBtn.innerHTML = '&times;';
+    closeBtn.addEventListener('click', function() {
+        document.body.removeChild(nameModal);
+    });
+    
+    nameModal.appendChild(closeBtn);
+
+    document.body.appendChild(nameModal);
+}
