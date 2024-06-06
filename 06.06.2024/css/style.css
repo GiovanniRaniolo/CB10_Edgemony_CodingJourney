@@ -14,7 +14,7 @@ body {
     flex-wrap: wrap;
     justify-content: center; 
     gap: 20px; 
-    max-width: 1200px; 
+    max-width: 1920px; 
 }
 
 /* Card */
@@ -25,11 +25,17 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 10px;
     padding: 20px;
-    width: 300px;
+    width: 340px;
+    height: 500px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* Classi per le diverse categorie */
+.card.hidden {
+    display: none;
 }
 
 .card img {
@@ -92,4 +98,30 @@ body {
 
 #loadProductsBtn:hover {
     background-color: #525252;
+}
+
+/* Category Select */
+#categorySelect {
+
+    display: none;
+    padding: 10px;
+    font-size: 1.1em; 
+    border-radius: 8px;
+    border: 1px solid #ccc; 
+    outline: none; 
+    width: 100%; 
+    max-width: 300px; 
+    box-sizing: border-box; 
+    margin-top: 10px; 
+    margin-bottom: 20px; 
+    background-color: white; 
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='20' height='20'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 5px center;
+}
+
+#categorySelect:hover {
+    border-color: #999; /* Cambiamo il colore del bordo al passaggio del mouse */
 }
