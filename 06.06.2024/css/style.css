@@ -72,3 +72,24 @@ body {
     font-weight: bold;
     font-size: 1.1em;
 }
+
+/* Load Products Button */
+#loadProductsBtn {
+    background-color: #7f7f7f; 
+    color: white; 
+    padding: 15px 30px; 
+    font-size: 1.2em; 
+    border: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    margin-bottom: 20px; 
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin-top: -30px; /* Metà dell'altezza del bottone per centrarlo verticalmente */
+}
+
+#loadProductsBtn:hover {
+    background-color: #525252;
+}
