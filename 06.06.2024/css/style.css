@@ -1,0 +1,74 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+#products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 20px; 
+    max-width: 1200px; 
+}
+
+/* Card */
+.card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card img {
+    max-width: 100%;
+    border-radius: 10px;
+    height: 200px; 
+    object-fit: cover; 
+    margin-bottom: 10px; 
+    }
+
+.card p.description {
+    max-height: 150px; 
+    overflow: auto; 
+    text-align: left; 
+    width: 100%;
+}
+
+
+/* Personalizzazione della scrollbar */
+.card p.description::-webkit-scrollbar {
+    width: 8px; 
+}
+
+.card p.description::-webkit-scrollbarr-track {
+    background: transparent; 
+}
+
+.card p.description::-webkit-scrollbar-thumb {
+    background: #b8b8b8bd; 
+    border-radius: 10px; 
+}
+
+.card p.description::-webkit-scrollbar-thumb:hover {
+    background: #888; 
+}
+
+/* Price */
+.card p.price {
+    margin-top: auto; 
+    font-weight: bold;
+    font-size: 1.1em;
+}
