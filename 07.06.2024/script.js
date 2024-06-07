@@ -53,7 +53,7 @@ function loadMovies(endpoint, page = 1) {
             console.error('Fetch error:', err);
             const errorMessage = document.createElement('p');
             errorMessage.textContent = 'An error occurred while fetching the data. Please try again later.';
-            moviesContainer.innerHTML = ''; // Svuota il contenitore dei film
+            moviesContainer.innerHTML = '';
             moviesContainer.appendChild(errorMessage);
         });
 }
