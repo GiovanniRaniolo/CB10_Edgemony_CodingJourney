@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Browser</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div id="controls">
+        <button data-endpoint="popular">Popular</button>
+        <button data-endpoint="top_rated">Top Rated</button>
+        <button data-endpoint="upcoming">Upcoming</button>
+    </div>
+    <input type="text" id="searchInput" placeholder="Filter movies by title...">
+    <div id="movies"></div>
+    <div id="pagination">
+        <button id="prevPage">Previous</button>
+        <span id="pageNumber">Page 1</span>
+        <button id="nextPage">Next</button>
+    </div>
+    <script src="./script.js" type="module"></script>
+</body>
+</html>
