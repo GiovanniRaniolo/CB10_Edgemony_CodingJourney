@@ -1,0 +1,37 @@
+.movie-card {
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 10px;
+    text-align: center;
+    overflow: hidden; 
+    transition: transform 0.3s ease; 
+}
+
+.movie-card:hover {
+    transform: translateY(-5px); 
+}
+
+.movie-card img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px; 
+}
+
+.movie-card h2 {
+    font-size: 1.2em;
+    margin: 5px 0; 
+}
+
+.movie-card p {
+    font-size: 0.9em;
+    color: #ccc;
+    max-height: 150px; 
+    overflow: hidden;
+    text-overflow: ellipsis; /* Aggiunge puntini di sospensione per il testo che sfora */
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* Imposta il numero massimo di righe per la descrizione */
+    -webkit-box-orient: vertical;
+}

@@ -1,0 +1,18 @@
+#controls, #type-controls {
+    margin-bottom: 20px;
+}
+
+#movies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1600px;
+}
+
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
