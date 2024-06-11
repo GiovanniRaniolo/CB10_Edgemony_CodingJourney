@@ -1,5 +1,6 @@
 import { API_KEY } from "./keys.js";
 
+const BASE_URL = 'https://api.themoviedb.org/3/';
 const options = {
     headers: {
         accept: 'application/json',
@@ -19,7 +20,7 @@ const pageNumberSpan = document.getElementById('pageNumber');
 let currentPage = 1;
 let currentEndpoint = 'popular';
 let currentType = 'movie';
-let currentGenre = ''; 
+let currentGenre = '';
 let movieData = [];
 
 // Funzione per creare una card del film
@@ -47,7 +48,8 @@ function createMovieCard(movie) {
 // Funzione per caricare i generi
 async function loadGenres() {
     try {
-        const response = await fetch(`https://api.themoviedb.org/3/genre/${currentType}/list`, options);
+        const url = `${BASE_URL}genre/${currentType}/list`;
+        const response = await fetch(url, options);
         const data = await response.json();
         populateGenreSelect(data.genres);
     } catch (err) {
@@ -69,11 +71,13 @@ function populateGenreSelect(genres) {
 // Funzione per caricare i film/serie TV da un endpoint e pagina specifici
 async function loadMovies(endpoint, page = 1) {
     try {
-        let url = `https://api.themoviedb.org/3/${currentType}/${endpoint}?page=${page}`;
+        let url;
         if (currentGenre) {
-            url += `&with_genres=${currentGenre}`;
+            url = `${BASE_URL}discover/${currentType}?page=${page}&with_genres=${currentGenre}`;
+        } else {
+            url = `${BASE_URL}${currentType}/${endpoint}?page=${page}`;
         }
-        console.log("URL: ", url);
+        console.log("URL: ", url); 
         const response = await fetch(url, options);
         const data = await response.json();
         movieData = data.results;
@@ -98,16 +102,18 @@ function displayMovies(movies) {
     });
 }
 
-// Funzione per filtrare i film/serie TV
-function filterMovies(title, data) {
-    const filteredMovies = data.filter(movie => {
-        if (currentType === 'movie') {
-            return movie.title.toLowerCase().includes(title.toLowerCase());
-        } else {
-            return movie.name.toLowerCase().includes(title.toLowerCase());
-        }
-    });
-    displayMovies(filteredMovies);
+// Funzione per cercare film/serie TV globalmente
+async function searchMovies(query) {
+    try {
+        const url = `${BASE_URL}search/${currentType}?query=${query}`;
+        console.log("Search URL: ", url); // Console.log di Debug
+        const response = await fetch(url, options);
+        const data = await response.json();
+        movieData = data.results;
+        displayMovies(movieData);
+    } catch (err) {
+        console.error('Search error:', err);
+    }
 }
 
 // Event listener per i pulsanti di controllo delle categorie
@@ -131,7 +137,11 @@ typeButtons.forEach(button => {
 
 // Event listener per il campo di input del filtro
 searchInput.addEventListener('input', () => {
-    filterMovies(searchInput.value, movieData);
+    if (searchInput.value.trim() === '') {
+        loadMovies(currentEndpoint, currentPage);
+    } else {
+        searchMovies(searchInput.value);
+    }
 });
 
 // Event listener per il menu a tendina dei generi
