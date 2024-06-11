@@ -20,12 +20,16 @@
         <option value="">All Genres</option>
     </select>
     <input type="text" id="searchInput" placeholder="Filter movies by title...">
-    <div id="movies"></div>
     <div id="pagination">
+        <button id="firstPage"><<</button>
+        <button id="prev10Page"><</button>
         <button id="prevPage">Previous</button>
         <span id="pageNumber">Page 1</span>
         <button id="nextPage">Next</button>
+        <button id="next10Page">></button>
+        <button id="next100Page">>></button>
     </div>
+    <div id="movies"></div>
     <script type="module" src="./scripts/main.js"></script>
 </body>
 </html>

@@ -22,7 +22,8 @@ export async function fetchMovies(endpoint, type, genre, page) {
         url = `${BASE_URL}${type}/${endpoint}?page=${page}`;
     }
     const response = await fetch(url, options);
-    return response.json();
+    const data = await response.json();
+    return data;
 }
 
 export async function searchMovies(query, type) {

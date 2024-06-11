@@ -1,7 +1,7 @@
 #searchInput, #genreSelect {
     padding: 10px;
     font-size: 1em;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: 100%;
     max-width: 300px;
     border-radius: 5px;
@@ -11,7 +11,7 @@
 }
 
 #genreSelect {
-    background-color: #444; 
+    background-color: #444;
 }
 
 #genreSelect option {
