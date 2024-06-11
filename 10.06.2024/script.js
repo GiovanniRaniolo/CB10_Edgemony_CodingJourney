@@ -59,7 +59,6 @@ async function loadGenres() {
 
 // Funzione per popolare il menu a tendina dei generi
 function populateGenreSelect(genres) {
-    genreSelect.innerHTML = '<option value="">All Genres</option>';
     genres.forEach(genre => {
         const option = document.createElement('option');
         option.value = genre.id;
