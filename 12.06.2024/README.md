@@ -15,7 +15,7 @@ const url = BASE_URL + getProductEndpoint;
 
 ## Metodo POST
 
-```
+```javascript
 const POST = async (product) => {
     const res = await fetch(url, {
         method: "POST",
@@ -42,7 +42,7 @@ La funzione **POST** invia nuovi dati (un nuovo prodotto) al server:
 
 ## Metodo DELETE
 
-```
+```javascript
 const DELETE = async (productId) => {
     const deleteUrl = `${BASE_URL}${getProductEndpoint}/${productId}`;
     const res = await fetch(deleteUrl, {
@@ -71,7 +71,7 @@ La funzione **DELETE** rimuove un prodotto dal server:
 
 ## Funzione per Mostrare il Feedback Visivo
 
-```
+```javascript
 const showFeedback = (message) => {
     const feedbackEl = document.querySelector('.feedback');
     
@@ -107,7 +107,7 @@ Qui selezioniamo vari elementi del *DOM* che verranno usati per raccogliere inpu
 
 ## Event Listeners
 
-```
+```javascript
 buttonSendEl.addEventListener('click', async (e) => {
     e.preventDefault();
     const objProductForm = {
