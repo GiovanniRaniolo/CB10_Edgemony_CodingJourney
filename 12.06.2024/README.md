@@ -74,6 +74,7 @@ La funzione **DELETE** rimuove un prodotto dal server:
 ```
 const showFeedback = (message) => {
     const feedbackEl = document.querySelector('.feedback');
+    
     feedbackEl.textContent = message;
     feedbackEl.style.display = 'block';
 
@@ -85,9 +86,9 @@ const showFeedback = (message) => {
 
 Questa funzione mostra un messaggio di feedback all'utente:
 
-- Selezione dell'Elemento: Trova l'elemento nel *DOM* con la classe **.feedback**.
-- Aggiorna il Testo e Stile: Imposta il testo del feedback e lo rende visibile.
-- Nascondi il Feedback: Usa *setTimeout* per nascondere il messaggio dopo 3 secondi.
+1. Selezione dell'Elemento: Trova l'elemento nel *DOM* con la classe **.feedback**.
+2. Aggiorna il Testo: Imposta il testo del feedback e lo rende visibile.
+3. Nascondi il Feedback: Usa *setTimeout* per nascondere il messaggio dopo 3 secondi.
 
 ## Elementi del DOM
 
@@ -118,14 +119,17 @@ buttonSendEl.addEventListener('click', async (e) => {
     };
 
     const productId = await POST(objProductForm);
+    
     console.log(`Product ID: ${productId}`);
 });
 
 buttonDeleteEl.addEventListener('click', async (e) => {
     e.preventDefault();
     const productId = deleteIdEl.value;
+    
     if (productId) {
         await DELETE(productId);
+    
     } else {
         console.error("Please enter a product ID to delete");
         showFeedback("Per favore inserisci un ID prodotto da eliminare");
@@ -137,15 +141,15 @@ Questi listener gestiscono gli eventi di click sui pulsanti di invio e cancellaz
 
 ### Invio del Prodotto:
 
-- Crea un oggetto **objProductForm** con i dati raccolti.
-- Chiama la funzione **POST** per inviare i dati al server.
-- Mostra l'ID del prodotto creato nella console.
+1. Crea un oggetto **objProductForm** con i dati raccolti.
+2. Chiama la funzione **POST** per inviare i dati al server.
+3. Mostra l'ID del prodotto creato nella console.
 
 ### Cancellazione del Prodotto:
 
-- Preleva l'ID del prodotto dall'input.
-- Se l'ID è presente, chiama la funzione **DELETE** per rimuovere il prodotto dal server.
-- Se l'ID non è presente, mostra un messaggio di errore.
+1. Preleva l'ID del prodotto dall'input.
+2. Se l'ID è presente, chiama la funzione **DELETE** per rimuovere il prodotto dal server.
+3. Se l'ID non è presente, mostra un messaggio di errore.
 
 ## Come Eseguire il Progetto
 - Clona la repository.
