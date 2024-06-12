@@ -4,10 +4,8 @@ const BASE_URL = "https://api.escuelajs.co/";
 const getProductEndpoint = "api/v1/products";
 const url = BASE_URL + getProductEndpoint;
 
+// POST MEthod
 const POST = async (product) => {
-    // FETCH con metodo POST
-    // richiede un body che verrà parsato a stringa con il metodo JSON.stringify()
-    // dentro il body andranno i nostri dati che vogliamo comunicare al server
     const res = await fetch(url, {
         method: "POST",
         headers: {
@@ -22,6 +20,7 @@ const POST = async (product) => {
     return data.id;
 };
 
+// DELETE Method
 const DELETE = async (productId) => {
     const deleteUrl = `${BASE_URL}${getProductEndpoint}/${productId}`;
     const res = await fetch(deleteUrl, {
@@ -58,18 +57,8 @@ const inputDescriptionEl = document.querySelector('.description');
 const inputCategoryEl = document.querySelector('.category-id');
 const inputImagesEl = document.querySelector('.images');
 const buttonSendEl = document.querySelector('.button-send');
-const deleteIdEl = document.querySelector('.delete-id'); // Seleziona l'elemento di input per l'ID da eliminare
+const deleteIdEl = document.querySelector('.delete-id');
 const buttonDeleteEl = document.querySelector('.button-delete');
-
-// Functions for input validation
-function validateNumberInput(inputEl) {
-    const value = inputEl.value;
-    if (isNaN(value) || value === "") {
-        inputEl.value = "";
-        return false;
-    }
-    return true;
-}
 
 // events JS
 buttonSendEl.addEventListener('click', async (e) => {
