@@ -6,7 +6,7 @@ Questo progetto permette di aggiungere e rimuovere prodotti da un server tramite
 
 ## Definizione dell'URL di Base
 
-```
+```javascript
 const BASE_URL = "https://api.escuelajs.co/";
 const getProductEndpoint = "api/v1/products";
 const url = BASE_URL + getProductEndpoint; 
