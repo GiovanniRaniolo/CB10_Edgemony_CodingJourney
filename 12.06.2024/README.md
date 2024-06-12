@@ -36,9 +36,9 @@ La funzione **POST** invia nuovi dati (un nuovo prodotto) al server:
 
 - Funzione Asincrona: **POST** è asincrona, quindi può gestire operazioni che richiedono tempo senza bloccare l'esecuzione del codice.
 - **Fetch**: Invia una richiesta *HTTP* POST all'URL definito.
-- **Headers**: Imposta i headers per indicare che il contenuto inviato è in formato *JSON*.
+- **Headers**: Imposta headers per indicare che il contenuto inviato è in formato *JSON*.
 - **Body**: Converte l'oggetto product in una stringa *JSON* e lo invia come corpo della richiesta.
-- Risposta: Converte la risposta in un oggetto *JSON* e ritorna l'ID del prodotto creato.
+- Risposta della funziona: Converte la risposta in un oggetto *JSON* e restituisce l'ID del prodotto creato.
 
 ## Metodo DELETE
 
@@ -66,8 +66,8 @@ La funzione **DELETE** rimuove un prodotto dal server:
 
 - Costruzione dell'URL: Combina **BASE_URL**, **getProductEndpoint** e **productId** per ottenere l'URL specifico del prodotto da eliminare.
 - **Fetch**: Invia una richiesta HTTP DELETE all'URL specifico.
-- **Headers**: Imposta i headers per indicare che il contenuto è in formato JSON.
-- Controllo della Risposta: Se la risposta (res.ok) è positiva, mostra un messaggio di successo; altrimenti, mostra un messaggio di errore.
+- **Headers**: Imposta headers per indicare che il contenuto è in formato *JSON*.
+- Controllo della Risposta: Se la risposta **(res.ok)** è positiva, mostra un messaggio di successo; altrimenti, mostra un messaggio di errore.
 
 ## Funzione per Mostrare il Feedback Visivo
 
@@ -85,7 +85,7 @@ const showFeedback = (message) => {
 
 Questa funzione mostra un messaggio di feedback all'utente:
 
-- Selezione dell'Elemento: Trova l'elemento nel *DOM* con la classe .feedback.
+- Selezione dell'Elemento: Trova l'elemento nel *DOM* con la classe **.feedback**.
 - Aggiorna il Testo e Stile: Imposta il testo del feedback e lo rende visibile.
 - Nascondi il Feedback: Usa *setTimeout* per nascondere il messaggio dopo 3 secondi.
 
@@ -134,6 +134,8 @@ buttonDeleteEl.addEventListener('click', async (e) => {
 ```
 
 Questi listener gestiscono gli eventi di click sui pulsanti di invio e cancellazione:
+
+### Invio del Prodotto:
 
 - Crea un oggetto **objProductForm** con i dati raccolti.
 - Chiama la funzione **POST** per inviare i dati al server.
