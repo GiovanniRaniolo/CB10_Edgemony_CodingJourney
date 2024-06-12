@@ -4,19 +4,19 @@
 
 Questo progetto permette di aggiungere e rimuovere prodotti da un server tramite un'interfaccia web. Utilizza funzioni asincrone per gestire le operazioni di rete, manipola il DOM per raccogliere input e mostra messaggi di feedback, e usa `fetch` per inviare richieste HTTP.
 
-## Descrizione del Codice
+## Definizione dell'URL di Base
 
-### Definizione dell'URL di Base
-
-````const BASE_URL = "https://api.escuelajs.co/";
+```
+const BASE_URL = "https://api.escuelajs.co/";
 const getProductEndpoint = "api/v1/products";
-const url = BASE_URL + getProductEndpoint;```
+const url = BASE_URL + getProductEndpoint; 
+```
+ Definiamo l'URL di base dell'API, concatenando **BASE_URL** con **getProductEndpoint** per ottenere l'URL completo per accedere all'endpoint dei prodotti.
 
-Definiamo l'URL di base dell'API, concatenando BASE_URL con getProductEndpoint per ottenere l'URL completo per accedere all'endpoint dei prodotti.
+## Metodo POST
 
-### Metodo POST
-
-```const POST = async (product) => {
+```
+const POST = async (product) => {
     const res = await fetch(url, {
         method: "POST",
         headers: {
@@ -29,19 +29,21 @@ Definiamo l'URL di base dell'API, concatenando BASE_URL con getProductEndpoint p
     console.log(url); //CONSOLE LOG
 
     return data.id;
-};```
+};
+```
 
-La funzione POST invia nuovi dati (un nuovo prodotto) al server:
+La funzione **POST** invia nuovi dati (un nuovo prodotto) al server:
 
-- Funzione Asincrona: POST è asincrona, quindi può gestire operazioni che richiedono tempo senza bloccare l'esecuzione del codice.
-- Fetch: Invia una richiesta HTTP POST all'URL definito.
-- Headers: Imposta i headers per indicare che il contenuto inviato è in formato JSON.
-- Body: Converte l'oggetto product in una stringa JSON e lo invia come corpo della richiesta.
-- Risposta: Converte la risposta in un oggetto JSON e ritorna l'ID del prodotto creato.
+- Funzione Asincrona: **POST** è asincrona, quindi può gestire operazioni che richiedono tempo senza bloccare l'esecuzione del codice.
+- **Fetch**: Invia una richiesta *HTTP* POST all'URL definito.
+- **Headers**: Imposta i headers per indicare che il contenuto inviato è in formato *JSON*.
+- **Body**: Converte l'oggetto product in una stringa *JSON* e lo invia come corpo della richiesta.
+- Risposta: Converte la risposta in un oggetto *JSON* e ritorna l'ID del prodotto creato.
 
-### Metodo DELETE
+## Metodo DELETE
 
-```const DELETE = async (productId) => {
+```
+const DELETE = async (productId) => {
     const deleteUrl = `${BASE_URL}${getProductEndpoint}/${productId}`;
     const res = await fetch(deleteUrl, {
         method: "DELETE",
@@ -57,18 +59,20 @@ La funzione POST invia nuovi dati (un nuovo prodotto) al server:
         console.error(`Failed to delete product with ID ${productId}`);
         showFeedback("Errore nella rimozione dell'oggetto");
     }
-};```
+};
+```
 
-La funzione DELETE rimuove un prodotto dal server:
+La funzione **DELETE** rimuove un prodotto dal server:
 
-- Costruzione dell'URL: Combina BASE_URL, getProductEndpoint e productId per ottenere l'URL specifico del prodotto da eliminare.
-- Fetch: Invia una richiesta HTTP DELETE all'URL specifico.
-- Headers: Imposta i headers per indicare che il contenuto è in formato JSON.
+- Costruzione dell'URL: Combina **BASE_URL**, **getProductEndpoint** e **productId** per ottenere l'URL specifico del prodotto da eliminare.
+- **Fetch**: Invia una richiesta HTTP DELETE all'URL specifico.
+- **Headers**: Imposta i headers per indicare che il contenuto è in formato JSON.
 - Controllo della Risposta: Se la risposta (res.ok) è positiva, mostra un messaggio di successo; altrimenti, mostra un messaggio di errore.
 
-### Funzione per Mostrare il Feedback Visivo
+## Funzione per Mostrare il Feedback Visivo
 
-```const showFeedback = (message) => {
+```
+const showFeedback = (message) => {
     const feedbackEl = document.querySelector('.feedback');
     feedbackEl.textContent = message;
     feedbackEl.style.display = 'block';
@@ -76,30 +80,34 @@ La funzione DELETE rimuove un prodotto dal server:
     setTimeout(() => {
         feedbackEl.style.display = 'none';
     }, 3000); // Nasconde il feedback dopo 3 secondi
-};```
+};
+```
 
 Questa funzione mostra un messaggio di feedback all'utente:
 
-- Selezione dell'Elemento: Trova l'elemento nel DOM con la classe .feedback.
+- Selezione dell'Elemento: Trova l'elemento nel *DOM* con la classe .feedback.
 - Aggiorna il Testo e Stile: Imposta il testo del feedback e lo rende visibile.
-- Nascondi il Feedback: Usa setTimeout per nascondere il messaggio dopo 3 secondi.
+- Nascondi il Feedback: Usa *setTimeout* per nascondere il messaggio dopo 3 secondi.
 
-#### Elementi del DOM
+## Elementi del DOM
 
-```const inputTitleEl = document.querySelector('.title');
+```
+const inputTitleEl = document.querySelector('.title');
 const inputPriceEl = document.querySelector('.price');
 const inputDescriptionEl = document.querySelector('.description');
 const inputCategoryEl = document.querySelector('.category-id');
 const inputImagesEl = document.querySelector('.images');
 const buttonSendEl = document.querySelector('.button-send');
 const deleteIdEl = document.querySelector('.delete-id');
-const buttonDeleteEl = document.querySelector('.button-delete');```
+const buttonDeleteEl = document.querySelector('.button-delete');
+```
 
-Qui selezioniamo vari elementi del DOM che verranno usati per raccogliere input dall'utente e attivare le funzioni di invio e cancellazione dei prodotti.
+Qui selezioniamo vari elementi del *DOM* che verranno usati per raccogliere input dall'utente e attivare le funzioni di invio e cancellazione dei prodotti.
 
-### Event Listeners
+## Event Listeners
 
-```buttonSendEl.addEventListener('click', async (e) => {
+```
+buttonSendEl.addEventListener('click', async (e) => {
     e.preventDefault();
     const objProductForm = {
         title: inputTitleEl.value,
@@ -122,18 +130,19 @@ buttonDeleteEl.addEventListener('click', async (e) => {
         console.error("Please enter a product ID to delete");
         showFeedback("Per favore inserisci un ID prodotto da eliminare");
     }
-});```
+});
+```
 
 Questi listener gestiscono gli eventi di click sui pulsanti di invio e cancellazione:
 
-- Crea un oggetto objProductForm con i dati raccolti.
-- Chiama la funzione POST per inviare i dati al server.
+- Crea un oggetto **objProductForm** con i dati raccolti.
+- Chiama la funzione **POST** per inviare i dati al server.
 - Mostra l'ID del prodotto creato nella console.
 
 ### Cancellazione del Prodotto:
 
 - Preleva l'ID del prodotto dall'input.
-- Se l'ID è presente, chiama la funzione DELETE per rimuovere il prodotto dal server.
+- Se l'ID è presente, chiama la funzione **DELETE** per rimuovere il prodotto dal server.
 - Se l'ID non è presente, mostra un messaggio di errore.
 
 ## Come Eseguire il Progetto
@@ -144,7 +153,7 @@ Questi listener gestiscono gli eventi di click sui pulsanti di invio e cancellaz
 
 ## Requisiti
 - Un server che supporti le richieste HTTP POST e DELETE all'URL https://api.escuelajs.co/api/v1/products.
-- Un browser moderno che supporti JavaScript ES6.
+- Un browser moderno che supporti *JavaScript ES6*.
 
 ### Autore
-Questo progetto è stato realizzato con l'intento di imparare a gestire richieste HTTP e manipolazione del DOM in JavaScript.
+Questo progetto è stato realizzato con l'intento di imparare a gestire richieste HTTP e manipolazione del *DOM* in *JavaScript*.
