@@ -92,7 +92,7 @@ Questa funzione mostra un messaggio di feedback all'utente:
 
 ## Elementi del DOM
 
-```
+```javascript
 const inputTitleEl = document.querySelector('.title');
 const inputPriceEl = document.querySelector('.price');
 const inputDescriptionEl = document.querySelector('.description');
