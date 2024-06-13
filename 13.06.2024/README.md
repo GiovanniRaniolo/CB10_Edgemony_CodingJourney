@@ -398,6 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 > **`document.addEventListener('DOMContentLoaded', () => { ... });`**
 : Assicura che il DOM sia completamente caricato prima di eseguire il codice.
+>
 > **`inputIdEl`**: Elemento input per l'ID del prodotto da eliminare o aggiornare.
 > **`inputTitleEl`**, **`inputPriceEl`**, **`inputDescriptionEl`**, **`inputCategoryEl`**, **`inputImagesEl`**: Elementi input per i dettagli del prodotto.
 > **`buttonSendEl`**, **`buttonDeleteEl`**, **`buttonUpdateEl`**: Bottoni per inviare, eliminare e aggiornare i prodotti.
@@ -439,6 +440,13 @@ const handleFeedback = (error, errorMessage = null, successMessage = null) => {
     -   Se non ci sono errori, visualizza il messaggio di successo nell'elemento `successFeedbackEl` e nasconde `errorFeedbackEl`.
     -   Entrambi i feedback visivi vengono nascosti dopo 3 secondi utilizzando `setTimeout`.
 
+> **`errorFeedbackEl`**: Elemento DOM per il feedback di errore.
+> **`successFeedbackEl`**: Elemento DOM per il feedback di successo.
+> **`error`**: Oggetto errore. Se presente, mostra il messaggio di errore.
+> **`errorMessage`**: Messaggio di errore personalizzato.
+> **`successMessage`**: Messaggio di successo personalizzato.
+> **`setTimeout`**: Nasconde i messaggi di feedback dopo 3 secondi.
+
 ### Conclusione
 
 Questo script JavaScript consente agli utenti di interagire con un'applicazione web per la gestione dei prodotti. Utilizza chiamate API per creare, aggiornare ed eliminare prodotti tramite i metodi HTTP POST, PUT e DELETE. La gestione degli errori e il feedback visivo sono implementati per guidare l'utente attraverso le operazioni e fornire informazioni chiare in caso di problemi.
@@ -452,12 +460,7 @@ Questo approccio consente una gestione robusta e user-friendly delle operazioni 
 
 
 
-> **`errorFeedbackEl`**: Elemento DOM per il feedback di errore.
-> **`successFeedbackEl`**: Elemento DOM per il feedback di successo.
-> **`error`**: Oggetto errore. Se presente, mostra il messaggio di errore.
-> **`errorMessage`**: Messaggio di errore personalizzato.
-> **`successMessage`**: Messaggio di successo personalizzato.
-> **`setTimeout`**: Nasconde i messaggi di feedback dopo 3 secondi.
+
 
 
 ### Esempio di Utilizzo
