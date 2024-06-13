@@ -4,18 +4,18 @@ Questa guida vi guiderà passo dopo passo nella creazione di una semplice applic
 
 ## Indice
 
-1.  [Struttura del Progetto](#struttura-del-progetto)
-2.  [HTML](#html)
-3.  [CSS](#css)
-4.  [JavaScript](#javascript)
-    -   [Costanti e Variabili](#costanti-e-variabili)
-    -   [Funzione `handleFeedback`](#funzione-handlefeedback)
-    -   [Funzione `handleRequest`](#funzione-handlerequest)
-    -   [Metodo `POST`](#metodo-post)
-    -   [Metodo `PUT`](#metodo-put)
-    -   [Metodo `DELETE`](#metodo-delete)
-    -   [Event Listener](#event-listener)
-5.  [Esempio di Utilizzo](#esempio-di-utilizzo)
+- [Struttura del Progetto](#struttura-del-progetto)
+- [HTML](#html)
+- [CSS](#css)
+- [JavaScript](#javascript)
+  - [Configurazione dell'API Endpoint](#configurazione-dellapi-endpoint)
+  - [Funzione `handleRequest`](#funzione-handlerequest-per-le-richieste-http)
+  - [Metodo `POST` per Creare un Prodotto](#metodo-post-per-creare-un-prodotto)
+  - [Metodo `PUT`](#metodo-put)
+  - [Metodo `DELETE`](#metodo-delete)
+  - [Gestione degli Elementi DOM e Event Listeners](#gestione-degli-elementi-dom-e-event-listeners)
+  - [Funzione `handleFeedback`](#funzione-handlefeedback-per-gestire-errori-e-feedback-visivo)
+- [Esempio di Utilizzo](#esempio-di-utilizzo)
 
 ## Struttura del Progetto
 
