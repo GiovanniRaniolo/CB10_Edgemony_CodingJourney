@@ -20,7 +20,7 @@ Questa guida vi guiderà passo dopo passo nella creazione di una semplice applic
 
 ## Struttura del Progetto
 
-Il progetto è composto da tre file principali:
+Il progetto è composto da tre linguaggi principali:
 
 1.  **HTML**: La struttura del form e i bottoni per inviare, aggiornare ed eliminare i prodotti.
 2.  **CSS**: Gli stili per i messaggi di feedback.
@@ -174,8 +174,9 @@ const POST = async (product) => {
  
 
 > **`product`**: Oggetto prodotto da inviare.   
-> **`options`**: Opzionidella richiesta POST (metodo, intestazioni, corpo).  
-> **`handleRequest`**: Chiama la funzione per gestire la richiesta.   **`handleFeedback`**: Mostra il feedback di successo o errore.   
+> **`options`**: Opzioni della richiesta POST (metodo, intestazioni, corpo).  
+> **`handleRequest`**: Chiama la funzione per gestire la richiesta.   
+> **`handleFeedback`**: Mostra il feedback di successo o errore.   
 > **`data.id`**: ID del prodotto creato.
 
 #### 4. Metodo `PUT`
@@ -394,17 +395,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 ``` 
-**Event listener per aggiornare un prodotto**: Questo evento viene attivato quando l'utente preme il pulsante "Update". Controlla l'input dell'ID del prodotto e i campi del form per garantire che siano compilati correttamente e contengano dati validi. Se tutto è valido, viene creato un oggetto `objProductForm` con i dati aggiornati del prodotto. Viene quindi chiamata la funzione `PUT` per aggiornare il prodotto utilizzando l'ID del prodotto e l'oggetto `objProductForm`. Il feedback visivo viene gestito tramite `handleFeedback`.
+##### **Event listener per aggiornare un prodotto**: 
+Questo evento viene attivato quando l'utente preme il pulsante "Update". Controlla l'input dell'ID del prodotto e i campi del form per garantire che siano compilati correttamente e contengano dati validi. Se tutto è valido, viene creato un oggetto `objProductForm` con i dati aggiornati del prodotto. Viene quindi chiamata la funzione `PUT` per aggiornare il prodotto utilizzando l'ID del prodotto e l'oggetto `objProductForm`. Il feedback visivo viene gestito tramite `handleFeedback`.
 
 > **`document.addEventListener('DOMContentLoaded', () => { ... });`**
 : Assicura che il DOM sia completamente caricato prima di eseguire il codice.
->
 > **`inputIdEl`**: Elemento input per l'ID del prodotto da eliminare o aggiornare.
-> **`inputTitleEl`**, **`inputPriceEl`**, **`inputDescriptionEl`**, **`inputCategoryEl`**, **`inputImagesEl`**: Elementi input per i dettagli del prodotto.
+> **`inputTitleEl`**, 
+**`inputPriceEl`**, 
+**`inputDescriptionEl`**, 
+**`inputCategoryEl`**, 
+**`inputImagesEl`**: Elementi input per i dettagli del prodotto.
 > **`buttonSendEl`**, **`buttonDeleteEl`**, **`buttonUpdateEl`**: Bottoni per inviare, eliminare e aggiornare i prodotti.
-> **Event Listener per `buttonSendEl`**: Gestisce l'invio di un nuovo prodotto.
-> **Event Listener per `buttonDeleteEl`**: Gestisce l'eliminazione di un prodotto.
-> **Event Listener per `buttonUpdateEl`**: Gestisce l'aggiornamento di un prodotto.
+> **Event Listener** per `buttonSendEl`: Gestisce l'invio di un nuovo prodotto.
+> **Event Listener** per `buttonDeleteEl`: Gestisce l'eliminazione di un prodotto.
+> **Event Listener** per `buttonUpdateEl`: Gestisce l'aggiornamento di un prodotto.
 
 #### 7. Funzione `handleFeedback` per Gestire Errori e Feedback Visivo
 
@@ -456,12 +461,7 @@ Questo script JavaScript consente agli utenti di interagire con un'applicazione 
 -   **Gestione degli eventi e dei dati del form**: Utilizzo di event listeners per intercettare azioni degli utenti come l'invio di nuovi prodotti, l'aggiornamento e l'eliminazione, con validazione dei dati prima dell'invio.
 -   **Feedback visivo**: Utilizzo della funzione `handleFeedback` per mostrare messaggi di successo o errori agli utenti, garantendo una migliore esperienza utente durante l'interazione con l'applicazione.
 
-Questo approccio consente una gestione robusta e user-friendly delle operazioni sui prodotti tramite l'interfaccia web, utilizzando le migliori pratiche di sviluppo per garantire affidabilità e facilità d'uso.
-
-
-
-
-
+Questo approccio consente una gestione robusta e user-friendly delle operazioni sui prodotti tramite l'interfaccia web, utilizzando le migliori pratiche di sviluppo in mio possesso per garantire affidabilità e facilità d'uso.
 
 ### Esempio di Utilizzo
 
@@ -493,6 +493,8 @@ Con questa guida, dovreste essere in grado di implementare e comprendere un semp
 - Usa il modulo per aggiungere un nuovo prodotto.
 
 - Inserisci l'ID di un prodotto esistente e clicca su "Delete" per rimuoverlo.
+
+- Usa il modulo form, Inserisci anche l'ID di un prodotto esistente e clicca su "Update" per modificarlo.
 
   
 
