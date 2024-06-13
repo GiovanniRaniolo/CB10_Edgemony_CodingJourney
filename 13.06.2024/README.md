@@ -172,7 +172,7 @@ const POST = async (product) => {
 
  
 
->  **`product`**: Oggetto prodotto da inviare.   
+> **`product`**: Oggetto prodotto da inviare.   
 > **`options`**: Opzionidella richiesta POST (metodo, intestazioni, corpo).  
 > **`handleRequest`**: Chiama la funzione per gestire la richiesta.   **`handleFeedback`**: Mostra il feedback di successo o errore.   
 > **`data.id`**: ID del prodotto creato.
@@ -212,11 +212,12 @@ const PUT = async (productId, product) => {
   
 
 > **`productId`**: ID del prodotto da aggiornare.   
-> **`product`**: Oggetto prodotto con i nuovi dati.   **`putUrl`**: URL completo per la richiesta PUT.   
->  **`options`**: Opzioni della richiesta PUT (metodo,  intestazioni, corpo).   
+> **`product`**: Oggetto prodotto con i nuovi dati.   
+> **`putUrl`**: URL completo per la richiesta PUT.   
+> **`options`**: Opzioni della richiesta PUT (metodo,  intestazioni, corpo).   
 > **`handleRequest`**: Chiama la funzione per gestire la richiesta.   
->  **`handleFeedback`**: Mostra il feedback di successo o errore.   
->  **`data.id`**: ID del prodotto aggiornato.
+> **`handleFeedback`**: Mostra il feedback di successo o errore.   
+> **`data.id`**: ID del prodotto aggiornato.
 
 ####  5. Metodo `DELETE`
 
@@ -260,9 +261,9 @@ const DELETE = async (productId) => {
   
  
 
->  **`productId`**: ID del prodotto da eliminare.   
->  **`deleteUrl`**: URL completo per la richiesta DELETE.   
->  **`options`**: Opzioni dellarichiesta DELETE (metodo, intestazioni).    
+> **`productId`**: ID del prodotto da eliminare.   
+> **`deleteUrl`**: URL completo per la richiesta DELETE.   
+> **`options`**: Opzioni dellarichiesta DELETE (metodo, intestazioni).    
 > **`fetch`**:  Metodo per effettuare la richiesta DELETE.    
 > **`res.ok`**:  Verifica se larisposta è andata a buon fine.    
 > **`handleFeedback`**: Mostra il feedback di successo o errore.
@@ -394,8 +395,8 @@ document.addEventListener('DOMContentLoaded', () => {
 ``` 
 **Event listener per aggiornare un prodotto**: Questo evento viene attivato quando l'utente preme il pulsante "Update". Controlla l'input dell'ID del prodotto e i campi del form per garantire che siano compilati correttamente e contengano dati validi. Se tutto è valido, viene creato un oggetto `objProductForm` con i dati aggiornati del prodotto. Viene quindi chiamata la funzione `PUT` per aggiornare il prodotto utilizzando l'ID del prodotto e l'oggetto `objProductForm`. Il feedback visivo viene gestito tramite `handleFeedback`.
 
-> **`document.addEventListener('DOMContentLoaded', () => { ... });`**: Assicura che il DOM sia completamente caricato prima di eseguire il
-> codice.
+> **`document.addEventListener('DOMContentLoaded', () => { ... });`**
+: Assicura che il DOM sia completamente caricato prima di eseguire il codice.
 > **`inputIdEl`**: Elemento input per l'ID del prodotto da eliminare o aggiornare.
 > **`inputTitleEl`**, **`inputPriceEl`**, **`inputDescriptionEl`**, **`inputCategoryEl`**, **`inputImagesEl`**: Elementi input per i dettagli del prodotto.
 > **`buttonSendEl`**, **`buttonDeleteEl`**, **`buttonUpdateEl`**: Bottoni per inviare, eliminare e aggiornare i prodotti.
@@ -450,12 +451,12 @@ Questo approccio consente una gestione robusta e user-friendly delle operazioni 
 
 
 
--   **`errorFeedbackEl`**: Elemento DOM per il feedback di errore.
--   **`successFeedbackEl`**: Elemento DOM per il feedback di successo.
--   **`error`**: Oggetto errore. Se presente, mostra il messaggio di errore.
--   **`errorMessage`**: Messaggio di errore personalizzato.
--   **`successMessage`**: Messaggio di successo personalizzato.
--   **`setTimeout`**: Nasconde i messaggi di feedback dopo 3 secondi.
+> **`errorFeedbackEl`**: Elemento DOM per il feedback di errore.
+> **`successFeedbackEl`**: Elemento DOM per il feedback di successo.
+> **`error`**: Oggetto errore. Se presente, mostra il messaggio di errore.
+> **`errorMessage`**: Messaggio di errore personalizzato.
+> **`successMessage`**: Messaggio di successo personalizzato.
+> **`setTimeout`**: Nasconde i messaggi di feedback dopo 3 secondi.
 
 
 ### Esempio di Utilizzo
