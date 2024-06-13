@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12.06.2024 - POST and DELETE Methods</title>
+</head>
+<body>
+    <form
+    action="submit"
+    style="display: flex; flex-direction: column; max-width: 300px; gap: 12px">
+    <input class="title" type="text" placeholder="title" />
+    <input class="price" type="number" placeholder="price" />
+    <input class="description" type="text" placeholder="description" />
+    <input class="category-id" type="number" placeholder="category id" />
+    <input class="images" type="text" placeholder="images" />
+    <button class="button-send">send</button>
+</form>
+<!-- Form per l'eliminazione del prodotto -->
+<div style="padding-top: 10px;">
+    <input type="number" class="delete-id" placeholder="Product ID">
+    <button class="button-update">Update</button>
+    <button class="button-delete">Delete</button>
+</div>
+<!-- Contenitore per il feedback visivo -->
+<div class="feedback-container" style= "display: flex; align-items: center; justify-content: center; margin: 18%;">
+    <div class="feedback error" style="display: none; background-color: #f44336; color: white; padding: 30px; margin-bottom: 10px;"></div>
+    <div class="feedback success" style="display: none; background-color: #4CAF50; color: white; padding: 30px; margin-bottom: 10px;"></div>
+</div>
+
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
