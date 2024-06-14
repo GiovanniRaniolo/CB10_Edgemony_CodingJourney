@@ -275,8 +275,7 @@ const DELETE = async (productId) => {
 > **`productId`**: ID del prodotto da eliminare.   
 > **`deleteUrl`**: URL completo per la richiesta DELETE.   
 > **`options`**: Opzioni dellarichiesta DELETE (metodo, intestazioni).    
-> **`fetch`**:  Metodo per effettuare la richiesta DELETE.    
-> **`res.ok`**:  Verifica se larisposta è andata a buon fine.    
+> **`handleRequest`**:  funzione per effettuare la richiesta HTTP.       
 > **`handleFeedback`**: Mostra il feedback di successo o errore.
 
 #### 6. Gestione degli Elementi DOM e Event Listeners
