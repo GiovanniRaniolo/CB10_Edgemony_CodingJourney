@@ -256,7 +256,7 @@ const DELETE = async (productId) => {
 -   **Parametri**:
     
     -   `productId`: L'ID del prodotto che si desidera eliminare.
-    - 
+    
 -   **Costruzione dell'URL**:
     
     -   `deleteUrl`: Concatena l'URL di base (`BASE_URL`) con l'endpoint dei prodotti e l'ID specifico del prodotto da eliminare.
