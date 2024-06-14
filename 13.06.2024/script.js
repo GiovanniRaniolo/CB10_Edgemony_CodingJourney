@@ -13,6 +13,10 @@ const handleRequest = async (requestUrl, options) => {
             throw new Error(errorData.message || 'Request failed');
         }
 
+        if (res.status === 204) {
+            return null;
+        }
+
         return await res.json();
     } catch (error) {
         throw error;
@@ -71,15 +75,9 @@ const DELETE = async (productId) => {
             },
         };
 
-        const res = await fetch(deleteUrl, options);
-
-        if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(errorData.message || 'Failed to delete product');
-        }
-
+        await handleRequest(deleteUrl, options);
         console.log(`Product with ID ${productId} deleted successfully`);
-        handleFeedback(null, null, "Product deleted successfully"); // Feedback verde per successo
+        handleFeedback(null, null, "Product deleted successfully");
     } catch (error) {
         if (error.message.includes("Could not find any entity of type")) {
             handleFeedback(error, `Product with ID ${productId} not found`, null);
@@ -158,7 +156,7 @@ buttonDeleteEl.addEventListener('click', async (e) => {
         }
 
         await DELETE(productId);
-        handleFeedback(null, null, "Product deleted successfully");
+        
     } catch (error) {
         console.error(`Failed to delete product: ${error.message}`);
         handleFeedback(error, `Error in deleting product: ${error.message}`);

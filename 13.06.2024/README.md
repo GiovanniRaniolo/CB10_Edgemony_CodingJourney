@@ -125,11 +125,16 @@ const handleRequest = async (requestUrl, options) => {
             throw new Error(errorData.message || 'Request failed');
         }
 
+        if (res.status === 204) {
+            return null;
+        }
+
         return await res.json();
+
     } catch (error) {
         throw error;
     }
-};` 
+};
 ```
 
 **handleRequest**: Questa funzione è utilizzata per effettuare le chiamate HTTP tramite l'API `fetch`.
@@ -137,9 +142,9 @@ const handleRequest = async (requestUrl, options) => {
 -   Accetta due parametri:
     -   `requestUrl`: L'URL della richiesta.
     -   `options`: Opzioni per la richiesta (metodo HTTP, intestazioni, corpo della richiesta).
--   Gestisce la risposta della richiesta:
-    -   Se la risposta non è `ok`, viene lanciato un errore con i dettagli dell'errore.
-    -   Restituisce i dati della risposta in formato JSON.
+-   Logica:
+    -   Se la risposta non è ok (200-299), gestisce l'errore mostrando il messaggio di errore restituito dall'API.
+    -   Se la richiesta ha successo, mostra un messaggio di feedback visivo di successo e restituisce i dati della risposta in formato JSON.
 
 #### 3. Metodo `POST` per Creare un Prodotto
 
@@ -234,15 +239,9 @@ const DELETE = async (productId) => {
             },
         };
 
-        const res = await fetch(deleteUrl, options);
-
-        if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(errorData.message || 'Failed to delete product');
-        }
-
+        await handleRequest(deleteUrl, options);
         console.log(`Product with ID ${productId} deleted successfully`);
-        handleFeedback(null, null, "Product deleted successfully"); // Feedback verde per successo
+        handleFeedback(null, null, "Product deleted successfully");
     } catch (error) {
         if (error.message.includes("Could not find any entity of type")) {
             handleFeedback(error, `Product with ID ${productId} not found`, null);
@@ -254,14 +253,24 @@ const DELETE = async (productId) => {
 ``` 
 **DELETE**: Questo metodo invia una richiesta DELETE per eliminare un prodotto.
 
--   Accetta un parametro `productId`, che rappresenta l'ID del prodotto da eliminare.
--   Costruisce l'URL di eliminazione utilizzando l'endpoint e l'ID del prodotto.
--   Utilizza `fetch` per inviare la richiesta DELETE.
--   Gestisce la risposta:
-    -   Se la risposta non è `ok`, gestisce l'errore restituito dall'API.
-    -   Mostra un messaggio di conferma nel caso di successo o gestisce gli errori specifici.
-  
- 
+-   **Parametri**:
+    
+    -   `productId`: L'ID del prodotto che si desidera eliminare.
+    - 
+-   **Costruzione dell'URL**:
+    
+    -   `deleteUrl`: Concatena l'URL di base (`BASE_URL`) con l'endpoint dei prodotti e l'ID specifico del prodotto da eliminare.
+-   **Opzioni della Richiesta**:
+    
+    -   Il metodo è impostato su `DELETE`.
+    -   Le intestazioni (`headers`) specificano il tipo di contenuto come JSON.
+-   **Gestione della Richiesta**:
+    
+    -   Utilizza `handleRequest` per inviare la richiesta `DELETE` all'URL specificato con le opzioni definite.
+    -   Se l'operazione ha successo, viene registrato un messaggio di conferma nel console e tramite `handleFeedback`.
+    -   In caso di errore, `handleRequest` gestisce il feedback visivo delle operazioni.
+        -   Se il messaggio di errore contiene "Could not find any entity of type", indica che il prodotto non è stato trovato e mostra un feedback appropriato.
+        -   Altrimenti, mostra un messaggio di errore generico.
 
 > **`productId`**: ID del prodotto da eliminare.   
 > **`deleteUrl`**: URL completo per la richiesta DELETE.   
@@ -339,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             await DELETE(productId);
-            handleFeedback(null, null, "Product deleted successfully");
+            
         } catch (error) {
             console.error(`Failed to delete product: ${error.message}`);
             handleFeedback(error, `Error in deleting product: ${error.message}`);
@@ -395,12 +404,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 ``` 
-##### **Event listener per aggiornare un prodotto**: 
-Questo evento viene attivato quando l'utente preme il pulsante "Update". Controlla l'input dell'ID del prodotto e i campi del form per garantire che siano compilati correttamente e contengano dati validi. Se tutto è valido, viene creato un oggetto `objProductForm` con i dati aggiornati del prodotto. Viene quindi chiamata la funzione `PUT` per aggiornare il prodotto utilizzando l'ID del prodotto e l'oggetto `objProductForm`. Il feedback visivo viene gestito tramite `handleFeedback`.
 
->  **`document.addEventListener('DOMContentLoaded', () => { ... });`**: Assicura che il DOM sia completamente caricato prima di eseguire il
+#### Event Listeners per Gestire Operazioni CRUD sui Prodotti
 
-> codice.
+-   **Creazione di un Nuovo Prodotto**: L'evento `click` su `buttonSendEl` gestisce l'invio dei dati del nuovo prodotto al backend. Vengono validati i campi del form e, se tutto è corretto, viene chiamata la funzione `POST` per creare il prodotto.
+    
+-   **Eliminazione di un Prodotto Esistente**: L'evento `click` su `buttonDeleteEl` gestisce l'eliminazione di un prodotto esistente. Verifica che l'ID del prodotto sia valido e, in caso affermativo, chiama la funzione `DELETE` per rimuovere il prodotto dal backend.
+    
+-   **Aggiornamento di un Prodotto Esistente**: L'evento `click` su `buttonUpdateEl` gestisce l'aggiornamento dei dati di un prodotto esistente. Valida l'ID del prodotto e i campi del form, quindi chiama la funzione `PUT` per aggiornare i dati del prodotto nel backend.
+    
+
+Ogni evento è accompagnato da controlli di validazione per assicurarsi che i dati inseriti siano corretti prima di inviare le richieste al backend. Il feedback visivo sull'esito delle operazioni viene gestito tramite la funzione `handleFeedback`.
+
+>  **`document.addEventListener('DOMContentLoaded', () => { ... });`**: Assicura che il DOM sia completamente caricato prima di eseguire il codice.
 
 >  **`inputIdEl`**: Elemento input per l'ID del prodotto da eliminare o aggiornare.
 
