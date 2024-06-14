@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14.06.2024 - GET-POST-PUT-DELETE and Error Handling Methods</title>
+    <style>
+        /* Stili per il modulo di login */
+        #login-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        #login-form {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        #login-form label {
+            margin-bottom: 5px; 
+        }
+        #login-form input, #login-form button {
+            margin-bottom: 10px; 
+            width: 100%; 
+        }
+        #login-button {
+            width: auto; 
+        }
+
+        /* Stili per l'area utente loggato */
+        #user-info {
+            display: flex; 
+            align-items: center; 
+            margin: 10px;
+            justify-content: flex-end; 
+        }
+        #user-info p {
+            margin-right: 10px; 
+        }
+        #logout-button {
+            margin-left: 5px; 
+        }
+
+        /* Stili per il modulo di gestione dei prodotti */
+        #product-management {
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            margin-top: 50px; 
+        }
+
+        /* Stili per i form e i pulsanti all'interno di product-management */
+        #product-management form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            gap: 12px;
+        }
+        #product-management form input, #product-management form button {
+            width: 100%;
+        }
+        #product-management > div {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        .feedback-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 18%;
+        }
+        .feedback {
+            display: none;
+            padding: 30px;
+            margin-bottom: 10px;
+            color: white;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        .error {
+            background-color: #f44336;
+        }
+        .success {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <!-- Modulo di login -->
+    <div id="login-modal">
+        <div id="login-form">
+            <h2>Login / Register</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" placeholder="Enter username">
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter password">
+            <button id="login-button">Login / Register</button>
+        </div>
+    </div>
+
+    <!-- Area per mostrare il nome dell'utente loggato -->
+    <div id="user-info" style="display: none;">
+        <p>Logged in as: <span id="user-name"></span></p>
+        <button id="logout-button">Logout</button>
+    </div>
+
+    <!-- Modulo per la gestione dei prodotti -->
+    <div id="product-management" style="display: none;">
+        <form action="submit">
+            <input class="title" type="text" placeholder="Title" />
+            <input class="price" type="number" placeholder="Price" />
+            <input class="description" type="text" placeholder="Description" />
+            <input class="category-id" type="number" placeholder="Category ID" />
+            <input class="images" type="text" placeholder="Images (comma-separated)" />
+            <button class="button-send">Send</button>
+        </form>
+        <!-- Form per l'eliminazione, l'update e il check del prodotto -->
+        <div>
+            <input type="number" class="delete-id" placeholder="Product ID">
+            <button class="button-check">Check</button>
+            <button class="button-update">Update</button>
+            <button class="button-delete">Delete</button>
+        </div>
+        <!-- Feedback visivo per l'Error Handling -->
+        <div class="feedback-container">
+            <div class="feedback error"></div>
+            <div class="feedback success"></div>
+        </div>
+    </div>
+
+    <script type="module" src="./login.js"></script>
+    <script type="module" src="./script.js" defer></script>
+</body>
+</html>
