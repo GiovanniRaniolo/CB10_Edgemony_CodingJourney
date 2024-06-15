@@ -1,9 +1,26 @@
+// Funzione per stampare messaggi di log formattati
+const logMessage = (type, message) => {
+    switch (type) {
+        case 'error':
+            console.log("%c ERROR! " + message, "font-size: 2em; color: red;");
+            break;
+        case 'success':
+            console.log("%c SUCCESS! " + message, "font-size: 2em; color: green;");
+            break;
+        case 'warning':
+            console.log("%c WARNING! " + message, "font-size: 2em; color: yellow;");
+            break;
+        default:
+            console.log(message); // In caso di tipo non riconosciuto, stampa solo il messaggio
+    }
+};
+
 // API Endpoint
 const BASE_URL = "https://api.escuelajs.co/";
 const getProductEndpoint = "api/v1/products";
 const url = BASE_URL + getProductEndpoint;
 
-//  HTTP Handle Request
+// HTTP Handle Request
 const handleRequest = async (requestUrl, options) => {
     try {
         const res = await fetch(requestUrl, options);
@@ -25,7 +42,6 @@ const handleRequest = async (requestUrl, options) => {
 
 // GET Method
 const GET = async (productId) => {
-
     try {
         const url = `${BASE_URL}${getProductEndpoint}/${productId}`;
         const options = {
@@ -36,15 +52,9 @@ const GET = async (productId) => {
         };
         const response = await handleRequest(url, options);
         return response;
-
     } catch (error) {
-        if (error.message.includes("Could not find any entity of type")) {
-            handleFeedback(error, `Product with ID ${productId} not found`, null);
-        } else {
-            handleFeedback(error, `Error in serch product: ${error.message}`);
-        }
+        handleFeedback(error, `Error in search product: ${error.message}`);
     }
-
 };
 
 // POST Method
@@ -60,10 +70,11 @@ const POST = async (product) => {
 
         const data = await handleRequest(url, options);
         handleFeedback(null, null, "Product created successfully");
+        logMessage('success', "Product created");
         return data.id;
     } catch (error) {
-        handleFeedback(error, `Error in creating product: ${error.message}`);
-        throw error;
+        handleFeedback(error, `Error creating product: ${error.message}`);
+        logMessage('error', "Failed to create product");
     }
 };
 
@@ -81,10 +92,11 @@ const PUT = async (productId, product) => {
 
         const data = await handleRequest(putUrl, options);
         handleFeedback(null, null, "Product updated successfully");
+        logMessage('success', "Product updated");
         return data.id;
     } catch (error) {
-        handleFeedback(error, `Error in updating product: ${error.message}`);
-        throw error;
+        handleFeedback(error, `Error updating product: ${error.message}`);
+        logMessage('error', "Failed to update product");
     }
 };
 
@@ -100,14 +112,11 @@ const DELETE = async (productId) => {
         };
 
         await handleRequest(deleteUrl, options);
-        console.log(`Product with ID ${productId} deleted successfully`);
         handleFeedback(null, null, "Product deleted successfully");
+        logMessage('success', "Product deleted");
     } catch (error) {
-        if (error.message.includes("Could not find any entity of type")) {
-            handleFeedback(error, `Product with ID ${productId} not found`, null);
-        } else {
-            handleFeedback(error, `Error in deleting product: ${error.message}`);
-        }
+        handleFeedback(error, `Error deleting product: ${error.message}`);
+        logMessage('error', "Failed to delete product");
     }
 };
 
@@ -121,7 +130,7 @@ const inputImagesEl = document.querySelector('.images');
 const buttonSendEl = document.querySelector('.button-send');
 const buttonDeleteEl = document.querySelector('.button-delete');
 const buttonUpdateEl = document.querySelector('.button-update');
-const buttonCheckEl = document.querySelector('.button-check'); // New Check Button
+const buttonCheckEl = document.querySelector('.button-check');
 
 // Event listener per invio prodotto
 buttonSendEl.addEventListener('click', async (e) => {
@@ -134,15 +143,18 @@ buttonSendEl.addEventListener('click', async (e) => {
 
     try {
         if (!title || !price || !description || !categoryId || !images[0]) {
+            logMessage('warning', "All fields must be filled out");
             throw new Error("All fields must be filled out");
         }
 
         if (isNaN(price)) {
-            throw new Error("Received invalid number for price");
+            logMessage('warning', "Invalid price");
+            throw new Error("Invalid price");
         }
 
         if (isNaN(categoryId)) {
-            throw new Error("Received invalid number for category ID");
+            logMessage('warning', "Invalid category ID");
+            throw new Error("Invalid category ID");
         }
 
         const objProductForm = {
@@ -154,11 +166,10 @@ buttonSendEl.addEventListener('click', async (e) => {
         };
 
         const productId = await POST(objProductForm);
-        console.log(`Product ID: ${productId}`);
-        handleFeedback(null, null, "Product created successfully");
+        handleFeedback(null, null, `Created with ID: ${productId}`);
+        inputIdEl.value = productId;
     } catch (error) {
-        console.error(`Failed to create product: ${error.message}`);
-        handleFeedback(error, `Error in creating product: ${error.message}`);
+        handleFeedback(error, `Error creating product: ${error.message}`);
     }
 });
 
@@ -169,18 +180,18 @@ buttonDeleteEl.addEventListener('click', async (e) => {
 
     try {
         if (!productId) {
-            throw new Error("Please enter a product ID to delete");
+            logMessage('warning', "Enter a product ID to delete");
+            throw new Error("Enter a product ID to delete");
         }
 
         if (isNaN(productId)) {
-            throw new Error("Received invalid number for product ID");
+            logMessage('warning', "Invalid product ID");
+            throw new Error("Invalid product ID");
         }
 
         await DELETE(productId);
-        
     } catch (error) {
-        console.error(`Failed to delete product: ${error.message}`);
-        handleFeedback(error, `Error in deleting product: ${error.message}`);
+        handleFeedback(error, `Error deleting product: ${error.message}`);
     }
 });
 
@@ -196,23 +207,28 @@ buttonUpdateEl.addEventListener('click', async (e) => {
 
     try {
         if (!productId) {
-            throw new Error("Please enter a product ID to update");
+            logMessage('warning', "Enter a product ID to update");
+            throw new Error("Enter a product ID to update");
         }
 
         if (!title || !price || !description || !categoryId || !images[0]) {
+            logMessage('warning', "All fields must be filled out");
             throw new Error("All fields must be filled out");
         }
 
         if (isNaN(productId)) {
-            throw new Error("Received invalid number for product ID");
+            logMessage('warning', "Invalid product ID");
+            throw new Error("Invalid product ID");
         }
 
         if (isNaN(price)) {
-            throw new Error("Received invalid number for price");
+            logMessage('warning', "Invalid price");
+            throw new Error("Invalid price");
         }
 
         if (isNaN(categoryId)) {
-            throw new Error("Received invalid number for category ID");
+            logMessage('warning', "Invalid category ID");
+            throw new Error("Invalid category ID");
         }
 
         const objProductForm = {
@@ -224,11 +240,9 @@ buttonUpdateEl.addEventListener('click', async (e) => {
         };
 
         const updatedProductId = await PUT(productId, objProductForm);
-        console.log(`Updated Product ID: ${updatedProductId}`);
-        handleFeedback(null, null, "Product updated successfully");
+        handleFeedback(null, null, "Product updated");
     } catch (error) {
-        console.error(`Failed to update product: ${error.message}`);
-        handleFeedback(error, `Error in updating product: ${error.message}`);
+        handleFeedback(error, `Error updating product: ${error.message}`);
     }
 });
 
@@ -239,40 +253,34 @@ buttonCheckEl.addEventListener('click', async (e) => {
 
     try {
         if (!productId) {
-            throw new Error("Please enter a product ID to check");
+            logMessage('warning', "Enter a product ID to check");
+            throw new Error("Enter a product ID to check");
         }
 
         if (isNaN(productId)) {
-            throw new Error("Received invalid number for product ID");
+            logMessage('warning', "Invalid product ID");
+            throw new Error("Invalid product ID");
         }
 
         const product = await GET(productId);
+
+        if (!product) {
+            throw new Error(`Product with ID ${productId} not found`);
+        }
 
         // Populate the form fields with the product data
         inputTitleEl.value = product.title || '';
         inputPriceEl.value = product.price || '';
         inputDescriptionEl.value = product.description || '';
+        inputCategoryEl.value = product.category?.id || '';
+        inputImagesEl.value = (product.images && product.images.length > 0) ? product.images[0].replace(/[\[\]"]/g, '') : '';
 
-        if (product.category && product.category.id !== undefined && product.category.id !== null) {
-            inputCategoryEl.value = product.category.id;
-        } else {
-            inputCategoryEl.value = '';
-        }
-
-        if (product.images && product.images.length > 0) {
-            inputImagesEl.value = product.images[0].replace(/[\[\]"]/g, '');
-        } else {
-            inputImagesEl.value = '';
-        }
-
-        handleFeedback(null, null, "Product fetched successfully");
+        logMessage('success', "Product Fetched");
+        handleFeedback(null, null, "Product fetched");
     } catch (error) {
-
-        if (error.message.includes("Cannot read")) {
-            handleFeedback(error, `Product with ID ${productId} not found`, null);
-        } else {
-            handleFeedback(error, `Error in serch product: ${error.message}`);
-        }
+        const errorMessage = error.message.includes("Product with ID") ? error.message : `Error fetching product: ${error.message}`;
+        logMessage('error', "Failed to create product");
+        handleFeedback(error, errorMessage);
 
         // Reset the input fields to their initial placeholder values
         inputTitleEl.value = '';
