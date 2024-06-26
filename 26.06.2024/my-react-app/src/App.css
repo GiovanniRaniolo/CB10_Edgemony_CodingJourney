@@ -231,7 +231,7 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2px; /* Spazio tra le card */
-  max-width: 120dvh; /* Larghezza massima consentita */
+  max-width: 150dvh; /* Larghezza massima consentita */
   margin: 10px auto; /* Margini esterni con auto per centrare */
   justify-items: center; /* Centra gli elementi lungo l'asse orizzontale */
 }
