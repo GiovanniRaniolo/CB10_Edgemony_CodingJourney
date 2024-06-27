@@ -69,21 +69,22 @@ Contains styles for the calculator layout and appearance.
 
 Contains styles for the buttons, including hover and active states.
 
-## How to Add More Buttons
+### How to Add More Buttons
 
 To add more buttons, simply update the `buttonValues` array in `Calculator.js` with the new values. The UI will automatically reflect these changes, but you have to update the logic for the added button.
 
-`const buttonValues = [
+````js
+const buttonValues = [
   "7", "8", "9", "/",
   "4", "5", "6", "*",
   "1", "2", "3", "-",
   "0", ".", "=", "+",
   "%", "C", "←", "√"
-];`
+];```
 
 ## Explanation of the Logic
 
-The logic of the calculator is managed primarily within the `Calculator.js` file. Let's break down each part step-by-step:
+The logic of the calculator is managed primarily within the `Calculator.jsx` file. Let's break down each part step-by-step:
 
 ### State Management
 
@@ -94,7 +95,7 @@ const [displayValue, setDisplayValue] = useState("0");
 const [operator, setOperator] = useState(null);
 const [waitingForOperand, setWaitingForOperand] = useState(false);
 const [operand, setOperand] = useState(null);`
-```
+````
 
 - **displayValue:** Stores the current value shown on the display.
 - **operator:** Stores the current operator (`+`, `-`, `*`, `/`, `%`) selected by the user.
