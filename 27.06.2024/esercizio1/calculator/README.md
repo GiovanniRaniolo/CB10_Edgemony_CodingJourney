@@ -73,18 +73,72 @@ Contains styles for the buttons, including hover and active states.
 
 To add more buttons, simply update the `buttonValues` array in `Calculator.js` with the new values. The UI will automatically reflect these changes, but you have to update the logic for the added button.
 
-````js
+```js
 const buttonValues = [
-  "7", "8", "9", "/",
-  "4", "5", "6", "*",
-  "1", "2", "3", "-",
-  "0", ".", "=", "+",
-  "%", "C", "←", "√"
-];```
+  "7",
+  "8",
+  "9",
+  "/",
+  "4",
+  "5",
+  "6",
+  "*",
+  "1",
+  "2",
+  "3",
+  "-",
+  "0",
+  ".",
+  "=",
+  "+",
+  "%",
+  "C",
+  "←",
+  "√",
+];
+```
 
 ## Explanation of the Logic
 
 The logic of the calculator is managed primarily within the `Calculator.jsx` file. Let's break down each part step-by-step:
+
+1. Import statements: The code imports necessary React components and modules, including `useState` from React.
+
+2. Constant `buttonValues`: This array contains the labels for the calculator buttons.
+
+3. `Calculator` function component: This is the main component that renders the calculator UI.
+
+4. State variables: The component uses React hooks to manage state. The `useState` hook is used to create the following state variables:
+
+`displayValue`: Stores the current value displayed on the calculator screen.
+
+`operator`: Stores the currently selected operator.
+
+`waitingForOperand`: Indicates whether the next input should be considered as a new operand.
+
+`operand`: Stores the current operand.
+
+5. Event handlers: The component defines several event handlers to handle button clicks, number input, clear, backspace, square root, and equals operations.
+
+6. `handleButtonClick` function: This function is called when a button is clicked. It determines the type of button clicked and calls the appropriate event handler.
+
+7. `handleNumber` function: This function handles number input. If waitingForOperand is true, it sets the displayValue to the clicked number and sets waitingForOperand to false. Otherwise, it appends the clicked number to the current displayValue.
+
+8. `handleClear` function: This function clears the calculator state by resetting all state variables to their initial values.
+
+9. `handleBackspace` function: This function removes the last character from the displayValue.
+
+10. `handleOperator` function: This function handles operator selection. It parses the displayValue to a float and performs calculations based on the current operator and operand.
+
+11. `handleEquals` function: This function handles the equals operation. It performs calculations based on the current operator and operand, and updates the displayValue accordingly.
+
+12. `handleSquareRoot` function: This function handles the square root operation. It calculates the square root of the displayValue and updates the displayValue.
+
+13. `performCalculation` function: This function performs calculations based on the given operator and operands.
+
+14. `formatResult` function: This function formats the result by converting it to a string and truncating it if it exceeds 10 characters.
+
+15. JSX code: The component renders the calculator UI, including the Display component and a button container with buttons for numbers, operators, and special functions.
 
 ### State Management
 
@@ -95,7 +149,7 @@ const [displayValue, setDisplayValue] = useState("0");
 const [operator, setOperator] = useState(null);
 const [waitingForOperand, setWaitingForOperand] = useState(false);
 const [operand, setOperand] = useState(null);`
-````
+```
 
 - **displayValue:** Stores the current value shown on the display.
 - **operator:** Stores the current operator (`+`, `-`, `*`, `/`, `%`) selected by the user.
