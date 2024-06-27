@@ -1,0 +1,26 @@
+.button {
+  font-size: 1.5em;
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #292929, #323232);
+  box-shadow: 2px 4px #282828;
+  transition: all 0.2s;
+  border: 1px solid rgb(112, 111, 111);
+}
+
+.button:focus {
+  outline: none; /* Rimuove il bordo predefinito del focus */
+  border: 1px solid #ff8c09; /* Cambia la larghezza e il colore del bordo */
+}
+
+.button:active {
+  box-shadow: 0 2px #ff8c09;
+  transform: translateY(4px);
+}
+
+.button:hover {
+  background: #000000;
+  color: #ff8c09;
+  border: 1px solid #ff8c09;
+}

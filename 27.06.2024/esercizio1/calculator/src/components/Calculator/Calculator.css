@@ -1,0 +1,15 @@
+.calculator {
+  width: 340px;
+  /* height: 460px; */
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(145deg, #4b4b4b, #6f6e6e);
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
