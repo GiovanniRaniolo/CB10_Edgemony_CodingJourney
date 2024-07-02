@@ -1,0 +1,26 @@
+.buttonAdviceGenerator {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px; /* Imposta la larghezza e l'altezza del bottone */
+  height: 40px;
+  border-radius: 50%;
+  background-color: #53ffab;
+  position: absolute;
+  top: 100%; /* Mette il pulsante al centro verticale della card */
+  left: 50%; /* Mette il pulsante al centro orizzontale della card */
+  transform: translate(-50%, -50%); /* Centra il pulsante esattamente */
+  border: none; /* Rimuove il bordo */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.iconDice {
+  width: 16px;
+  height: 16px;
+}
+
+.buttonAdviceGenerator:hover {
+  transform: translate(-50%, -50%) scale(1.02);
+  box-shadow: 0px 1px 30px rgba(83, 255, 171, 0.5);
+}

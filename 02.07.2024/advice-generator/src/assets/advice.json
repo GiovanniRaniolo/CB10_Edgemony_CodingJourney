@@ -1,0 +1,58 @@
+[
+  { "id": 1, "advice": "Don't cross the streams." },
+  {
+    "id": 2,
+    "advice": "Once you find a really good friend, don't do anything that could mess up your friendship."
+  },
+  { "id": 3, "advice": "Don't always rely on your comforts." },
+  { "id": 4, "advice": "Drink a glass of water before meals." },
+  { "id": 5, "advice": "Everything matters, but nothing matters that much." },
+  {
+    "id": 6,
+    "advice": "If it looks like a duck and quacks like a duck, it might be a duck."
+  },
+  { "id": 7, "advice": "Never trust a computer you can't throw out a window." },
+  {
+    "id": 8,
+    "advice": "Always borrow money from a pessimist. They won't expect it back."
+  },
+  { "id": 9, "advice": "If you can't convince them, confuse them." },
+  {
+    "id": 10,
+    "advice": "Never put off until tomorrow what you can avoid altogether."
+  },
+  { "id": 11, "advice": "A clean house is a sign of a wasted life." },
+  {
+    "id": 12,
+    "advice": "The early bird might get the worm, but the second mouse gets the cheese."
+  },
+  {
+    "id": 13,
+    "advice": "You don't need a parachute to skydive. You need a parachute to skydive twice."
+  },
+  { "id": 14, "advice": "Never test the depth of the water with both feet." },
+  {
+    "id": 15,
+    "advice": "If at first you don't succeed, skydiving is not for you."
+  },
+  {
+    "id": 16,
+    "advice": "Light travels faster than sound. This is why some people appear bright until you hear them speak."
+  },
+  {
+    "id": 17,
+    "advice": "Don't take life too seriously. You'll never get out of it alive."
+  },
+  {
+    "id": 18,
+    "advice": "Change is inevitable, except from a vending machine."
+  },
+  {
+    "id": 19,
+    "advice": "If you think nobody cares if you're alive, try missing a couple of payments."
+  },
+  {
+    "id": 20,
+    "advice": "Always remember you're unique, just like everyone else."
+  }
+]

@@ -1,0 +1,8 @@
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #202632; /* Blu scuro/teal per lo sfondo */
+  color: #ffffff; /* Bianco per il testo */
+}
