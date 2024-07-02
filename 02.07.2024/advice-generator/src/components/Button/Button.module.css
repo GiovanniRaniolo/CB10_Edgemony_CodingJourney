@@ -2,15 +2,15 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 40px; /* Imposta la larghezza e l'altezza del bottone */
+  width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #53ffab;
   position: absolute;
-  top: 100%; /* Mette il pulsante al centro verticale della card */
-  left: 50%; /* Mette il pulsante al centro orizzontale della card */
-  transform: translate(-50%, -50%); /* Centra il pulsante esattamente */
-  border: none; /* Rimuove il bordo */
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }

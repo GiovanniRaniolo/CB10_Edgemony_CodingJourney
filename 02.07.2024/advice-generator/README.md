@@ -25,5 +25,3 @@ A simple React application that displays random advice in a card and includes a 
 - `README.md`: This file! Contains instructions for installation, running, and other useful information.
 
 ![Screenshot](./public/screenshoot.png)
-
-Feel free to customize the README by adding additional sections as needed, such as information on how to contribute, licensing details, or any other relevant information about your project. Make sure to include the screenshot.png file in the root of your repository and update the path to the image in the README snippet where the application screenshot is shown.
