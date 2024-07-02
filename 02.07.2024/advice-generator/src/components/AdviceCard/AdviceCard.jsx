@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import adviceData from "../../assets/advice.json";
+import { Button } from "../Button/Button.jsx";
 import styles from "./AdviceCard.module.css";
 import buttonStyle from "../Button/Button.module.css";
 import patternDividerSVG from "./icons/pattern-divider-desktop.svg";
@@ -26,12 +27,9 @@ const AdviceCard = () => {
         alt="Pattern Divider"
         className={styles.patternDivider}
       />
-      <button
-        onClick={handleNewAdvice}
-        className={buttonStyle.buttonAdviceGenerator}
-      >
+      <Button onClick={handleNewAdvice}>
         <img src={iconDice} alt="icon dice" className={buttonStyle.iconDice} />
-      </button>
+      </Button>
     </div>
   );
 };
