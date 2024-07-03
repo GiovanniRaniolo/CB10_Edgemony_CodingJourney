@@ -1,0 +1,119 @@
+.container {
+  font-family: "Karla", sans-serif;
+  font-size: 16px;
+  color: #30383a;
+  font-optical-sizing: auto;
+  width: 600px;
+  background: #ffffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+label {
+  margin-bottom: 8px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.labelInputContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+}
+
+.labelInputContainer label:not(.radioOption label)::after {
+  content: " *";
+}
+
+.radioOption {
+  display: flex;
+
+  border: 1px solid #a6afb6;
+  margin: 3px;
+  padding: 2px;
+  border-radius: 5px;
+  width: 100%;
+  gap: 10px;
+}
+
+.radioOption label {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+  font-size: 18px;
+}
+
+.checkBox {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.checkBox label {
+  margin-bottom: 0px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea,
+input[type="radio"],
+input[type="checkbox"] {
+  border-radius: 5px;
+  padding: 8px;
+  border: 1px solid #a6afb6;
+}
+
+textarea {
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="email"] {
+  margin-bottom: 20px;
+}
+
+/* Stile per i checkbox */
+input[type="checkbox"] {
+  width: auto;
+}
+
+/* Stile specifico per il pulsante di submit */
+input[type="submit"] {
+  background-color: #0b7c68;
+  color: #ffffff;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%; /* Occupa tutta la larghezza del suo contenitore */
+}
