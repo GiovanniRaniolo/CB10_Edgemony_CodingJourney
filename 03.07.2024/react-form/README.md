@@ -1,6 +1,6 @@
 # Contact Form React App
 
-![Contact Form](./public/screenshot.png)
+![Contact Form](./public/screenshoot.png)
 
 This is a simple React application that allows users to fill out a contact form. The form includes fields for first name, last name, email address, query type, message, and consent checkbox. As the user inputs data into the form fields, the sidebar displays the entered values in real-time.
 
