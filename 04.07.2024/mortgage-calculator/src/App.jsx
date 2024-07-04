@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./App.module.css";
 import calculateIcon from "./assets/icon-calculator.svg";
 import illustration from "./assets/illustration-empty.svg";
+import Results from "./components/Results.jsx";
 
 function App() {
   const initialMortgageState = {
@@ -15,6 +16,7 @@ function App() {
   const [showResults, setShowResults] = useState(false);
   const [monthlyPayment, setMonthlyPayment] = useState("");
   const [totalRepay, setTotalRepay] = useState("");
+  const [isFocused, setIsFocused] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +64,12 @@ function App() {
     setTotalRepay("");
   };
 
+  const handleFocusCapture = (inputFocused) => {
+    if (inputFocused !== undefined) {
+      setIsFocused(inputFocused);
+    }
+  };
+
   return (
     <div className={style.container}>
       <div className={style.calculator}>
@@ -74,12 +82,20 @@ function App() {
         <div className={style.inputGroup}>
           <label htmlFor="amount">Mortgage Amount</label>
           <div className={style.inputWithIcon}>
-            <span className={style.spanAmount}>£</span>
+            <span
+              className={`${style.spanAmount} ${
+                isFocused === "mortgageAmount" ? style.focused : ""
+              }`}
+            >
+              £
+            </span>
             <input
               type="number"
               name="mortgageAmount"
               value={mortgageData.mortgageAmount}
               onChange={handleInputChange}
+              onFocusCapture={() => handleFocusCapture("mortgageAmount")}
+              onBlurCapture={() => handleFocusCapture("")}
               className={style.amount}
             />
           </div>
@@ -150,20 +166,7 @@ function App() {
           </>
         )}
         {showResults && (
-          <>
-            <h2>Your results</h2>
-            <p>
-              Your results are shown below based on the information you
-              provided.
-            </p>
-            <div className={style.resultSection}>
-              <h3>Your monthly repayments</h3>
-              <p className={style.resultAmount}>£{monthlyPayment}</p>
-              <hr />
-              <p>Total you'll repay over the term</p>
-              <p className={style.resultTotal}>£{totalRepay}</p>
-            </div>
-          </>
+          <Results monthlyPayment={monthlyPayment} totalRepay={totalRepay} />
         )}
       </div>
     </div>
