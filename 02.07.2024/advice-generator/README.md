@@ -22,6 +22,5 @@ A simple React application that displays random advice in a card and includes a 
 - `assets/`: Contains files like images or JSON data used by the application.
 - `App.jsx`: Main component of the application.
 - `main.jsx`: Entry point for rendering the React application.
-- `README.md`: This file! Contains instructions for installation, running, and other useful information.
 
 ![Screenshot](./public/screenshoot.png)

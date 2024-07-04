@@ -117,7 +117,7 @@ const Form = () => {
 
           <div>
             <div className={style.labelInputContainer}>
-              <label htmlFor="message">Message:</label>
+              <label htmlFor="message">Message</label>
               <textarea
                 id="message"
                 value={formValues.message}
