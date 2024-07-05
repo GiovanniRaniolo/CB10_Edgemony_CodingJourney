@@ -1,14 +1,14 @@
 .container {
   display: flex;
-  max-width: 900px;
+  max-width: 768px;
   background: white;
   border-radius: 8px 0 0 8px;
 }
 
 .calculator {
   background-color: var(--neutral-white);
-  max-width: auto;
-  padding: 40px;
+  max-width: 384px;
+  padding: 20px 30px;
   border-radius: 8px 0px 0px 8px;
   display: flex;
   flex-direction: column;
@@ -30,9 +30,10 @@
   color: var(--neutral-slate-900);
 }
 
-.title .clear {
-  color: var(--primary-lime);
+.clear {
+  color: var(--neutral-slate-500);
   cursor: pointer;
+  text-decoration: underline;
 }
 
 .inputs {
@@ -48,7 +49,7 @@
   width: 100%;
   padding: 8px;
   padding-left: 24px; /* Aggiungi spazio per il simbolo della sterlina */
-  border: 1px solid var(--neutral-slate-300);
+  border: 1px solid var(--neutral-slate-500);
   border-radius: 4px;
 }
 
@@ -58,12 +59,6 @@ input:focus-visible {
 
 .inputWithIcon {
   position: relative;
-}
-
-.amount {
-  z-index: 1;
-  padding-left: 26px;
-  width: 100%;
 }
 
 .spanAmount {
@@ -82,15 +77,22 @@ input:focus-visible {
   border-bottom: 1px solid var(--neutral-slate-700);
 }
 
+.inputWithIcon input {
+  width: 100%;
+  padding-left: 60px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .inputGroup label {
   font-size: 12px;
   color: var(--neutral-slate-500);
+  text-align: left;
 }
 
 .inputGroup input.amount {
   border: 1px solid var(--neutral-slate-700);
   border-radius: 4px;
-  font-size: 16px;
   line-height: 1.5;
   box-sizing: border-box;
   z-index: 1;
@@ -122,20 +124,10 @@ input:focus-visible {
   margin-bottom: -6px;
 }
 
-.radioButton {
-  width: 100%;
-  margin-top: 8px;
-}
-
-.radioButton label {
-  /* color: var(--neutral-slate-900); */
-  display: block;
-  margin-bottom: 8px;
-}
-
 .radioButton div label {
-  display: inline-block;
-  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  margin: 4px 0px;
 }
 
 .radioContainer {
@@ -158,6 +150,12 @@ input:focus-visible {
   padding-left: 10px;
 }
 
+input[type="radio" i] {
+  margin: 0px 5px 0px 5px;
+  padding: initial;
+  border: initial;
+}
+
 .calculateButton {
   display: flex;
   align-items: center;
@@ -168,10 +166,10 @@ input:focus-visible {
   border-radius: 20px;
   padding: 10px 20px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   width: 80%;
-  margin-top: 20px;
+  margin-top: 4px;
 }
 
 .buttonIcon {
@@ -184,9 +182,9 @@ input:focus-visible {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
   width: 60%;
-  padding: 20px;
+  padding: 0px 28px;
   border-radius: 0 10px 10px 40px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: var(--neutral-slate-900);
@@ -194,7 +192,23 @@ input:focus-visible {
   max-width: 500px;
 }
 
+.results img {
+  width: 140px;
+  /* height: 140px; */
+  /* border-radius: 50%; */
+  /* margin-top: 20px; */
+}
+
+.results p {
+  font-size: 13px;
+  text-align: center;
+}
+
 .focused {
   background-color: var(--primary-lime);
   border: 1px solid var(--primary-lime);
+}
+
+label {
+  text-align: center;
 }

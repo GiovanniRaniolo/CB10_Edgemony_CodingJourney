@@ -101,26 +101,53 @@ function App() {
           </div>
           <div className={style.yearsPercent}>
             <div className={style.inputGroup}>
-              <label htmlFor="years">Mortgage Term (years)</label>
-              <input
-                type="number"
-                name="mortgageTerm"
-                value={mortgageData.mortgageTerm}
-                onChange={handleInputChange}
-              />
+              <label htmlFor="years">Mortgage Term</label>
+              <div className={style.inputWithIcon}>
+                <span
+                  className={`${style.spanAmount} ${
+                    isFocused === "mortgageTerm" ? style.focused : ""
+                  }`}
+                >
+                  years
+                </span>
+                <input
+                  type="number"
+                  name="mortgageTerm"
+                  value={mortgageData.mortgageTerm}
+                  onChange={handleInputChange}
+                  onFocusCapture={() => handleFocusCapture("mortgageTerm")}
+                  onBlurCapture={() => handleFocusCapture("")}
+                  className={style.term}
+                />
+              </div>
             </div>
+
             <div className={style.inputGroup}>
-              <label htmlFor="percent">Interest Rate (%)</label>
-              <input
-                type="number"
-                name="interestRate"
-                value={mortgageData.interestRate}
-                onChange={handleInputChange}
-              />
+              <label htmlFor="percent">Interest Rate</label>
+              <div className={style.inputWithIcon}>
+                <span
+                  className={`${style.spanAmount} ${
+                    isFocused === "interestRate" ? style.focused : ""
+                  }`}
+                >
+                  %
+                </span>
+                <input
+                  type="number"
+                  name="interestRate"
+                  value={mortgageData.interestRate}
+                  onChange={handleInputChange}
+                  onFocusCapture={() => handleFocusCapture("interestRate")}
+                  onBlurCapture={() => handleFocusCapture("")}
+                  className={style.rate}
+                />
+                <div />
+              </div>
             </div>
           </div>
+
           <div className={style.radioButton}>
-            <label>Mortgage Type</label>
+            <label className="type">Mortgage Type</label>
             <div className={style.radioContainer}>
               <label>
                 <input
