@@ -8,12 +8,6 @@ function App() {
   const [sliderValue, setSliderValue] = useState(100000);
   const [calculationResult, setCalculationResult] = useState(12.99);
 
-  // Funzione per eseguire il calcolo iniziale
-  const performInitialCalculation = (value) => {
-    const result = performCalculation(sliderValue);
-    setCalculationResult(result);
-  };
-
   const handleSliderChange = (value) => {
     setSliderValue(value);
     const result = performCalculation(value);
@@ -26,7 +20,7 @@ function App() {
     const discountedCostPerView = baseCostPerView * 0.75; // Sconto del 25%
     const costPerView = value ? discountedCostPerView : baseCostPerView;
     const result = sliderValue * costPerView;
-    return parseFloat(result.toFixed(2)); //
+    return parseFloat(result.toFixed(2));
   };
 
   const handleToggle = () => {
@@ -44,14 +38,27 @@ function App() {
     return number.toString();
   };
 
+  // Calcola lo stile dinamico per il background del slider
+  const sliderPercentage = (sliderValue / 200000) * 100;
+  const sliderStyle = {
+    background: `linear-gradient(90deg, var(--soft-cyan) ${sliderPercentage}%, var(--light-grayish-blue) ${sliderPercentage}%)`,
+  };
+
   return (
     <>
+      {/* Header START */}
+      <div className="header-container">
+        <h1>Simple, traffic-based pricing</h1>
+        <p>Sign-up for 30-day trial. No credit card requird.</p>
+      </div>
+      {/* Header END */}
       <div className="app">
+        {/* Results Start */}
         <div className="slider-container">
           {calculationResult !== null && (
             <div className="result">
               <div className="total">
-                <p>/month</p>
+                <p>/ month</p>
                 <h2>${calculationResult}</h2>
               </div>
               <div className="views">
@@ -59,13 +66,16 @@ function App() {
               </div>
             </div>
           )}
+          {/* Results End */}
           <RangeSlider
             min={0}
             max={200000}
             value={sliderValue}
             onChange={handleSliderChange}
+            style={sliderStyle}
           />
         </div>
+        {/* Switch Start */}
         <div className="switch-container">
           <p>Monthly Billing</p>
           <Switch isOn={value} handleToggle={handleToggle} />
@@ -74,6 +84,22 @@ function App() {
             <span className="discount">25% discount</span>
           </p>
         </div>
+        {/* Switch End */}
+        <hr className="horizontal-line" />
+        {/* Card-Footer Start */}
+        <div className="card-footer">
+          <div className="features">
+            <ul className="features-list">
+              <li>&nbsp;&nbsp;&nbsp;&nbsp;Unlimited website</li>
+              <li>&nbsp;&nbsp;&nbsp;&nbsp;100% data ownership</li>
+              <li>&nbsp;&nbsp;&nbsp;&nbsp;email reports</li>
+            </ul>
+          </div>
+          <div className="start">
+            <button>Start my trial</button>
+          </div>
+        </div>
+        {/* Card-Footer End */}
       </div>
     </>
   );

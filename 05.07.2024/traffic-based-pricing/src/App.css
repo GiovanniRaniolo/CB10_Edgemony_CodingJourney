@@ -3,27 +3,37 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 500px;
-  height: 240px;
   border-radius: 8px;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-  padding: 10px 20px;
-  background-color: rgb(255, 252, 248);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.02), 0 1px 4px rgba(0, 0, 0, 0.14);
+  padding: 10px 50px 14px;
+  background-color: white;
 }
 
+/* Header */
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 140px;
+  background-image: url("./assets/pattern-circles.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  padding-bottom: 20px;
+  margin-top: 56px;
+  margin-bottom: 56px;
+}
+
+/* Results */
 .result {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
   justify-content: space-between;
   width: 450px;
-}
-h2 {
-  font-size: 56px;
-}
-
-h3 {
-  font-size: 20px;
+  margin-bottom: 20px;
+  margin-top: 28px;
 }
 
 .total,
@@ -32,7 +42,16 @@ h3 {
   flex-direction: row-reverse;
   align-items: baseline;
   justify-content: space-around;
-  gap: 6px;
+  gap: 4px;
+}
+
+.total {
+  align-items: center;
+}
+
+/* Slider and Switch */
+.slider-container {
+  margin-bottom: 42px;
 }
 
 .switch-container {
@@ -40,18 +59,47 @@ h3 {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  width: 400px;
-  padding-bottom: 60px;
+  padding-bottom: 36px;
+}
+
+.switch-container p {
+  font-size: 12px;
+  color: var(--grayish-blue);
+  font-weight: 700;
 }
 
 .discount {
-  font-size: 9px;
+  font-size: 8px;
   position: absolute;
-  background-color: rgba(252, 174, 146, 0.752);
-  padding: 4px 8px;
-  margin-left: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  color: rgb(249, 125, 80);
-  font-weight: 700;
+  background-color: var(--light-grayish-red);
+  padding: 2px 4px;
+  margin-left: 6px;
+  margin-top: 2px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  color: var(--light-red);
+  font-weight: 800;
+}
+
+/* HR */
+.horizontal-line {
+  border: none;
+  height: 1px;
+  width: 122%;
+  background-color: var(--light-grayish-blue);
+  margin: 0 0;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding-top: 14px;
+}
+
+.features-list {
+  list-style-image: url("./assets/icon-check.svg");
 }

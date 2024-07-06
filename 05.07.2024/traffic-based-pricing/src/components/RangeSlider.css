@@ -1,10 +1,10 @@
 .custom-slider {
   width: 100%;
-  height: 10px;
-  background: #ddd;
+  height: 8px;
+  background: var(--light-grayish-blue);
   opacity: 0.8;
   outline: none;
-  transition: opacity 0.3s;
+  transition: opacity 0.4s;
   appearance: none;
   border-radius: 5px;
 }
@@ -16,10 +16,13 @@
 .custom-slider::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  background: aquamarine;
+  width: 34px;
+  height: 34px;
+  background: var(--strong-cyan);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0px 0px 45px rgba(108, 255, 230, 0.9);
+  box-shadow: 0px 14px 32px var(--strong-cyan);
+  background-image: url("../assets/icon-slider.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
 }

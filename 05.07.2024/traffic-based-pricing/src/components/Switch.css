@@ -10,9 +10,9 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  width: 60px;
+  width: 40px;
   height: 20px;
-  background: #ddd;
+  background: var(--light-grayish-blue-toggle);
   border-radius: 100px;
   position: relative;
   transition: background-color 0.2s;
@@ -37,5 +37,5 @@
 }
 
 .switch-label:active .switch-button {
-  width: 60px;
+  width: 26px;
 }
