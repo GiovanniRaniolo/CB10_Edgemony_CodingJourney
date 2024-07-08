@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #1f1f1f;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+input {
+  border-radius: 4px;
+  padding: 8px;
+  border: none;
+  width: 100%;
+}
+
+.addButton {
+  background-color: #28a745;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  color: white;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0px;
+  margin: 0px;
+}
+
+li {
+  background-color: #333333;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.doneButton {
+  font-size: 8px;
+  padding: 2px 6px;
+  color: rgb(237, 253, 255);
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+}
+
+.doneButton.completed {
+  background-color: #28a745;
+}
+
+.doneButton.incomplete {
+  background-color: #007bff;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.deleteButton img {
+  display: block;
+}
+
+.taskText {
+  flex: 1;
+}
+
+.doneButton,
+.deleteButton {
+  margin-left: 10px;
+}
+
+.deleteButton img {
+  display: block;
+}
