@@ -34,7 +34,7 @@ cd book-catalog-app
 3.  Install dependencies:
 
 ```bash
-npm install`
+npm install
 ```
 
 4.  Start the development server:
