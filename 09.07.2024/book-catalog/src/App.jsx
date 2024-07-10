@@ -85,15 +85,6 @@ function App() {
       <div className={style.container}>
         <BookForm addBook={addBook} genres={genres} />
         <div className={style.filter}>
-          <label htmlFor="genreFilter">Filter by Genre: </label>
-          <select id="genreFilter" value={filter} onChange={handleFilterChange}>
-            <option value="">All</option>
-            {genres.map((genre) => (
-              <option key={genre} value={genre}>
-                {genre}
-              </option>
-            ))}
-          </select>
           <div className={style.genre}>
             <input
               type="text"
@@ -104,6 +95,21 @@ function App() {
             <button className={style.genreButton} onClick={addGenre}>
               Add Genre
             </button>
+          </div>
+          <div className={style.containerFilterBy}>
+            <label htmlFor="genreFilter">Filter by genre</label>
+            <select
+              id="genreFilter"
+              value={filter}
+              onChange={handleFilterChange}
+            >
+              <option value="">All</option>
+              {genres.map((genre) => (
+                <option key={genre} value={genre}>
+                  {genre}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <BookList books={filteredBooks} deleteBook={deleteBook} />
