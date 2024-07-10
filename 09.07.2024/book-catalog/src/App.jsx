@@ -1,6 +1,7 @@
 import { useState } from "react";
 import BookForm from "./components/BookForm";
 import BookList from "./components/BookList";
+import Layout from "./components/Layout";
 import style from "./App.module.css";
 
 function App() {
@@ -80,35 +81,34 @@ function App() {
     filter === "" ? books : books.filter((book) => book.genre === filter);
 
   return (
-    <div className={style.container}>
-      <header>
-        <h1>Book Catalog</h1>
-      </header>
-      <BookForm addBook={addBook} genres={genres} />
-      <div className={style.filter}>
-        <label htmlFor="genreFilter">Filter by Genre: </label>
-        <select id="genreFilter" value={filter} onChange={handleFilterChange}>
-          <option value="">All</option>
-          {genres.map((genre) => (
-            <option key={genre} value={genre}>
-              {genre}
-            </option>
-          ))}
-        </select>
-        <div className={style.genre}>
-          <input
-            type="text"
-            placeholder="Add a genre"
-            value={newGenre}
-            onChange={handleNewGenreChange}
-          />
-          <button className={style.genreButton} onClick={addGenre}>
-            Add Genre
-          </button>
+    <Layout>
+      <div className={style.container}>
+        <BookForm addBook={addBook} genres={genres} />
+        <div className={style.filter}>
+          <label htmlFor="genreFilter">Filter by Genre: </label>
+          <select id="genreFilter" value={filter} onChange={handleFilterChange}>
+            <option value="">All</option>
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+          <div className={style.genre}>
+            <input
+              type="text"
+              placeholder="Add a genre"
+              value={newGenre}
+              onChange={handleNewGenreChange}
+            />
+            <button className={style.genreButton} onClick={addGenre}>
+              Add Genre
+            </button>
+          </div>
         </div>
+        <BookList books={filteredBooks} deleteBook={deleteBook} />
       </div>
-      <BookList books={filteredBooks} deleteBook={deleteBook} />
-    </div>
+    </Layout>
   );
 }
 
