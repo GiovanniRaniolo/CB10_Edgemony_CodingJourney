@@ -9,6 +9,9 @@ This project is a simple book catalog application built using React. It allows u
 1.  [Installation](#installation)
 2.  [Usage](#usage)
 3.  [Components](#components)
+    - [Layout Component](#layout-component)
+    - [Header Component](#header-component)
+    - [Footer Component](#footer-component)
     - [App Component](#app-component)
     - [BookForm Component](#bookform-component)
     - [BookList Component](#booklist-component)
@@ -34,7 +37,7 @@ cd book-catalog-app
 3.  Install dependencies:
 
 ```bash
-npm install
+npm install`
 ```
 
 4.  Start the development server:
@@ -60,6 +63,65 @@ npm start
 
 ## Components
 
+### Layout Component
+
+The `Layout` component is a wrapper that includes the `Header`, `Footer`, and renders children components.
+
+```jsx
+import Header from "./Header";
+import Footer from "./Footer";
+import style from "./Layout.module.css";
+
+function Layout({ children }) {
+  return (
+    <div className={style.layout}>
+      <Header />
+      <main className={style.main}>{children}</main>
+      <Footer />
+    </div>
+  );
+}
+
+export default Layout;
+```
+
+### Header Component
+
+The `Header` component renders the top section of the application.
+
+```jsx
+import style from "./Header.module.css";
+
+function Header() {
+  return (
+    <header className={style.header}>
+      <img src={bookGif} alt="book-gif" width="30px" />
+      <h1>MyBooks</h1>
+    </header>
+  );
+}
+
+export default Header;
+```
+
+### Footer Component
+
+The `Footer` component renders the bottom section of the application.
+
+```jsx
+import style from "./Footer.module.css";
+
+function Footer() {
+  return (
+    <footer className={style.footer}>
+      <p>&copy; 2024 - Made with love by Jitzu</p>
+    </footer>
+  );
+}
+
+export default Footer;
+```
+
 ### App Component
 
 The main component that handles state management and renders the entire application.
@@ -68,10 +130,10 @@ The main component that handles state management and renders the entire applicat
 import { useState } from "react";
 import BookForm from "./components/BookForm";
 import BookList from "./components/BookList";
+import Layout from "./components/Layout";
 import style from "./App.module.css";
 
 function App() {
-  // State management
   const [books, setBooks] = useState([
     {
       id: crypto.randomUUID(),
@@ -94,27 +156,22 @@ function App() {
   const [filter, setFilter] = useState("");
   const [newGenre, setNewGenre] = useState("");
 
-  // Function to add a new book
   const addBook = (book) => {
     setBooks([...books, { ...book, id: crypto.randomUUID() }]);
   };
 
-  // Function to delete a book
   const deleteBook = (id) => {
     setBooks(books.filter((book) => book.id !== id));
   };
 
-  // Function to handle genre filter change
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
 
-  // Function to handle new genre input change
   const handleNewGenreChange = (e) => {
     setNewGenre(e.target.value);
   };
 
-  // Function to add a new genre
   const addGenre = () => {
     if (newGenre.trim() && !genres.includes(newGenre)) {
       setGenres([...genres, newGenre]);
@@ -122,44 +179,42 @@ function App() {
     }
   };
 
-  // Filtering books based on the selected genre
   const filteredBooks =
     filter === "" ? books : books.filter((book) => book.genre === filter);
 
   return (
-    <div className={style.container}>
-      <header>
-        <h1>Book Catalog</h1>
-      </header>
-      <BookForm addBook={addBook} genres={genres} />
-      <div className={style.filter}>
-        <label htmlFor="genreFilter">Filter by Genre: </label>
-        <select id="genreFilter" value={filter} onChange={handleFilterChange}>
-          <option value="">All</option>
-          {genres.map((genre) => (
-            <option key={genre} value={genre}>
-              {genre}
-            </option>
-          ))}
-        </select>
-        <div className={style.genre}>
-          <input
-            type="text"
-            placeholder="Add a genre"
-            value={newGenre}
-            onChange={handleNewGenreChange}
-          />
-          <button className={style.genreButton} onClick={addGenre}>
-            Add Genre
-          </button>
+    <Layout>
+      <div className={style.container}>
+        <BookForm addBook={addBook} genres={genres} />
+        <div className={style.filter}>
+          <label htmlFor="genreFilter">Filter by Genre: </label>
+          <select id="genreFilter" value={filter} onChange={handleFilterChange}>
+            <option value="">All</option>
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+          <div className={style.genre}>
+            <input
+              type="text"
+              placeholder="Add a genre"
+              value={newGenre}
+              onChange={handleNewGenreChange}
+            />
+            <button className={style.genreButton} onClick={addGenre}>
+              Add Genre
+            </button>
+          </div>
         </div>
+        <BookList books={filteredBooks} deleteBook={deleteBook} />
       </div>
-      <BookList books={filteredBooks} deleteBook={deleteBook} />
-    </div>
+    </Layout>
   );
 }
 
-export default App;`
+export default App;
 ```
 
 #### State:
@@ -186,26 +241,21 @@ import { useState } from "react";
 import style from "./BookForm.module.css";
 
 function BookForm({ addBook, genres }) {
-  // State management for form inputs
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [genre, setGenre] = useState("");
   const [year, setYear] = useState("");
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Check if title and author are provided
     if (!title || !author) {
       alert("Title and Author are required!");
       return;
     }
 
-    // Invoke addBook function to add new book
     addBook({ title, author, genre, year });
 
-    // Clear form inputs after submission
     setTitle("");
     setAuthor("");
     setGenre("");
@@ -213,8 +263,45 @@ function BookForm({ addBook, genres }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={style.bookForm}>
-      {/* Input fields for book details */}
+    <form onSubmit={handleSubmit} className={style.form}>
+      <label>
+        Title:
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </label>
+      <label>
+        Author:
+        <input
+          type="text"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+      </label>
+      <label>
+        Genre:
+        <select value={genre} onChange={(e) => setGenre(e.target.value)}>
+          <option value="">Select Genre</option>
+          {genres.map((g) => (
+            <option key={g} value={g}>
+              {g}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        Year:
+        <input
+          type="number"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+        />
+      </label>
+      <button type="submit" className={style.addButton}>
+        Add Book
+      </button>
     </form>
   );
 }
@@ -274,7 +361,9 @@ function BookItem({ book, deleteBook }) {
     <li className={style.item}>
       <div className={style.details}>
         <h3>{book.title}</h3>
-        {/* Display other book details */}
+        <p>{book.author}</p>
+        <p>{book.genre}</p>
+        <p>{book.year}</p>
       </div>
       <button
         className={style.deleteButton}
