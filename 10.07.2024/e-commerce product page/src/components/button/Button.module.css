@@ -1,0 +1,13 @@
+.button {
+  background-color: var(--orange);
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 18px;
+  gap: 16px;
+  padding: 16px 64px;
+}

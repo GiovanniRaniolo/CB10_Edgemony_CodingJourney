@@ -1,0 +1,6 @@
+.mainContainer {
+  margin: 80px 50px;
+  display: flex;
+  direction: row;
+  align-items: center;
+}

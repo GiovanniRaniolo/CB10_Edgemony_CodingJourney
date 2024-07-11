@@ -1,0 +1,39 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.logomenu {
+  display: flex;
+  align-items: baseline;
+  gap: 60px;
+}
+
+.logomenu > ul {
+  display: flex;
+  gap: 30px;
+}
+
+.logomenu > ul > li {
+  list-style: none;
+}
+.cartuser {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.cartuser img :not(:last-child) {
+  width: 40px;
+}
+
+.avatar {
+  width: 40px;
+}
+
+hr {
+  color: black;
+}
