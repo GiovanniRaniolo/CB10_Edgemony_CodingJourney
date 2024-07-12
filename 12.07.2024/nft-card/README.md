@@ -6,8 +6,8 @@ The project showcases an NFT (Non-Fungible Token) display with key information, 
 
 ## Technologies Used
 
-**React**: JavaScript library for building user interfaces.
-**Tailwind CSS**: Utility-first CSS framework for web design, promoting rapid development and style consistency.
+- **React**: JavaScript library for building user interfaces.
+- **Tailwind CSS**: Utility-first CSS framework for web design, promoting rapid development and style consistency.
 
 ## Project Structure
 
