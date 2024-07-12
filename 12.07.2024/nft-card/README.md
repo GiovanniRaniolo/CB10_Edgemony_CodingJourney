@@ -2,7 +2,7 @@
 
 The project showcases an NFT (Non-Fungible Token) display with key information, leveraging React components and Tailwind CSS for a responsive and well-structured UI.
 
-[nft-card](./public/screenshoot.png)
+![nft-card](./public/screenshoot.png)
 
 ## Technologies Used
 
