@@ -1,38 +1,38 @@
 # FakeStore
 
-This project is an e-commerce web application built using
+FakeStore is an e-commerce web application built using the following technologies:
 
-- React.js,
-- React Router,
-- Tailwind CSS,
-- React Toastify.
-
-It allows users to browse through a list of products fetched from an external API, add products to a shopping cart, and manage cart items. The application includes error handling for route errors and displays notifications using _React Toastify_.
+- **React.js** for the front-end framework.
+- **React Router** for navigation and routing.
+- **Tailwind CSS** for styling.
+- **React Toastify** for user notifications.
 
 ![screenshot](./public/screenshot.png)
 
-The main components of the project include:
+## Features
 
-- **Layout**: Defines the main structure of the application, including navigation links and a placeholder for child components.
-- **Home**: Displays a grid of product cards fetched from an external API. Users can add products to the cart, which are stored locally using `localStorage`. Notifications are displayed using React Toastify when a product is added to the cart.
-- **Cart**: Shows a list of products currently in the cart. Users can remove items from the cart, which updates the local storage and reflects changes immediately.
-- **ErrorPage**: Handles route errors and displays a user-friendly error message with a link to return to the home page.
-
-The project leverages Tailwind CSS for styling, providing a responsive and visually appealing user interface. React Router manages navigation within the application, ensuring seamless transitions between pages. React Toastify enhances user experience with informative notifications for cart actions.
+- **Product Browsing**: View a grid of products fetched from an external API.
+- **Shopping Cart**: Add products to the cart and view/manage them.
+- **Product Details**: View detailed information about a specific product and navigate to previous or next product details.
+- **Notifications**: Get informed via toast notifications when actions like adding to the cart are performed.
+- **Error Handling**: Display user-friendly error messages for route errors.
 
 ## Table of Contents
 
-- [Components](#components)
-  - [Main.jsx](#mainjsx)
-  - [Layout.jsx](#layoutjsx)
-  - [Home.jsx](#homejsx)
-  - [Cart.jsx](#cartjsx)
-  - [ErrorPage.jsx](#errorpagejsx)
-- [Conclusion](#conclusion)
+1.  [Components](#components)
+    - [Main.jsx](#mainjsx)
+    - [Layout.jsx](#layoutjsx)
+    - [Home.jsx](#homexsx)
+    - [ProductDetail.jsx](#productdetailjsx)
+    - [Cart.jsx](#cartjsx)
+    - [ErrorPage.jsx](#errorpagejsx)
+2.  [Conclusion](#conclusion)
 
 ## Components
 
 ### Main.jsx
+
+This is the entry point of the application, where routing is defined and the application is rendered.
 
 ```jsx
 import React from "react";
@@ -41,6 +41,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
+import ProductDetail from "./components/ProductDetail";
 import ErrorPage from "./components/ErrorPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "product/:productId",
+        element: <ProductDetail />,
       },
     ],
   },
@@ -83,33 +88,31 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 );
 ```
 
-**Explanation:**
+#### Explanation:
 
-- **Imports:**
+- **Imports**:
 
-  - React and ReactDOM to handle rendering of React components.
-  - `createBrowserRouter` and `RouterProvider` from React Router for routing.
-  - Custom components: `Layout`, `Home`, `Cart`, `ErrorPage`.
-  - `ToastContainer` from `react-toastify` to display notifications.
-  - Basic and `react-toastify` stylesheets.
+  - Core React and ReactDOM libraries.
+  - Routing functionalities from React Router.
+  - Custom components.
+  - ToastContainer from React Toastify for notifications.
+  - CSS styles.
 
-- **Router Creation:**
+- **Router Creation**:
 
-  - `createBrowserRouter` creates a router with route configuration.
-  - The main route (`/`) uses the `Layout` component.
-  - On error, `ErrorPage` will be displayed.
-  - `Home` is the default component for the main route.
-  - The `/cart` route uses the `Cart` component.
+  - Defines the routing structure using `createBrowserRouter`.
+  - Specifies the layout and error handling components.
+  - Configures child routes for home, cart, and product details.
 
-- **Rendering:**
+- **Rendering**:
 
-  - `ReactDOM.createRoot` creates an entry point for the React application.
-  - `RouterProvider` supplies the created router to the application.
-  - `ToastContainer` manages global notifications.
-
----
+  - Creates the root of the React application.
+  - Uses `RouterProvider` to supply the router configuration.
+  - Includes `ToastContainer` to manage global notifications.
 
 ### Layout.jsx
+
+Defines the main structure of the application, including the header and the placeholder for child components.
 
 ```jsx
 import React from "react";
@@ -139,25 +142,21 @@ const Layout = () => {
 export default Layout;
 ```
 
-**Explanation:**
+#### Explanation:
 
-- **Imports:**
+- **Imports**:
 
-  - React to create components.
-  - `Link` and `Outlet` from React Router to navigate between pages and display child components.
+  - React for component creation.
+  - `Link` and `Outlet` from React Router for navigation and nested routing.
 
-- **Layout Component:**
+- **Layout Component**:
 
-  - Defines the main structure of the application with a header and a main section.
-  - Header:
-    - Contains a link to the store logo redirecting to home (`/`).
-    - Contains a link to the cart (`/cart`).
-  - Main:
-    - `Outlet` is a placeholder for child components specified in the routes.
-
----
+  - Defines a header with links to the home page and cart.
+  - `Outlet` serves as a placeholder for child components defined in the routes.
 
 ### Home.jsx
+
+Displays a grid of product cards fetched from an external API and allows users to add products to the cart.
 
 ```jsx
 import React, { useState, useEffect } from "react";
@@ -213,27 +212,141 @@ const Home = () => {
 export default Home;
 ```
 
-**Explanation:**
+#### Explanation:
 
-- **Imports:**
+- **Imports**:
 
-  - React, useState, and useEffect to manage state and side effects.
-  - `toast` from `react-toastify` for notifications.
+  - React and hooks (`useState`, `useEffect`).
+  - `toast` from React Toastify for notifications.
 
-- **Home Component:**
+- **Home Component**:
 
-  - `products` state to store the products.
-  - `useEffect` to fetch product data from the API on the first render.
-  - `addToCart`:
-    - Adds a product to the cart saved in `localStorage`.
-    - Displays a success notification.
+  - **State Management**: Uses `useState` to store products.
+  - **Side Effects**: Uses `useEffect` to fetch products from an API on component mount.
+  - **addToCart**:
+    - Adds the selected product to the cart stored in `localStorage`.
+    - Displays a success notification using `toast`.
+  - **Rendering**:
+    - Maps the fetched products to a grid of product cards.
+    - Each card displays the product image, title, description, price, and an "Add to Cart" button.
 
-- **Rendering:**
+### ProductDetail.jsx
 
-  - Maps products to create a grid of product cards.
-  - Each card displays an image, title, description, price, and an "Add to Cart" button.
+Displays detailed information about a specific product and allows navigation to previous or next product details.
+
+```jsx
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+const ProductDetail = () => {
+  const { productId } = useParams();
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`https://fakestoreapi.com/products/${productId}`)
+      .then((res) => res.json())
+      .then((data) => setProduct(data));
+  }, [productId]);
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
+
+  const addToCart = (product) => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    toast.success(`${product.title} added to cart!`, {
+      position: "bottom-center",
+    });
+  };
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
+
+  const currentIndex = products.findIndex((p) => p.id === parseInt(productId));
+  const prevProduct = currentIndex > 0 ? products[currentIndex - 1] : null;
+  const nextProduct =
+    currentIndex < products.length - 1 ? products[currentIndex + 1] : null;
+
+  return (
+    <div className="p-4">
+      <div className="border p-4 rounded shadow flex flex-col items-center px-80 bg-slate-100">
+        <img
+          src={product.image}
+          alt={product.title}
+          className="w-56 h-56 object-cover"
+        />
+        <h2 className="text-2xl text-blue-600 mt-2">{product.title}</h2>
+        <p className="text-gray-700">{product.description}</p>
+        <div className="flex items-center justify-between gap-10 mt-4">
+          <p className="text-2xl font-bold">${product.price}</p>
+          <button
+            onClick={() => addToCart(product)}
+            className="mt-2 bg-blue-600 text-white px-4 py-2 rounded self-end"
+          >
+            Add to Cart
+          </button>
+        </div>
+        <div className="flex justify-between w-full mt-4">
+          {prevProduct && (
+            <button
+              onClick={() => navigate(`/product/${prevProduct.id}`)}
+              className="bg-gray-300 text-black px-4 py-2 rounded"
+            >
+              ← Previous
+            </button>
+          )}
+          {nextProduct && (
+            <button
+              onClick={() => navigate(`/product/${nextProduct.id}`)}
+              className="bg-gray-300 text-black px-4 py-2 rounded"
+            >
+              Next →
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetail;
+```
+
+#### Explanation:
+
+- **Imports**:
+
+  - React and hooks (`useState`, `useEffect`).
+  - `useParams` and `useNavigate` from React Router for routing and navigation.
+  - `toast` from React Toastify for notifications.
+
+- **ProductDetail Component**:
+
+  - **State Management**: Uses `useState` to store the current product and the list of all products.
+  - **Side Effects**:
+    - Uses `useEffect` to fetch details of the current product based on `productId` from the URL.
+    - Uses another `useEffect` to fetch the list of all products for navigation purposes.
+  - **addToCart**:
+    - Adds the selected product to the cart stored in `localStorage`.
+    - Displays a success notification using `toast`.
+  - **Navigation**:
+    - Calculates the current, previous, and next product indices.
+    - Provides buttons for navigating to the previous and next products.
+  - **Rendering**:
+    - Displays product details including image, title, description, and price.
+    - Provides "Add to Cart" and navigation buttons.
 
 ### Cart.jsx
+
+Shows a list of products currently in the cart and allows users to remove items from the cart.
 
 ```jsx
 import React, { useEffect, useState } from "react";
@@ -293,28 +406,27 @@ const Cart = () => {
 export default Cart;
 ```
 
-**Explanation:**
+#### Explanation:
 
-- **Imports:**
+- **Imports**:
 
-  - React, useEffect, and useState to manage state and side effects.
+  - React and hooks (`useEffect`, `useState`).
 
-- **Cart Component:**
+- **Cart Component**:
 
-  - `cart` state to store the products in the cart.
-  - `useEffect` to retrieve cart products from `localStorage` on the first render.
-  - `removeFromCart`:
-    - Removes a product from the cart and updates `localStorage`.
-
-- **Rendering:**
-
-  - Displays a message if the cart is empty.
-  - Maps cart products to create a grid of product cards.
-  - Each card displays an image, title, price, and a "Remove" button.
-
----
+  - **State Management**: Uses `useState` to store the products in the cart.
+  - **Side Effects**: Uses `useEffect` to retrieve cart products from `localStorage` on component mount.
+  - **removeFromCart**:
+    - Removes a product from the cart based on its index.
+    - Updates the cart in the `localStorage`.
+  - **Rendering**:
+    - Displays a message if the cart is empty.
+    - Maps cart products to a grid of product cards.
+    - Each card displays the product image, title, price, and a "Remove" button.
 
 ### ErrorPage.jsx
+
+Handles route errors and displays a user-friendly error message with a link to return to the home page.
 
 ```jsx
 import { useRouteError } from "react-router-dom";
@@ -340,24 +452,27 @@ const ErrorPage = () => {
 export default ErrorPage;
 ```
 
-**Explanation:**
+#### Explanation:
 
-- **Imports:**
+- **Imports**:
 
   - `useRouteError` from React Router to get the current route error.
 
-- **ErrorPage Component:**
+- **ErrorPage Component**:
 
   - Retrieves the error using `useRouteError`.
+  - Logs the error to the console.
   - Displays an error message with details.
   - Provides a link to go back to the home page.
 
 ## Conclusion
 
-In conclusion, this e-commerce project showcases the capabilities of React.js for building dynamic web applications. By utilizing React Router for navigation, Tailwind CSS for responsive styling, and React Toastify for user notifications, the project demonstrates effective integration of modern frontend technologies.
+This e-commerce project demonstrates the capabilities of React.js for building dynamic web applications. By utilizing React Router for navigation, Tailwind CSS for responsive styling, and React Toastify for user notifications, the project effectively integrates modern frontend technologies.
 
-Throughout the README, you've gained insights into:
+### Key Takeaways:
 
-- **Component Structure**: How components like `Layout`, `Home`, `Cart`, and `ErrorPage` interact to create a seamless user experience.
-- **State Management**: The use of `useState` and `useEffect` hooks to manage local state and interact with `localStorage` for persistent data storage.
+- **Component Structure**: The interaction between components like Layout, Home, Cart, ProductDetail, and ErrorPage creates a seamless user experience.
+- **State Management**: The use of `useState` and `useEffect` hooks for managing local state and interacting with `localStorage` for persistent data storage.
 - **Error Handling**: Handling route errors gracefully using `useRouteError` from React Router and providing a fallback page to guide users.
+
+This application serves as a solid foundation for more advanced e-commerce features and showcases effective frontend development practices.
