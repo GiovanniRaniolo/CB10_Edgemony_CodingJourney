@@ -1,20 +1,29 @@
-// src/components/Layout.jsx
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-blue-600 p-4 text-white flex justify-between">
-        <Link to="/" className="text-2xl pl-6">
+      <header className="bg-blue-600 p-4 text-white flex items-center justify-between">
+        <NavLink
+          to="/"
+          exact
+          className={({ isActive }) =>
+            isActive ? "text-2xl pl-6 font-bold" : "text-2xl pl-6"
+          }
+        >
           FakeStore
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/cart"
-          className="text-2xl bg-slate-200 rounded-full p-1 mr-6"
+          className={({ isActive }) =>
+            isActive
+              ? "text-2xl bg-green-200 rounded-full p-1 mr-6 border-2 border-red-600"
+              : "text-2xl bg-slate-200 rounded-full p-1 mr-6"
+          }
         >
           🛒
-        </Link>
+        </NavLink>
       </header>
       <main className="flex-grow p-4">
         <Outlet />
