@@ -17,7 +17,7 @@ const Layout = () => {
           to="/cart"
           className={({ isActive }) =>
             isActive
-              ? "text-2xl bg-green-200 rounded-full p-1 mr-6 border-2 border-red-600"
+              ? "text-2xl bg-green-100 rounded-full p-1 mr-6 border-2 border-red-400"
               : "text-2xl bg-slate-200 rounded-full p-1 mr-6"
           }
         >

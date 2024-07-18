@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
+import ProductDetail from "./components/ProductDetail";
 import ErrorPage from "./components/ErrorPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "product/:productId",
+        element: <ProductDetail />,
       },
     ],
   },
