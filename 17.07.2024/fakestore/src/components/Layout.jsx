@@ -11,7 +11,6 @@ const Layout = () => {
       <header className="bg-blue-600 p-4 text-white flex items-center justify-between">
         <NavLink
           to="/"
-          exact
           className={({ isActive }) =>
             isActive ? "text-2xl pl-6 font-bold" : "text-2xl pl-6"
           }
