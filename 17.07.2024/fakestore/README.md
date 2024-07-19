@@ -115,22 +115,31 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 Defines the main structure of the application, including the header and the placeholder for child components.
 
 ```jsx
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-blue-600 p-4 text-white flex justify-between">
-        <Link to="/" className="text-2xl pl-6">
+      <header className="bg-blue-600 p-4 text-white flex items-center justify-between">
+        <NavLink
+          to="/"
+          exact
+          className={({ isActive }) =>
+            isActive ? "text-2xl pl-6 font-bold" : "text-2xl pl-6"
+          }
+        >
           FakeStore
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/cart"
-          className="text-2xl bg-slate-200 rounded-full p-1 mr-6"
+          className={({ isActive }) =>
+            isActive
+              ? "text-2xl bg-green-100 rounded-full p-1 mr-6 border-2 border-red-400"
+              : "text-2xl bg-slate-200 rounded-full p-1 mr-6"
+          }
         >
           🛒
-        </Link>
+        </NavLink>
       </header>
       <main className="flex-grow p-4">
         <Outlet />
@@ -159,11 +168,14 @@ export default Layout;
 Displays a grid of product cards fetched from an external API and allows users to add products to the cart.
 
 ```jsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Modal from "./Modal";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -186,6 +198,7 @@ const Home = () => {
         <div
           key={product.id}
           className="border p-4 rounded shadow flex flex-col bg-slate-100"
+          onClick={() => setSelectedProduct(product)}
         >
           <img
             src={product.image}
@@ -197,7 +210,10 @@ const Home = () => {
           <div className="flex items-center justify-between">
             <p className="text-lg font-bold">${product.price}</p>
             <button
-              onClick={() => addToCart(product)}
+              onClick={(e) => {
+                e.stopPropagation();
+                addToCart(product);
+              }}
               className="mt-2 bg-blue-600 text-white px-4 py-2 rounded self-end"
             >
               Add to Cart
@@ -205,6 +221,37 @@ const Home = () => {
           </div>
         </div>
       ))}
+      {selectedProduct && (
+        <Modal
+          isOpen={!!selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        >
+          <div className="flex flex-col items-center">
+            <img
+              src={selectedProduct.image}
+              alt={selectedProduct.title}
+              className="w-48 h-48 object-cover"
+            />
+            <h2 className="text-xl mt-2">{selectedProduct.title}</h2>
+            <p className="text-gray-700">{selectedProduct.description}</p>
+            <p className="text-lg font-bold">${selectedProduct.price}</p>
+            <div className="flex mt-4">
+              <Link
+                to={`/product/${selectedProduct.id}`}
+                className="bg-blue-600 text-white px-4 py-2 rounded mr-2"
+              >
+                View Details
+              </Link>
+              <button
+                onClick={() => addToCart(selectedProduct)}
+                className="bg-green-600 text-white px-4 py-2 rounded"
+              >
+                Add to Cart
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
@@ -294,11 +341,11 @@ const ProductDetail = () => {
             Add to Cart
           </button>
         </div>
-        <div className="flex justify-between w-full mt-4">
+        <div className="flex justify-evenly w-full mt-8">
           {prevProduct && (
             <button
               onClick={() => navigate(`/product/${prevProduct.id}`)}
-              className="bg-gray-300 text-black px-4 py-2 rounded"
+              className="bg-gray-300 text-black text-sm px-4 py-2 rounded"
             >
               ← Previous
             </button>
@@ -306,7 +353,7 @@ const ProductDetail = () => {
           {nextProduct && (
             <button
               onClick={() => navigate(`/product/${nextProduct.id}`)}
-              className="bg-gray-300 text-black px-4 py-2 rounded"
+              className="bg-gray-300 text-black text-sm px-4 py-2 rounded"
             >
               Next →
             </button>
