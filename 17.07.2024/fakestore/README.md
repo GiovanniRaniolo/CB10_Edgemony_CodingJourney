@@ -1,11 +1,14 @@
 # FakeStore
 
-FakeStore is an e-commerce web application built using the following technologies:
+FakeStore is an e-commerce web application built using modern web technologies. The app provides features for browsing products, managing a shopping cart, viewing product details, and receiving notifications.
+
+## Technologies Used
 
 - **React.js** for the front-end framework.
 - **React Router** for navigation and routing.
 - **Tailwind CSS** for styling.
 - **React Toastify** for user notifications.
+- **Context API** For state management related to the cart.
 
 ![screenshot](./public/screenshot.png)
 
@@ -22,9 +25,9 @@ FakeStore is an e-commerce web application built using the following technologie
 1.  [Components](#components)
     - [Main.jsx](#mainjsx)
     - [Layout.jsx](#layoutjsx)
-    - [Home.jsx](#homexsx)
-    - [ProductDetail.jsx](#productdetailjsx)
     - [Cart.jsx](#cartjsx)
+    - [ProductDetail.jsx](#productdetailjsx)
+    - [CartContext.jsx](#cartcontextjsx)
     - [ErrorPage.jsx](#errorpagejsx)
 2.  [Conclusion](#conclusion)
 
@@ -36,13 +39,14 @@ This is the entry point of the application, where routing is defined and the app
 
 ```jsx
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 import ErrorPage from "./components/ErrorPage";
+import { CartProvider } from "./CartContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
@@ -71,44 +75,30 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-    <ToastContainer
-      position="bottom-center"
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="colored"
-    />
+    <CartProvider>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </CartProvider>
   </React.StrictMode>
 );
 ```
 
-#### Explanation:
+**Explanation:**
 
-- **Imports**:
-
-  - Core React and ReactDOM libraries.
-  - Routing functionalities from React Router.
-  - Custom components.
-  - ToastContainer from React Toastify for notifications.
-  - CSS styles.
-
-- **Router Creation**:
-
-  - Defines the routing structure using `createBrowserRouter`.
-  - Specifies the layout and error handling components.
-  - Configures child routes for home, cart, and product details.
-
-- **Rendering**:
-
-  - Creates the root of the React application.
-  - Uses `RouterProvider` to supply the router configuration.
-  - Includes `ToastContainer` to manage global notifications.
+- **Imports**: Includes core React and ReactDOM libraries, React Router for routing, and context provider and toast notifications.
+- **Router Creation**: Configures routing using `createBrowserRouter` with paths for home, cart, and product details.
+- **Rendering**: Renders the React application with routing and global notifications.
 
 ### Layout.jsx
 
@@ -116,30 +106,41 @@ Defines the main structure of the application, including the header and the plac
 
 ```jsx
 import { NavLink, Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../CartContext";
 
 const Layout = () => {
+  const { cart } = useContext(CartContext);
+  const cartItemCount = cart.length;
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-blue-600 p-4 text-white flex items-center justify-between">
         <NavLink
           to="/"
-          exact
           className={({ isActive }) =>
             isActive ? "text-2xl pl-6 font-bold" : "text-2xl pl-6"
           }
         >
           FakeStore
         </NavLink>
-        <NavLink
-          to="/cart"
-          className={({ isActive }) =>
-            isActive
-              ? "text-2xl bg-green-100 rounded-full p-1 mr-6 border-2 border-red-400"
-              : "text-2xl bg-slate-200 rounded-full p-1 mr-6"
-          }
-        >
-          🛒
-        </NavLink>
+        <div className="relative">
+          <NavLink
+            to="/cart"
+            className={({ isActive }) =>
+              isActive
+                ? "text-2xl bg-green-100 rounded-full p-1 mr-6 border-2 border-orange-500"
+                : "text-2xl bg-slate-200 rounded-full p-1 mr-6"
+            }
+          >
+            🛒
+          </NavLink>
+          {cartItemCount > 0 && (
+            <span className="absolute top-0 right-16 inline-flex items-center justify-center w-5 h-5 text-xs font-bold leading-none text-white bg-orange-500 rounded-full transform translate-x-1/2 -translate-y-1/2">
+              {cartItemCount}
+            </span>
+          )}
+        </div>
       </header>
       <main className="flex-grow p-4">
         <Outlet />
@@ -151,267 +152,23 @@ const Layout = () => {
 export default Layout;
 ```
 
-#### Explanation:
+**Explanation:**
 
-- **Imports**:
-
-  - React for component creation.
-  - `Link` and `Outlet` from React Router for navigation and nested routing.
-
+- **Imports**: Uses `NavLink` for navigation and `Outlet` for rendering nested routes. Uses `CartContext` to get the cart state.
 - **Layout Component**:
-
-  - Defines a header with links to the home page and cart.
-  - `Outlet` serves as a placeholder for child components defined in the routes.
-
-### Home.jsx
-
-Displays a grid of product cards fetched from an external API and allows users to add products to the cart.
-
-```jsx
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import Modal from "./Modal";
-
-const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
-
-  const addToCart = (product) => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(product);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    toast.success(`${product.title} added to cart!`, {
-      position: "bottom-center",
-    });
-  };
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {products.map((product) => (
-        <div
-          key={product.id}
-          className="border p-4 rounded shadow flex flex-col bg-slate-100"
-          onClick={() => setSelectedProduct(product)}
-        >
-          <img
-            src={product.image}
-            alt={product.title}
-            className="w-full h-48 object-cover"
-          />
-          <h2 className="text-xl mt-2">{product.title}</h2>
-          <p className="text-gray-700 flex-grow">{product.description}</p>
-          <div className="flex items-center justify-between">
-            <p className="text-lg font-bold">${product.price}</p>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                addToCart(product);
-              }}
-              className="mt-2 bg-blue-600 text-white px-4 py-2 rounded self-end"
-            >
-              Add to Cart
-            </button>
-          </div>
-        </div>
-      ))}
-      {selectedProduct && (
-        <Modal
-          isOpen={!!selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        >
-          <div className="flex flex-col items-center">
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.title}
-              className="w-48 h-48 object-cover"
-            />
-            <h2 className="text-xl mt-2">{selectedProduct.title}</h2>
-            <p className="text-gray-700">{selectedProduct.description}</p>
-            <p className="text-lg font-bold">${selectedProduct.price}</p>
-            <div className="flex mt-4">
-              <Link
-                to={`/product/${selectedProduct.id}`}
-                className="bg-blue-600 text-white px-4 py-2 rounded mr-2"
-              >
-                View Details
-              </Link>
-              <button
-                onClick={() => addToCart(selectedProduct)}
-                className="bg-green-600 text-white px-4 py-2 rounded"
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
-        </Modal>
-      )}
-    </div>
-  );
-};
-
-export default Home;
-```
-
-#### Explanation:
-
-- **Imports**:
-
-  - React and hooks (`useState`, `useEffect`).
-  - `toast` from React Toastify for notifications.
-
-- **Home Component**:
-
-  - **State Management**: Uses `useState` to store products.
-  - **Side Effects**: Uses `useEffect` to fetch products from an API on component mount.
-  - **addToCart**:
-    - Adds the selected product to the cart stored in `localStorage`.
-    - Displays a success notification using `toast`.
-  - **Rendering**:
-    - Maps the fetched products to a grid of product cards.
-    - Each card displays the product image, title, description, price, and an "Add to Cart" button.
-
-### ProductDetail.jsx
-
-Displays detailed information about a specific product and allows navigation to previous or next product details.
-
-```jsx
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-
-const ProductDetail = () => {
-  const { productId } = useParams();
-  const [product, setProduct] = useState(null);
-  const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${productId}`)
-      .then((res) => res.json())
-      .then((data) => setProduct(data));
-  }, [productId]);
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
-
-  const addToCart = (product) => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(product);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    toast.success(`${product.title} added to cart!`, {
-      position: "bottom-center",
-    });
-  };
-
-  if (!product) {
-    return <div>Loading...</div>;
-  }
-
-  const currentIndex = products.findIndex((p) => p.id === parseInt(productId));
-  const prevProduct = currentIndex > 0 ? products[currentIndex - 1] : null;
-  const nextProduct =
-    currentIndex < products.length - 1 ? products[currentIndex + 1] : null;
-
-  return (
-    <div className="p-4">
-      <div className="border p-4 rounded shadow flex flex-col items-center px-80 bg-slate-100">
-        <img
-          src={product.image}
-          alt={product.title}
-          className="w-56 h-56 object-cover"
-        />
-        <h2 className="text-2xl text-blue-600 mt-2">{product.title}</h2>
-        <p className="text-gray-700">{product.description}</p>
-        <div className="flex items-center justify-between gap-10 mt-4">
-          <p className="text-2xl font-bold">${product.price}</p>
-          <button
-            onClick={() => addToCart(product)}
-            className="mt-2 bg-blue-600 text-white px-4 py-2 rounded self-end"
-          >
-            Add to Cart
-          </button>
-        </div>
-        <div className="flex justify-evenly w-full mt-8">
-          {prevProduct && (
-            <button
-              onClick={() => navigate(`/product/${prevProduct.id}`)}
-              className="bg-gray-300 text-black text-sm px-4 py-2 rounded"
-            >
-              ← Previous
-            </button>
-          )}
-          {nextProduct && (
-            <button
-              onClick={() => navigate(`/product/${nextProduct.id}`)}
-              className="bg-gray-300 text-black text-sm px-4 py-2 rounded"
-            >
-              Next →
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default ProductDetail;
-```
-
-#### Explanation:
-
-- **Imports**:
-
-  - React and hooks (`useState`, `useEffect`).
-  - `useParams` and `useNavigate` from React Router for routing and navigation.
-  - `toast` from React Toastify for notifications.
-
-- **ProductDetail Component**:
-
-  - **State Management**: Uses `useState` to store the current product and the list of all products.
-  - **Side Effects**:
-    - Uses `useEffect` to fetch details of the current product based on `productId` from the URL.
-    - Uses another `useEffect` to fetch the list of all products for navigation purposes.
-  - **addToCart**:
-    - Adds the selected product to the cart stored in `localStorage`.
-    - Displays a success notification using `toast`.
-  - **Navigation**:
-    - Calculates the current, previous, and next product indices.
-    - Provides buttons for navigating to the previous and next products.
-  - **Rendering**:
-    - Displays product details including image, title, description, and price.
-    - Provides "Add to Cart" and navigation buttons.
+  - **Header**: Contains links to home and cart, with conditional styling based on active route. Displays the cart item count if there are items in the cart.
+  - **Main**: Serves as a placeholder for child routes.
 
 ### Cart.jsx
 
-Shows a list of products currently in the cart and allows users to remove items from the cart.
+Displays a list of products currently in the cart and allows users to remove items.
 
 ```jsx
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../CartContext";
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
-
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(storedCart);
-  }, []);
-
-  const removeFromCart = (index) => {
-    let updatedCart = [...cart];
-    updatedCart.splice(index, 1);
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
+  const { cart, removeFromCart } = useContext(CartContext);
 
   return (
     <div>
@@ -453,45 +210,165 @@ const Cart = () => {
 export default Cart;
 ```
 
-#### Explanation:
+**Explanation:**
 
-- **Imports**:
-
-  - React and hooks (`useEffect`, `useState`).
-
+- **Imports**: Uses `CartContext` to manage cart state.
 - **Cart Component**:
+  - **Display**: Shows cart items or a message if empty.
+  - **Remove**: Allows users to remove items from the cart.
 
-  - **State Management**: Uses `useState` to store the products in the cart.
-  - **Side Effects**: Uses `useEffect` to retrieve cart products from `localStorage` on component mount.
-  - **removeFromCart**:
-    - Removes a product from the cart based on its index.
-    - Updates the cart in the `localStorage`.
-  - **Rendering**:
-    - Displays a message if the cart is empty.
-    - Maps cart products to a grid of product cards.
-    - Each card displays the product image, title, price, and a "Remove" button.
+### ProductDetail.jsx
+
+Displays detailed information about a specific product and allows navigation to previous or next product details.
+
+```jsx
+import { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { CartContext } from "../CartContext";
+
+const ProductDetail = () => {
+  const { productId } = useParams();
+  const [product, setProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
+
+  useEffect(() => {
+    fetch(`https://fakestoreapi.com/products/${productId}`)
+      .then((res) => res.json())
+      .then((data) => setProduct(data));
+  }, [productId]);
+
+  useEffect(() => {
+    fetch("https://fakestoreapi.com/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    toast.success(`${product.title} added to cart!`, {
+      position: "top-center",
+    });
+  };
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
+
+  const currentIndex = products.findIndex((p) => p.id === parseInt(productId));
+  const prevProduct = currentIndex > 0 ? products[currentIndex - 1] : null;
+  const nextProduct =
+    currentIndex < products.length - 1 ? products[currentIndex + 1] : null;
+
+  return (
+    <div className="p-4">
+      <div className="border p-4 rounded shadow flex flex-col items-center px-80 bg-slate-100">
+        <img
+          src={product.image}
+          alt={product.title}
+          className="w-56 h-56 object-cover"
+        />
+        <h2 className="text-3xl font-bold mt-4">{product.title}</h2>
+        <p className="text-lg mt-2">${product.price}</p>
+        <button
+          onClick={() => handleAddToCart(product)}
+          className="bg-green-600 text-white px-4 py-2 rounded mt-4"
+        >
+          Add to Cart
+        </button>
+        <p className="text-lg mt-4">{product.description}</p>
+        <div className="flex mt-4">
+          {prevProduct && (
+            <button
+              onClick={() => navigate(`/product/${prevProduct.id}`)}
+              className="bg-blue-600 text-white px-4 py-2 rounded mr-2"
+            >
+              Previous
+            </button>
+          )}
+          {nextProduct && (
+            <button
+              onClick={() => navigate(`/product/${nextProduct.id}`)}
+              className="bg-blue-600 text-white px-4 py-2 rounded"
+            >
+              Next
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetail;
+```
+
+**Explanation:**
+
+- **Imports**: Uses `useParams` to get the product ID, `useNavigate` for navigation, and `CartContext` for cart management.
+- **ProductDetail Component**:
+  - **Fetch Product**: Retrieves product details based on the ID from the URL.
+  - **Handle Add to Cart**: Adds the product to the cart and shows a toast notification.
+  - **Navigation**: Provides buttons to navigate to the previous and next product details.
+
+### CartContext.jsx
+
+Manages cart state using React's Context API.
+
+```jsx
+import { createContext, useState } from "react";
+
+export const CartContext = createContext();
+
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
+
+  const removeFromCart = (index) => {
+    setCart((prevCart) => prevCart.filter((_, i) => i !== index));
+  };
+
+  return (
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+      {children}
+    </CartContext.Provider>
+  );
+};
+```
+
+**Explanation:**
+
+- **Context Creation**: `CartContext` is created to manage cart state across the application.
+- **CartProvider**:
+  - **State Management**: `addToCart` adds a product to the cart, and `removeFromCart` removes a product based on its index.
 
 ### ErrorPage.jsx
 
-Handles route errors and displays a user-friendly error message with a link to return to the home page.
+Displays an error message for unknown routes.
 
 ```jsx
-import { useRouteError } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ErrorPage = () => {
-  const error = useRouteError();
-  console.error(error);
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-red-100 text-red-700">
-      <h1 className="text-4xl">Oops!</h1>
-      <p className="text-lg mt-4">Sorry, an unexpected error has occurred.</p>
-      <p className="text-sm mt-2">
-        <i>{error.statusText || error.message}</i>
+    <div className="text-center mt-20">
+      <h1 className="text-4xl font-bold">404 - Page Not Found</h1>
+      <p className="text-xl mt-4">
+        The page you are looking for does not exist.
       </p>
-      <a href="/" className="mt-4 bg-blue-600 text-white px-4 py-2 rounded">
+      <button
+        onClick={() => navigate("/")}
+        className="mt-8 bg-blue-600 text-white px-4 py-2 rounded"
+      >
         Go to Home
-      </a>
+      </button>
     </div>
   );
 };
@@ -499,22 +376,13 @@ const ErrorPage = () => {
 export default ErrorPage;
 ```
 
-#### Explanation:
+**Explanation:**
 
-- **Imports**:
-
-  - `useRouteError` from React Router to get the current route error.
-
-- **ErrorPage Component**:
-
-  - Retrieves the error using `useRouteError`.
-  - Logs the error to the console.
-  - Displays an error message with details.
-  - Provides a link to go back to the home page.
+- **ErrorPage Component**: Displays a 404 error message and provides a button to navigate back to the home page.
 
 ## Conclusion
 
-This e-commerce project demonstrates the capabilities of React.js for building dynamic web applications. By utilizing React Router for navigation, Tailwind CSS for responsive styling, and React Toastify for user notifications, the project effectively integrates modern frontend technologies.
+The **FakeStore** application showcases a variety of features including product browsing, cart management, and notifications. With a clean and responsive design provided by Tailwind CSS, it offers a seamless user experience. The use of React's Context API for state management and React Router for navigation ensures that the application remains scalable and maintainable.
 
 ### Key Takeaways:
 
