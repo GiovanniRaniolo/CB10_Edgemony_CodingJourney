@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../CartContext"; // Importa il contesto
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
-
-  useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(storedCart);
-  }, []);
-
-  const removeFromCart = (index) => {
-    let updatedCart = [...cart];
-    updatedCart.splice(index, 1);
-    setCart(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
+  const { cart, removeFromCart } = useContext(CartContext); // Usa il contesto
 
   return (
     <div>

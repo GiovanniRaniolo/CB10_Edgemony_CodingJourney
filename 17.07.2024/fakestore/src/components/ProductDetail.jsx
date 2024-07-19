@@ -1,13 +1,14 @@
-// ProductDetail.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CartContext } from "../CartContext"; // Importa il contesto
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext); // Usa il contesto
 
   useEffect(() => {
     fetch(`https://fakestoreapi.com/products/${productId}`)
@@ -21,10 +22,8 @@ const ProductDetail = () => {
       .then((data) => setProducts(data));
   }, []);
 
-  const addToCart = (product) => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(product);
-    localStorage.setItem("cart", JSON.stringify(cart));
+  const handleAddToCart = (product) => {
+    addToCart(product);
     toast.success(`${product.title} added to cart!`, {
       position: "bottom-center",
     });
@@ -52,7 +51,7 @@ const ProductDetail = () => {
         <div className="flex items-center justify-between gap-10 mt-4">
           <p className="text-2xl font-bold">${product.price}</p>
           <button
-            onClick={() => addToCart(product)}
+            onClick={() => handleAddToCart(product)}
             className="mt-2 bg-blue-600 text-white px-4 py-2 rounded self-end"
           >
             Add to Cart

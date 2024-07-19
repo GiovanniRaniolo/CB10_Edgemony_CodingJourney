@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 import ErrorPage from "./components/ErrorPage";
+import { CartProvider } from "./CartContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
@@ -34,18 +35,20 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
-    <ToastContainer
-      position="bottom-center"
-      autoClose={3000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="colored"
-    />
+    <CartProvider>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    </CartProvider>
   </React.StrictMode>
 );

@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Modal from "./Modal";
+import { CartContext } from "../CartContext";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -13,10 +15,8 @@ const Home = () => {
       .then((data) => setProducts(data));
   }, []);
 
-  const addToCart = (product) => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(product);
-    localStorage.setItem("cart", JSON.stringify(cart));
+  const handleAddToCart = (product) => {
+    addToCart(product);
     toast.success(`${product.title} added to cart!`, {
       position: "bottom-center",
     });
@@ -42,7 +42,7 @@ const Home = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                addToCart(product);
+                handleAddToCart(product);
               }}
               className="mt-2 bg-blue-600 text-white px-4 py-2 rounded self-end"
             >
@@ -73,7 +73,7 @@ const Home = () => {
                 View Details
               </Link>
               <button
-                onClick={() => addToCart(selectedProduct)}
+                onClick={() => handleAddToCart(selectedProduct)}
                 className="bg-green-600 text-white px-4 py-2 rounded"
               >
                 Add to Cart
