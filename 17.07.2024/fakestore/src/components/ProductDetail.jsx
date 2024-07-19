@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { CartContext } from "../CartContext"; // Importa il contesto
+import { CartContext } from "../CartContext";
 
 const ProductDetail = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const { addToCart } = useContext(CartContext); // Usa il contesto
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     fetch(`https://fakestoreapi.com/products/${productId}`)
@@ -25,7 +25,7 @@ const ProductDetail = () => {
   const handleAddToCart = (product) => {
     addToCart(product);
     toast.success(`${product.title} added to cart!`, {
-      position: "bottom-center",
+      position: "top-center",
     });
   };
 

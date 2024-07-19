@@ -38,7 +38,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <CartProvider>
       <RouterProvider router={router} />
       <ToastContainer
-        position="bottom-center"
+        position="top-center"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}

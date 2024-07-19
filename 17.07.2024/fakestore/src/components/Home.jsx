@@ -18,33 +18,37 @@ const Home = () => {
   const handleAddToCart = (product) => {
     addToCart(product);
     toast.success(`${product.title} added to cart!`, {
-      position: "bottom-center",
+      position: "top-center",
     });
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {products.map((product) => (
         <div
           key={product.id}
-          className="border p-4 rounded shadow flex flex-col bg-slate-100"
+          className="border p-4 rounded shadow flex flex-col justify-between items-center bg-slate-100 h-full"
           onClick={() => setSelectedProduct(product)}
         >
           <img
             src={product.image}
             alt={product.title}
-            className="w-full h-48 object-cover"
+            className=" w-36 h-70 object-cover"
           />
-          <h2 className="text-xl mt-2">{product.title}</h2>
-          <p className="text-gray-700 flex-grow">{product.description}</p>
-          <div className="flex items-center justify-between">
+          <div className="flex-grow flex flex-col justify-around">
+            <h2 className="text-xl font-bold mt-2 text-center">
+              {product.title}
+            </h2>
+            <p className="text-gray-700 text-center">{product.description}</p>
+          </div>
+          <div className="flex items-center gap-14 mt-4 pt-4 border-t border-gray-300">
             <p className="text-lg font-bold">${product.price}</p>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleAddToCart(product);
               }}
-              className="mt-2 bg-blue-600 text-white px-4 py-2 rounded self-end"
+              className="bg-blue-600 text-white px-4 py-2 rounded"
             >
               Add to Cart
             </button>
