@@ -1,14 +1,14 @@
-import { trackLabels } from "./data/labels";
 import { useEffect, useState } from "react";
+import { trackLabels } from "./data/labels";
 import { getTrackList } from "./api/trackClient";
 import TrackRow from "./components/TrackRow";
+import SkeletonLoader from "./components/SkeletonLoader";
 
 function App() {
   const [trackList, setTrackList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Funzione per ottenere la lista delle tracce
   const getTracks = async () => {
     try {
       const data = await getTrackList();
@@ -25,7 +25,7 @@ function App() {
     getTracks();
   }, []);
 
-  if (isLoading) return <p>Loading tracks...</p>;
+  if (isLoading) return <SkeletonLoader />;
   if (error) return <p>Error loading tracks: {error.message}</p>;
 
   return (
@@ -37,7 +37,7 @@ function App() {
 
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-            <thead className="ltr:text-left rtl:text-right">
+            <thead className="text-left">
               <tr>
                 {Object.keys(trackLabels).map((key) => (
                   <th

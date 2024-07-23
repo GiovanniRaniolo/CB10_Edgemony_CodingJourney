@@ -5,7 +5,6 @@ import App from "./App";
 import DefaultLayout from "./components/DefaultLayout";
 import "./index.css";
 
-// Definisci le rotte
 const router = createBrowserRouter([
   {
     path: "/",

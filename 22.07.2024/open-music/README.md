@@ -1,4 +1,4 @@
-## Open Sound - PRD (Project Requirements Document)
+## Open Music - PRD (Project Requirements Document)
 
 ### **Project Overview**
 
