@@ -1,9 +1,11 @@
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { getTrackById } from "../api/simulatedTrackClient";
 import { trackLabels } from "../data/labels";
 import { FaHeart, FaPlus } from "react-icons/fa";
 import TrackDetailSkeleton from "./TrackDetailSkeleton";
+import ErrorPage from "./ErrorPage";
+import BandcampWidget from "./BandcampWidget";
 
 function TrackDetailPage() {
   const { id } = useParams();
@@ -33,19 +35,15 @@ function TrackDetailPage() {
   };
 
   const handleAddToChartClick = () => {
-    // Simula l'aggiunta alla chart (in futuro apriremo una modale)
     alert("Track added to chart!");
   };
 
   if (isLoading) return <TrackDetailSkeleton />;
-  if (error)
-    return (
-      <ErrorPage message="Error loading track details. Please try again later." />
-    );
+  if (error) return <ErrorPage message={error.message} />;
+  if (!track) return <p>No track found.</p>;
 
-  if (!track) return <ErrorPage message="No track found." />;
   return (
-    <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
+    <div className="flex flex-col items-center justify-center p-4 max-w-4xl mx-auto bg-violet-100 shadow-md rounded-lg">
       <div className="flex items-center mb-6">
         <img
           src={track.cover}
@@ -70,8 +68,8 @@ function TrackDetailPage() {
           <p className="text-lg mb-2">
             <strong>{trackLabels.trackTableId}:</strong> {track.id}
           </p>
-          <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableUrl}:</strong>{" "}
+          <p className="text-sm mb-2">
+            <strong>{trackLabels.trackTableUrl}:</strong>
             <a
               href={track.url}
               target="_blank"
@@ -86,7 +84,13 @@ function TrackDetailPage() {
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="w-full pl-20 mb-4">
+        <BandcampWidget
+          trackId={track.bandcampTrackId}
+          className="w-full max-w-4xl"
+        />
+      </div>
+      <div className="flex items-center gap-4 mt-2">
         <button
           onClick={handleFavoriteClick}
           className={`p-3 rounded-full ${
