@@ -3,8 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import DefaultLayout from "./components/DefaultLayout";
-import ErrorPage from "./components/ErrorPage";
-import { errorLabels } from "./data/labels";
+import TrackDetailPage from "./components/TrackDetailPage";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -25,8 +24,8 @@ const router = createBrowserRouter([
         element: <div>Favorites Page</div>,
       },
       {
-        path: "*",
-        element: <ErrorPage message={errorLabels.errorMessage} />,
+        path: "/track/:id",
+        element: <TrackDetailPage />,
       },
     ],
   },
