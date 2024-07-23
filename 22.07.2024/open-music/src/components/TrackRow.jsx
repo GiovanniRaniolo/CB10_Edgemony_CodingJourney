@@ -10,7 +10,16 @@ function TrackRow({ track }) {
       <td className="whitespace-nowrap px-4 py-2">{track.genre}</td>
       <td className="whitespace-nowrap px-4 py-2">{track.releaseDate}</td>
       <td className="whitespace-nowrap px-4 py-2">{track.id}</td>
-      <td className="whitespace-nowrap px-4 py-2">{track.url}</td>
+      <td className="whitespace-nowrap px-4 py-2">
+        <a
+          href={track.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
+        >
+          {track.url}
+        </a>
+      </td>
       <td className="whitespace-nowrap px-4 py-2">{track.duration}</td>
       <td className="whitespace-nowrap px-4 py-2">
         <NavLink

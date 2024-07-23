@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getTrackById } from "../api/simulatedTrackClient"; // Importa la funzione simulata per ottenere i dettagli della traccia
-import { trackLabels } from "../data/labels"; // Importa le etichette
-import { FaHeart, FaPlus } from "react-icons/fa"; // Importa icone da react-icons
-import TrackDetailSkeleton from "./TrackDetailSkeleton"; // Importa lo skeleton loader
+import { getTrackById } from "../api/simulatedTrackClient";
+import { trackLabels } from "../data/labels";
+import { FaHeart, FaPlus } from "react-icons/fa";
+import ErrorPage from "./ErrorPage";
 
 function TrackDetailPage() {
-  const { id } = useParams(); // Ottieni l'ID dalla URL
+  const { id } = useParams();
   const [track, setTrack] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +16,11 @@ function TrackDetailPage() {
     const fetchTrack = async () => {
       try {
         const data = await getTrackById(id);
-        setTrack(data);
+        if (data) {
+          setTrack(data);
+        } else {
+          throw new Error("Track not found.");
+        }
       } catch (error) {
         console.log("Error fetching track:", error);
         setError(error);
@@ -28,19 +32,28 @@ function TrackDetailPage() {
     fetchTrack();
   }, [id]);
 
+  if (isLoading) {
+    return <TrackDetailSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <ErrorPage message="Error loading track details. Please try again later." />
+    );
+  }
+
+  if (!track) {
+    return <ErrorPage message="No track found." />;
+  }
+
   const handleFavoriteClick = () => {
     setIsFavorite(!isFavorite);
   };
 
   const handleAddToChartClick = () => {
-    // Simula l'aggiunta alla chart (in futuro apriremo una modale)
+    // Simulate adding to chart (future modal implementation)
     alert("Track added to chart!");
   };
-
-  if (isLoading) return <TrackDetailSkeleton />;
-  if (error) return <p>Error loading track details: {error.message}</p>;
-
-  if (!track) return <p>No track found.</p>;
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
