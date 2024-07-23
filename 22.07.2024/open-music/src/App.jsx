@@ -3,6 +3,7 @@ import { trackLabels } from "./data/labels";
 import { getTrackList } from "./api/trackClient";
 import TrackRow from "./components/TrackRow";
 import SkeletonLoader from "./components/SkeletonLoader";
+import ErrorPage from "./components/ErrorPage"; // Importa ErrorPage
 
 function App() {
   const [trackList, setTrackList] = useState([]);
@@ -26,7 +27,8 @@ function App() {
   }, []);
 
   if (isLoading) return <SkeletonLoader />;
-  if (error) return <p>Error loading tracks: {error.message}</p>;
+  if (error)
+    return <ErrorPage message={`Error loading tracks: ${error.message}`} />;
 
   return (
     <div className="flex justify-center">

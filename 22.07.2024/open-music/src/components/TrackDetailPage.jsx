@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getTrackById } from "../api/simulatedTrackClient";
 import { trackLabels } from "../data/labels";
 import { FaHeart, FaPlus } from "react-icons/fa";
-import ErrorPage from "./ErrorPage";
+import TrackDetailSkeleton from "./TrackDetailSkeleton";
 
 function TrackDetailPage() {
   const { id } = useParams();
@@ -16,11 +16,7 @@ function TrackDetailPage() {
     const fetchTrack = async () => {
       try {
         const data = await getTrackById(id);
-        if (data) {
-          setTrack(data);
-        } else {
-          throw new Error("Track not found.");
-        }
+        setTrack(data);
       } catch (error) {
         console.log("Error fetching track:", error);
         setError(error);
@@ -32,29 +28,22 @@ function TrackDetailPage() {
     fetchTrack();
   }, [id]);
 
-  if (isLoading) {
-    return <TrackDetailSkeleton />;
-  }
-
-  if (error) {
-    return (
-      <ErrorPage message="Error loading track details. Please try again later." />
-    );
-  }
-
-  if (!track) {
-    return <ErrorPage message="No track found." />;
-  }
-
   const handleFavoriteClick = () => {
     setIsFavorite(!isFavorite);
   };
 
   const handleAddToChartClick = () => {
-    // Simulate adding to chart (future modal implementation)
+    // Simula l'aggiunta alla chart (in futuro apriremo una modale)
     alert("Track added to chart!");
   };
 
+  if (isLoading) return <TrackDetailSkeleton />;
+  if (error)
+    return (
+      <ErrorPage message="Error loading track details. Please try again later." />
+    );
+
+  if (!track) return <ErrorPage message="No track found." />;
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white shadow-md rounded-lg">
       <div className="flex items-center mb-6">
