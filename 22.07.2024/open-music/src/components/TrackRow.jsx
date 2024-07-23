@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaExternalLinkAlt } from "react-icons/fa";
 
 function TrackRow({ track }) {
   return (
@@ -17,14 +17,16 @@ function TrackRow({ track }) {
           rel="noopener noreferrer"
           className="text-blue-500 hover:underline"
         >
-          {track.url}
+          <FaExternalLinkAlt size={20} />
         </a>
       </td>
-      <td className="whitespace-nowrap px-4 py-2">{track.duration}</td>
+      <td className="whitespace-nowrap pr-5 py-2 text-center">
+        {track.duration}
+      </td>
       <td className="whitespace-nowrap px-4 py-2">
         <NavLink
           to={`/track/${track.id}`}
-          className="btn btn-primary flex items-center"
+          className="btn btn-primary flex items-center bg-violet-200 pl-3 py-1 rounded-md"
         >
           <FaEye className="mr-2" />
           View

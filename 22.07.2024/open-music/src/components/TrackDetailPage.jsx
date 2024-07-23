@@ -94,7 +94,7 @@ function TrackDetailPage() {
         <button
           onClick={handleFavoriteClick}
           className={`p-3 rounded-full ${
-            isFavorite ? "bg-red-500 text-white" : "bg-gray-200"
+            isFavorite ? "bg-red-500 text-white" : "bg-gray-300"
           }`}
         >
           <FaHeart size={24} />
