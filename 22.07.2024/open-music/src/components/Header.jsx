@@ -1,25 +1,26 @@
 import { NavLink } from "react-router-dom";
+import { navLabels } from "../data/labels";
 
 function Header() {
   return (
-    <div className="navbar bg-base-100 flex justify-between items-center px-6 py-2 bg-indigo-600 text-indigo-100 ">
+    <div className="navbar bg-base-100 flex justify-between items-center px-6 py-2 bg-indigo-600 text-indigo-100">
       <NavLink to="/" className="text-xl font-bold">
-        Open Music
+        {navLabels.openMusic}
       </NavLink>
       <div className="flex items-center gap-8">
         <input
           type="text"
-          placeholder="Search"
+          placeholder={navLabels.searchPlaceholder}
           className="input input-bordered rounded-xl px-2 w-24 md:w-auto text-slate-700"
         />
         <NavLink to="/" className="btn btn-ghost">
-          All
+          {navLabels.all}
         </NavLink>
         <NavLink to="/playlist" className="btn btn-ghost">
-          Playlist
+          {navLabels.playlist}
         </NavLink>
         <NavLink to="/favorites" className="btn btn-ghost">
-          Favorites
+          {navLabels.favorites}
         </NavLink>
       </div>
       <div className="dropdown dropdown-end">

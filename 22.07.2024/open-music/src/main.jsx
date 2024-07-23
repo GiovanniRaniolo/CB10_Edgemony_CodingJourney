@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import DefaultLayout from "./components/DefaultLayout";
-import ErrorPage from "./components/ErrorPage"; // Importa il componente dell'errore
+import ErrorPage from "./components/ErrorPage";
+import { errorLabels } from "./data/labels";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <ErrorPage />,
+        element: <ErrorPage message={errorLabels.errorMessage} />,
       },
     ],
   },

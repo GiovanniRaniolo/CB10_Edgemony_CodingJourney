@@ -27,3 +27,18 @@ export const favoriteLabels = {
 export const listLabels = {
   listTitle: "Music List", // General title of the music list
 };
+
+// Labels for Navigation
+export const navLabels = {
+  searchPlaceholder: "Search",
+  all: "All",
+  playlist: "Playlist",
+  favorites: "Favorites",
+  openMusic: "Open Music",
+};
+
+// Labels for Errors
+export const errorLabels = {
+  errorMessage: "Sorry, we couldn't find the page you're looking for.", // default error message
+  backToHomepage: "Back to Homepage", // Button Text
+};
