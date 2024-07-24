@@ -3,12 +3,14 @@ import { trackLabels } from "./data/labels";
 import { getTrackList } from "./api/trackClient";
 import TrackRow from "./components/TrackRow";
 import SkeletonLoader from "./components/SkeletonLoader";
-import ErrorPage from "./components/ErrorPage"; // Importa ErrorPage
+import ErrorPage from "./components/ErrorPage";
+import { useFilter } from "./context/FilterContext";
 
 function App() {
   const [trackList, setTrackList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { filterText } = useFilter();
 
   const getTracks = async () => {
     try {
@@ -21,6 +23,16 @@ function App() {
       setIsLoading(false);
     }
   };
+
+  const filteredTrackList = trackList.filter((track) => {
+    const lowercasedFilter = filterText.toLowerCase();
+    return (
+      track.title.toLowerCase().includes(lowercasedFilter) ||
+      track.artist.toLowerCase().includes(lowercasedFilter) ||
+      track.album.toLowerCase().includes(lowercasedFilter) ||
+      track.genre.toLowerCase().includes(lowercasedFilter)
+    );
+  });
 
   useEffect(() => {
     getTracks();
@@ -54,7 +66,7 @@ function App() {
             </thead>
 
             <tbody className="divide-y divide-gray-200">
-              {trackList.map((track) => (
+              {filteredTrackList.map((track) => (
                 <TrackRow key={track.id} track={track} />
               ))}
             </tbody>

@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 
-function DefaultLayout() {
+function DefaultLayout({ onFilterChange }) {
   return (
     <div>
-      <Header />
+      <Header onFilterChange={onFilterChange} />
       <div className="p-4">
         <Outlet />
       </div>

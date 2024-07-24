@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { navLabels } from "../data/labels";
+import Filter from "./Filter";
 
 function Header() {
   return (
@@ -8,11 +9,7 @@ function Header() {
         {navLabels.openMusic}
       </NavLink>
       <div className="flex items-center gap-8">
-        <input
-          type="text"
-          placeholder={navLabels.searchPlaceholder}
-          className="input input-bordered rounded-xl px-2 w-24 md:w-auto text-slate-700"
-        />
+        <Filter />
         <NavLink to="/" className="btn btn-ghost">
           {navLabels.all}
         </NavLink>
