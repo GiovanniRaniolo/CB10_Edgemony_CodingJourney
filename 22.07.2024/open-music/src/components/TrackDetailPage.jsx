@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTrackById } from "../api/simulatedTrackClient";
 import { trackLabels } from "../data/labels";
-import { FaHeart, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import TrackDetailSkeleton from "./TrackDetailSkeleton";
 import ErrorPage from "./ErrorPage";
 import BandcampWidget from "./BandcampWidget";
+import FavoriteButton from "./FavoriteButton"; // Importa il pulsante dei preferiti
 
 function TrackDetailPage() {
   const { id } = useParams();
   const [track, setTrack] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetchTrack = async () => {
@@ -29,10 +29,6 @@ function TrackDetailPage() {
 
     fetchTrack();
   }, [id]);
-
-  const handleFavoriteClick = () => {
-    setIsFavorite(!isFavorite);
-  };
 
   const handleAddToChartClick = () => {
     alert("Track added to chart!");
@@ -91,14 +87,8 @@ function TrackDetailPage() {
         />
       </div>
       <div className="flex items-center gap-4 mt-2">
-        <button
-          onClick={handleFavoriteClick}
-          className={`p-3 rounded-full ${
-            isFavorite ? "bg-red-500 text-white" : "bg-gray-300"
-          }`}
-        >
-          <FaHeart size={24} />
-        </button>
+        <FavoriteButton track={track} />{" "}
+        {/* Aggiungi il pulsante dei preferiti */}
         <button
           onClick={handleAddToChartClick}
           className="p-3 bg-blue-500 text-white rounded-full"

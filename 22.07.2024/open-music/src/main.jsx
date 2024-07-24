@@ -4,7 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import DefaultLayout from "./components/DefaultLayout";
 import TrackDetailPage from "./components/TrackDetailPage";
+import FavoritesPage from "./components/FavoritesPage";
 import { FilterProvider } from "./context/FilterContext";
+import { FavoriteProvider } from "./context/FavoriteContext";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -22,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/favorites",
-        element: <div>Favorites Page</div>,
+        element: <FavoritesPage />,
       },
       {
         path: "/track/:id",
@@ -35,7 +37,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <FilterProvider>
-      <RouterProvider router={router} />
+      <FavoriteProvider>
+        <RouterProvider router={router} />
+      </FavoriteProvider>
     </FilterProvider>
   </React.StrictMode>
 );

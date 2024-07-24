@@ -8,6 +8,7 @@ export const trackLabels = {
   trackTableId: "Track ID", // Unique ID of the track on Bandcamp
   trackTableUrl: "Track URL", // URL for the track on Bandcamp
   trackTableDuration: "Duration", // Duration of the track
+  favorites: "Favorites",
 };
 
 // Labels for the chart table
