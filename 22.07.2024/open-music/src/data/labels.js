@@ -40,6 +40,19 @@ export const navLabels = {
   openMusic: "Open Music",
 };
 
+// Labels for input fields
+export const inputLabels = {
+  title: "Title:",
+  artist: "Artist:",
+  genre: "Genre:",
+  album: "Album:",
+  releaseDate: "Release Date:",
+  url: "URL:",
+  duration: "Duration:",
+  cover: "Cover url:",
+  bandcampTrackId: "Bandcamp Track ID:",
+};
+
 // Labels for Errors
 export const errorLabels = {
   errorMessage: "Sorry, we couldn't find the page you're looking for.", // default error message
