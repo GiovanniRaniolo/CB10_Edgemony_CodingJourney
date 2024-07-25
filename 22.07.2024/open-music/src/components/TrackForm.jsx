@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { inputLabels } from "../data/labels";
+import Toast from "./Toast"; // Importa il componente Toast
 
 const TrackForm = ({
   initialTrack = {},
@@ -10,12 +11,12 @@ const TrackForm = ({
   submitButtonText = "Add Track",
 }) => {
   const [track, setTrack] = useState({
-    id: uuidv4(), // Genera un ID solo quando il form è inizializzato
+    id: uuidv4(),
     title: "",
     artist: "",
     genre: "",
     album: "",
-    releaseDate: new Date(), // Usa un oggetto Date per il selettore
+    releaseDate: new Date(),
     url: "",
     duration: "",
     cover: "",
@@ -23,16 +24,15 @@ const TrackForm = ({
   });
 
   const [errors, setErrors] = useState({});
+  const [toast, setToast] = useState({ show: false, type: "", message: "" });
 
   useEffect(() => {
     if (initialTrack.id) {
-      // Se l'ID esiste nell'iniziale, non rigenerare l'ID
       setTrack((prevTrack) => ({
         ...prevTrack,
         ...initialTrack,
       }));
     } else {
-      // Altrimenti, genera un nuovo ID
       setTrack((prevTrack) => ({
         ...prevTrack,
         ...initialTrack,
@@ -56,80 +56,138 @@ const TrackForm = ({
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const validateTrack = () => {
     const newErrors = {};
+
+    // Validazione dei campi obbligatori
     Object.keys(track).forEach((key) => {
       if (!track[key] && key !== "id") {
         newErrors[key] = `${inputLabels[key] || key} is required`;
       }
     });
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    // Validazione dei formati specifici
+    const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+    if (track.url && !urlPattern.test(track.url)) {
+      newErrors.url =
+        "Invalid URL format. Must be a valid URL (e.g., http://example.com)";
+    }
+
+    if (track.cover && !urlPattern.test(track.cover)) {
+      newErrors.cover =
+        "Invalid cover URL format. Must be a valid URL (e.g., http://example.com/image.jpg)";
+    }
+
+    const durationPattern = /^([0-9]{1,2}):([0-5][0-9])$/;
+    if (track.duration && !durationPattern.test(track.duration)) {
+      newErrors.duration =
+        "Invalid duration format. Must be HH:MM (e.g., 03:45)";
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const validationErrors = validateTrack();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setToast({
+        show: true,
+        type: "error",
+        message:
+          "Please correct the following errors before submitting:\n" +
+          Object.values(validationErrors).join("\n"),
+      });
     } else {
       setErrors({});
       onSubmit(track);
+      setToast({
+        show: true,
+        type: "success",
+        message: "Track submitted successfully!",
+      });
     }
   };
 
+  const closeToast = () => {
+    setToast({ ...toast, show: false });
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-2 w-1/2">
-      {Object.keys(track).map((key) => {
-        if (key === "id") return null;
-        const isError = !!errors[key];
-        return (
-          <label
-            key={key}
-            htmlFor={key}
-            className={`relative block overflow-hidden rounded-md border px-3 pt-3 shadow-sm focus-within:ring-1 ${
-              isError
-                ? "border-red-600 focus-within:border-red-600 focus-within:ring-red-600"
-                : "border-gray-200 focus-within:border-blue-600 focus-within:ring-blue-600"
-            }`}
-          >
-            {key === "releaseDate" ? (
-              <div className="relative">
-                <DatePicker
-                  selected={track[key]}
-                  onChange={handleDateChange}
-                  dateFormat="yyyy-MM-dd"
-                  className={`peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm ${
-                    isError ? "placeholder-red-600" : "placeholder-gray-500"
-                  }`}
-                  wrapperClassName="h-8 w-full"
-                  popperClassName="z-50"
-                  calendarClassName="border border-gray-200 rounded-md shadow-lg"
-                  popperPlacement="left-start"
-                  portalId="root" // Ensures the DatePicker is rendered inside this element
-                />
-              </div>
-            ) : (
-              <input
-                type="text"
-                id={key}
-                name={key}
-                value={track[key]}
-                onChange={handleChange}
-                className={`peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm ${
-                  isError ? "placeholder-red-600" : "placeholder-gray-500"
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="space-y-2 w-1/2 mx-auto">
+        {Object.keys(track).map((key) => {
+          if (key === "id") return null;
+          const isError = !!errors[key];
+          return (
+            <div key={key} className="relative">
+              <label
+                htmlFor={key}
+                className={`block overflow-hidden rounded-md border border-gray-200 px-3 pt-3 shadow-sm ${
+                  isError
+                    ? "border-red-600 focus-within:border-red-600 focus-within:ring-red-600"
+                    : "focus-within:border-blue-600 focus-within:ring-blue-600"
                 }`}
-              />
-            )}
-            <span className="absolute left-3 top-3 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:text-xs">
-              {isError ? `${inputLabels[key]} *` : inputLabels[key]}
-            </span>
-          </label>
-        );
-      })}
-      <button
-        type="submit"
-        className="w-full px-5 py-3 text-sm font-medium leading-5 text-white bg-violet-600 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 hover:bg-violet-700"
-      >
-        {submitButtonText}
-      </button>
-    </form>
+              >
+                {key === "releaseDate" ? (
+                  <div className="relative">
+                    <DatePicker
+                      selected={track[key]}
+                      onChange={handleDateChange}
+                      dateFormat="yyyy-MM-dd"
+                      className={`peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm ${
+                        isError ? "placeholder-red-600" : "placeholder-gray-500"
+                      }`}
+                      wrapperClassName="h-8 w-full"
+                      popperClassName="z-50"
+                      calendarClassName="border border-gray-200 rounded-md shadow-lg"
+                      popperPlacement="left-start"
+                      portalId="root"
+                    />
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    id={key}
+                    name={key}
+                    value={track[key]}
+                    onChange={handleChange}
+                    className={`peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm ${
+                      isError ? "placeholder-red-600" : "placeholder-gray-500"
+                    }`}
+                    placeholder={inputLabels[key] || key}
+                  />
+                )}
+                <span className="absolute start-3 top-3 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:text-xs">
+                  {isError ? `${inputLabels[key]} *` : inputLabels[key]}
+                </span>
+              </label>
+              {isError && (
+                <p className="mt-1 text-sm text-red-600">{errors[key]}</p>
+              )}
+            </div>
+          );
+        })}
+        <button
+          type="submit"
+          className="w-full px-5 py-3 text-sm font-medium leading-5 text-white bg-violet-600 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 hover:bg-violet-700"
+        >
+          {submitButtonText}
+        </button>
+      </form>
+
+      {toast.show && (
+        <Toast
+          type={toast.type}
+          message={toast.message}
+          onClose={closeToast}
+          duration={5000} // Tempo di visualizzazione del toast in millisecondi
+        />
+      )}
+    </div>
   );
 };
 

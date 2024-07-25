@@ -3,15 +3,24 @@ import { NavLink } from "react-router-dom";
 import { FaEye, FaExternalLinkAlt } from "react-icons/fa";
 import FavoriteButton from "./FavoriteButton"; // Importa il pulsante dei preferiti
 import EditTrackButton from "./EditTrackButton";
+import { format } from "date-fns"; // Importa la funzione di formattazione
 
 function TrackRow({ track }) {
+  const formatDate = (date) => {
+    if (!date) return "";
+    return format(new Date(date), "yyyy-MM-dd"); // Modifica il formato come necessario
+  };
+
   return (
     <tr>
       <td className="whitespace-nowrap px-4 py-2">{track.title}</td>
       <td className="whitespace-nowrap px-4 py-2">{track.artist}</td>
       <td className="whitespace-nowrap px-4 py-2">{track.album}</td>
       <td className="whitespace-nowrap px-4 py-2">{track.genre}</td>
-      <td className="whitespace-nowrap px-4 py-2">{track.releaseDate}</td>
+      <td className="whitespace-nowrap px-4 py-2">
+        {formatDate(track.releaseDate)}
+      </td>{" "}
+      {/* Formatta la data qui */}
       {/* <td className="whitespace-nowrap px-4 py-2">{track.id}</td> */}
       <td className="whitespace-nowrap px-10 py-2">
         <a

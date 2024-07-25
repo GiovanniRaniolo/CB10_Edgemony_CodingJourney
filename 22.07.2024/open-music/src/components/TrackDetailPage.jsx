@@ -63,7 +63,7 @@ function TrackDetailPage() {
             {track.releaseDate}
           </p>
           <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableId}:</strong> {track.id}
+            <strong>{trackLabels.trackTableDuration}:</strong> {track.duration}
           </p>
           <p className="text-sm mb-2">
             <strong>{trackLabels.trackTableUrl}:</strong>
@@ -75,9 +75,6 @@ function TrackDetailPage() {
             >
               {track.url}
             </a>
-          </p>
-          <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableDuration}:</strong> {track.duration}
           </p>
         </div>
       </div>
