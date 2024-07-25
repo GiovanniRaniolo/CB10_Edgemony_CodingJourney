@@ -31,10 +31,10 @@ export const listLabels = {
 
 // Labels for Navigation
 export const navLabels = {
-  searchPlaceholder: "Search",
   all: "All",
   playlist: "Playlist",
   favorites: "Favorites",
+  add: "Add Track",
   openMusic: "Open Music",
 };
 

@@ -19,6 +19,9 @@ function Header() {
         <NavLink to="/favorites" className="btn btn-ghost">
           {navLabels.favorites}
         </NavLink>
+        <NavLink to="/add-track" className="pl-20 btn btn-ghost">
+          {navLabels.add}
+        </NavLink>
       </div>
       <div className="dropdown dropdown-end">
         <div

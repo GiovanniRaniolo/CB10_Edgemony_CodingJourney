@@ -28,15 +28,27 @@ export const FavoriteProvider = ({ children }) => {
   }, [userId]);
 
   const addFavorite = async (track) => {
-    const favoriteRef = ref(db, `favorites/${userId}/${track.id}`);
-    await set(favoriteRef, track);
-    setFavorites((prev) => [...prev, track]);
+    try {
+      console.log("Adding favorite:", track);
+      const favoriteRef = ref(db, `favorites/${userId}/${track.id}`);
+      await set(favoriteRef, track);
+      setFavorites((prev) => [...prev, track]);
+      console.log("Added favorite successfully");
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    }
   };
 
   const removeFavorite = async (id) => {
-    const favoriteRef = ref(db, `favorites/${userId}/${id}`);
-    await remove(favoriteRef);
-    setFavorites((prev) => prev.filter((track) => track.id !== id));
+    try {
+      console.log("Removing favorite ID:", id);
+      const favoriteRef = ref(db, `favorites/${userId}/${id}`);
+      await remove(favoriteRef);
+      setFavorites((prev) => prev.filter((track) => track.id !== id));
+      console.log("Removed favorite successfully");
+    } catch (error) {
+      console.error("Error removing favorite:", error);
+    }
   };
 
   const isFavorite = (id) => {

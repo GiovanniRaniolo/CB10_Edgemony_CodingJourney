@@ -5,10 +5,15 @@ const FavoriteButton = ({ track, size = 32 }) => {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites();
 
   const handleFavoriteClick = () => {
-    if (isFavorite(track.id)) {
-      removeFavorite(track.id);
+    console.log("Track ID:", track.id); // Verifica il valore dell'ID
+    if (track.id) {
+      if (isFavorite(track.id)) {
+        removeFavorite(track.id);
+      } else {
+        addFavorite(track);
+      }
     } else {
-      addFavorite(track);
+      console.error("Track ID is undefined or null");
     }
   };
 

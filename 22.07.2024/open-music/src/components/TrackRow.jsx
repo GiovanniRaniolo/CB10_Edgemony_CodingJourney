@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { FaEye, FaExternalLinkAlt } from "react-icons/fa";
 import FavoriteButton from "./FavoriteButton"; // Importa il pulsante dei preferiti
+import EditTrackButton from "./EditTrackButton";
 
 function TrackRow({ track }) {
   return (
@@ -11,7 +12,7 @@ function TrackRow({ track }) {
       <td className="whitespace-nowrap px-4 py-2">{track.album}</td>
       <td className="whitespace-nowrap px-4 py-2">{track.genre}</td>
       <td className="whitespace-nowrap px-4 py-2">{track.releaseDate}</td>
-      <td className="whitespace-nowrap px-4 py-2">{track.id}</td>
+      {/* <td className="whitespace-nowrap px-4 py-2">{track.id}</td> */}
       <td className="whitespace-nowrap px-4 py-2">
         <a
           href={track.url}
@@ -34,7 +35,8 @@ function TrackRow({ track }) {
           View
         </NavLink>
       </td>
-      <td className="whitespace-nowrap px-4 py-2">
+      <td className="whitespace-nowrap flex gap-8 px-4 py-2">
+        <EditTrackButton trackId={track.id} size={10} />
         <FavoriteButton track={track} size={10} />
       </td>
     </tr>

@@ -9,7 +9,8 @@ export const getTrackById = async (id) => {
 
     if (snapshot.exists()) {
       const tracks = snapshot.val();
-      const track = tracks.find((track) => track.id === id);
+      const trackArray = Object.values(tracks);
+      const track = trackArray.find((track) => track.id === id);
 
       if (track) {
         return track;

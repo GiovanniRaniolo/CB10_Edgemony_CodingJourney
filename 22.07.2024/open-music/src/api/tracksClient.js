@@ -7,7 +7,13 @@ const getTrackList = async () => {
     const snapshot = await get(trackRef);
 
     if (snapshot.exists()) {
-      return snapshot.val();
+      // Ottieni i dati come oggetto
+      const data = snapshot.val();
+
+      // Converti l'oggetto in un array
+      const trackArray = Object.values(data);
+
+      return trackArray;
     } else {
       console.log("No data available");
       return [];

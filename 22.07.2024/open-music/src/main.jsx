@@ -5,6 +5,9 @@ import App from "./App";
 import DefaultLayout from "./components/DefaultLayout";
 import TrackDetailPage from "./components/TrackDetailPage";
 import FavoritesPage from "./components/FavoritesPage";
+import AddTrackPage from "./components/AddTrackPage";
+import EditTrackPage from "./components/EditTrackPage";
+import ErrorPage from "./components/ErrorPage";
 import { FilterProvider } from "./context/FilterContext";
 import { FavoriteProvider } from "./context/FavoriteContext";
 import "./index.css";
@@ -13,6 +16,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <DefaultLayout />,
+    errorElement: <ErrorPage />, // Aggiungi la gestione degli errori qui
     children: [
       {
         path: "/",
@@ -29,6 +33,14 @@ const router = createBrowserRouter([
       {
         path: "/track/:id",
         element: <TrackDetailPage />,
+      },
+      {
+        path: "/add-track",
+        element: <AddTrackPage />,
+      },
+      {
+        path: "/edit-track/:trackId",
+        element: <EditTrackPage />,
       },
     ],
   },
