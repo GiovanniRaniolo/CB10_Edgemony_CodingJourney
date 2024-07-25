@@ -1,8 +1,8 @@
 import React from "react";
-import { FaEdit } from "react-icons/fa";
+import { GrEdit } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 
-const EditTrackButton = ({ trackId, size = 32 }) => {
+const EditTrackButton = ({ trackId, size = 24 }) => {
   const navigate = useNavigate();
   const handleEditTrack = () => {
     navigate(`/edit-track/${trackId}`);
@@ -11,9 +11,9 @@ const EditTrackButton = ({ trackId, size = 32 }) => {
   return (
     <button
       onClick={handleEditTrack}
-      className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      className="p-3 rounded-full bg-violet-200 text-violet-800 hover:bg-violet-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
     >
-      <FaEdit size={size} />
+      <GrEdit size={size} />
     </button>
   );
 };

@@ -7,6 +7,7 @@ import TrackDetailSkeleton from "./TrackDetailSkeleton";
 import ErrorPage from "./ErrorPage";
 import BandcampWidget from "./BandcampWidget";
 import FavoriteButton from "./FavoriteButton";
+import EditTrackButton from "./EditTrackButton";
 
 function TrackDetailPage() {
   const { id } = useParams();
@@ -36,7 +37,7 @@ function TrackDetailPage() {
 
   if (isLoading) return <TrackDetailSkeleton />;
   if (error) return <ErrorPage message={error.message} />;
-  if (!track) return <p>No track found.</p>;
+  if (!track) return <ErrorPage message={"No track found."} />;
 
   return (
     <div className="flex flex-col items-center justify-center p-4 max-w-4xl mx-auto bg-violet-100 shadow-md rounded-lg">
@@ -94,6 +95,7 @@ function TrackDetailPage() {
         >
           <FaPlus size={24} />
         </button>
+        <EditTrackButton />
       </div>
     </div>
   );

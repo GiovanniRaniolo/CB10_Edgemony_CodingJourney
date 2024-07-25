@@ -12,8 +12,7 @@ const AddTrackPage = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Add Track</h1>
+    <div className="flex items-center justify-center mt-6">
       <TrackForm onSubmit={handleAddTrack} submitButtonText="Add Track" />
     </div>
   );

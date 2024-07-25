@@ -5,9 +5,11 @@ export const trackLabels = {
   trackTableAlbum: "Album", // Album to which the track belongs
   trackTableGenre: "Genre", // Musical genre of the track
   trackTableReleaseDate: "Release Date", // Release date of the track
-  trackTableId: "Track ID", // Unique ID of the track on Bandcamp
+
   trackTableUrl: "Track URL", // URL for the track on Bandcamp
   trackTableDuration: "Duration", // Duration of the track
+  details: "Details",
+  edit: "Edit",
   favorites: "Favorites",
 };
 
