@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { inputLabels } from "../data/labels";
-import Toast from "./Toast"; // Importa il componente Toast
+import { useToast } from "../context/ToastContext"; // Importa il contesto del toast
 
 const TrackForm = ({
   initialTrack = {},
@@ -24,7 +24,7 @@ const TrackForm = ({
   });
 
   const [errors, setErrors] = useState({});
-  const [toast, setToast] = useState({ show: false, type: "", message: "" });
+  const { showToast } = useToast(); // Usa il contesto del toast
 
   useEffect(() => {
     if (initialTrack.id) {
@@ -59,14 +59,12 @@ const TrackForm = ({
   const validateTrack = () => {
     const newErrors = {};
 
-    // Validazione dei campi obbligatori
     Object.keys(track).forEach((key) => {
       if (!track[key] && key !== "id") {
         newErrors[key] = `${inputLabels[key] || key} is required`;
       }
     });
 
-    // Validazione dei formati specifici
     const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
     if (track.url && !urlPattern.test(track.url)) {
       newErrors.url =
@@ -94,26 +92,16 @@ const TrackForm = ({
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setToast({
-        show: true,
-        type: "error",
-        message:
-          "Please correct the following errors before submitting:\n" +
-          Object.values(validationErrors).join("\n"),
-      });
+      showToast(
+        "error",
+        "Please correct the following errors before submitting:\n" +
+          Object.values(validationErrors).join("\n")
+      );
     } else {
       setErrors({});
       onSubmit(track);
-      setToast({
-        show: true,
-        type: "success",
-        message: "Track submitted successfully!",
-      });
+      showToast("success", "Track submitted successfully!");
     }
-  };
-
-  const closeToast = () => {
-    setToast({ ...toast, show: false });
   };
 
   return (
@@ -178,15 +166,6 @@ const TrackForm = ({
           {submitButtonText}
         </button>
       </form>
-
-      {toast.show && (
-        <Toast
-          type={toast.type}
-          message={toast.message}
-          onClose={closeToast}
-          duration={5000} // Tempo di visualizzazione del toast in millisecondi
-        />
-      )}
     </div>
   );
 };

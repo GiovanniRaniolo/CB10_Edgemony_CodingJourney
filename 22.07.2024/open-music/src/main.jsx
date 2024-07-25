@@ -10,13 +10,14 @@ import EditTrackPage from "./components/EditTrackPage";
 import ErrorPage from "./components/ErrorPage";
 import { FilterProvider } from "./context/FilterContext";
 import { FavoriteProvider } from "./context/FavoriteContext";
+import { ToastProvider } from "./context/ToastContext";
 import "./index.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <DefaultLayout />,
-    errorElement: <ErrorPage />, // Aggiungi la gestione degli errori qui
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -50,7 +51,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <FilterProvider>
       <FavoriteProvider>
-        <RouterProvider router={router} />
+        <ToastProvider>
+          <RouterProvider router={router} />
+        </ToastProvider>
       </FavoriteProvider>
     </FilterProvider>
   </React.StrictMode>
