@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getTrackById } from "../api/simulatedTrackClient";
+import { getTrackById } from "../api/trackByIdClient";
 import { trackLabels } from "../data/labels";
 import { FaPlus } from "react-icons/fa";
 import TrackDetailSkeleton from "./TrackDetailSkeleton";
 import ErrorPage from "./ErrorPage";
 import BandcampWidget from "./BandcampWidget";
-import FavoriteButton from "./FavoriteButton"; // Importa il pulsante dei preferiti
+import FavoriteButton from "./FavoriteButton";
 
 function TrackDetailPage() {
   const { id } = useParams();
@@ -88,7 +88,6 @@ function TrackDetailPage() {
       </div>
       <div className="flex items-center gap-4 mt-2">
         <FavoriteButton track={track} />{" "}
-        {/* Aggiungi il pulsante dei preferiti */}
         <button
           onClick={handleAddToChartClick}
           className="p-3 bg-blue-500 text-white rounded-full"

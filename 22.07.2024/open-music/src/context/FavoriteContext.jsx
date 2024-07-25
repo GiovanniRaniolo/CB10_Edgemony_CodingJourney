@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { db } from "../firebase";
+import { ref, set, remove, get } from "firebase/database";
 
 const FavoriteContext = createContext();
 
@@ -8,21 +10,32 @@ export const useFavorites = () => {
 
 export const FavoriteProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
+  const userId = "user1"; // Cambia questo con l'ID dell'utente attuale
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(savedFavorites);
-  }, []);
+    const fetchFavorites = async () => {
+      const dbRef = ref(db, `favorites/${userId}`);
+      const snapshot = await get(dbRef);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setFavorites(Object.values(data));
+      } else {
+        setFavorites([]);
+      }
+    };
 
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    fetchFavorites();
+  }, [userId]);
 
-  const addFavorite = (track) => {
+  const addFavorite = async (track) => {
+    const favoriteRef = ref(db, `favorites/${userId}/${track.id}`);
+    await set(favoriteRef, track);
     setFavorites((prev) => [...prev, track]);
   };
 
-  const removeFavorite = (id) => {
+  const removeFavorite = async (id) => {
+    const favoriteRef = ref(db, `favorites/${userId}/${id}`);
+    await remove(favoriteRef);
     setFavorites((prev) => prev.filter((track) => track.id !== id));
   };
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { trackLabels } from "./data/labels";
-import { getTrackList } from "./api/trackClient";
+import { getTrackList } from "./api/tracksClient";
 import TrackRow from "./components/TrackRow";
 import SkeletonLoader from "./components/SkeletonLoader";
 import ErrorPage from "./components/ErrorPage";
