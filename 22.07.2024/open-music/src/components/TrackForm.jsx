@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { inputLabels } from "../data/labels"; // Assumi che il file labels.js si trovi in una directory chiamata data
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { inputLabels } from "../data/labels";
 
 const TrackForm = ({
   initialTrack = {},
@@ -13,7 +15,7 @@ const TrackForm = ({
     artist: "",
     genre: "",
     album: "",
-    releaseDate: "",
+    releaseDate: new Date(), // Usa un oggetto Date per il selettore
     url: "",
     duration: "",
     cover: "",
@@ -47,6 +49,13 @@ const TrackForm = ({
     }));
   };
 
+  const handleDateChange = (date) => {
+    setTrack((prevTrack) => ({
+      ...prevTrack,
+      releaseDate: date,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -69,7 +78,7 @@ const TrackForm = ({
     <form onSubmit={handleSubmit} className="space-y-2 w-1/2">
       {Object.keys(track).map((key) => {
         if (key === "id") return null;
-        const isError = !!errors[key]; // Verifica se c'è un errore per la chiave corrente
+        const isError = !!errors[key];
         return (
           <label
             key={key}
@@ -80,17 +89,35 @@ const TrackForm = ({
                 : "border-gray-200 focus-within:border-blue-600 focus-within:ring-blue-600"
             }`}
           >
-            <input
-              type="text"
-              id={key}
-              name={key}
-              value={track[key]}
-              onChange={handleChange}
-              className={`peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm ${
-                isError ? "placeholder-red-600" : "placeholder-gray-500"
-              }`}
-            />
-            <span className="absolute start-3 top-3 -translate-y-1/2 text-xs transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:text-xs text-gray-700">
+            {key === "releaseDate" ? (
+              <div className="relative">
+                <DatePicker
+                  selected={track[key]}
+                  onChange={handleDateChange}
+                  dateFormat="yyyy-MM-dd"
+                  className={`peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm ${
+                    isError ? "placeholder-red-600" : "placeholder-gray-500"
+                  }`}
+                  wrapperClassName="h-8 w-full"
+                  popperClassName="z-50"
+                  calendarClassName="border border-gray-200 rounded-md shadow-lg"
+                  popperPlacement="left-start"
+                  portalId="root" // Ensures the DatePicker is rendered inside this element
+                />
+              </div>
+            ) : (
+              <input
+                type="text"
+                id={key}
+                name={key}
+                value={track[key]}
+                onChange={handleChange}
+                className={`peer h-8 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm ${
+                  isError ? "placeholder-red-600" : "placeholder-gray-500"
+                }`}
+              />
+            )}
+            <span className="absolute left-3 top-3 -translate-y-1/2 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-3 peer-focus:text-xs">
               {isError ? `${inputLabels[key]} *` : inputLabels[key]}
             </span>
           </label>
