@@ -10,16 +10,36 @@ function Header() {
       </NavLink>
       <div className="flex items-center gap-8">
         <Filter />
-        <NavLink to="/" className="btn btn-ghost">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `btn btn-ghost ${isActive ? "font-bold underline" : ""}`
+          }
+        >
           {navLabels.all}
         </NavLink>
-        <NavLink to="/playlist" className="btn btn-ghost">
+        <NavLink
+          to="/playlist"
+          className={({ isActive }) =>
+            `btn btn-ghost ${isActive ? "font-bold underline" : ""}`
+          }
+        >
           {navLabels.playlist}
         </NavLink>
-        <NavLink to="/favorites" className="btn btn-ghost">
+        <NavLink
+          to="/favorites"
+          className={({ isActive }) =>
+            `btn btn-ghost ${isActive ? "font-bold underline" : ""}`
+          }
+        >
           {navLabels.favorites}
         </NavLink>
-        <NavLink to="/add-track" className="pl-20 btn btn-ghost">
+        <NavLink
+          to="/add-track"
+          className={({ isActive }) =>
+            `pl-20 btn btn-ghost ${isActive ? "font-bold underline" : ""}`
+          }
+        >
           {navLabels.add}
         </NavLink>
       </div>
