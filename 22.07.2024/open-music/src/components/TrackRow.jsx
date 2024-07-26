@@ -19,9 +19,7 @@ function TrackRow({ track }) {
       <td className="whitespace-nowrap px-4 py-2">{track.genre}</td>
       <td className="whitespace-nowrap px-4 py-2">
         {formatDate(track.releaseDate)}
-      </td>{" "}
-      {/* Formatta la data qui */}
-      {/* <td className="whitespace-nowrap px-4 py-2">{track.id}</td> */}
+      </td>
       <td className="whitespace-nowrap px-10 py-2">
         <a
           href={track.url}

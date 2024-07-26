@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getTrackById } from "../api/trackByIdClient";
 import { trackLabels } from "../data/labels";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import TrackDetailSkeleton from "./TrackDetailSkeleton";
 import ErrorPage from "./ErrorPage";
 import BandcampWidget from "./BandcampWidget";
 import FavoriteButton from "./FavoriteButton";
 import EditTrackButton from "./EditTrackButton";
+import DeleteTrackModal from "./DeleteTrackModal";
+import { deleteTrack } from "../api/tracks";
+import { useToast } from "../context/ToastContext"; // Usa il contesto del toast
 
 function TrackDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [track, setTrack] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { showToast } = useToast(); // Usa il contesto del toast
 
   useEffect(() => {
     const fetchTrack = async () => {
@@ -33,6 +39,29 @@ function TrackDetailPage() {
 
   const handleAddToChartClick = () => {
     alert("Track added to chart!");
+  };
+
+  const handleDeleteClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteTrack(id);
+      showToast("success", "Track deleted successfully");
+      navigate("/"); // Navigate to home page after successful deletion
+    } catch (error) {
+      console.log("Error deleting track:", error);
+      showToast("error", "Failed to delete track");
+    }
+  };
+
+  const handleCloseToast = () => {
+    setToast({ show: false, message: "", type: "" });
   };
 
   if (isLoading) return <TrackDetailSkeleton />;
@@ -85,7 +114,7 @@ function TrackDetailPage() {
         />
       </div>
       <div className="flex items-center gap-4 mt-2">
-        <FavoriteButton track={track} />{" "}
+        <FavoriteButton track={track} />
         <button
           onClick={handleAddToChartClick}
           className="p-3 bg-blue-500 text-white rounded-full"
@@ -93,7 +122,25 @@ function TrackDetailPage() {
           <FaPlus size={24} />
         </button>
         <EditTrackButton />
+        <button
+          onClick={handleDeleteClick}
+          className="p-3 bg-orange-500 text-white rounded-full hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-black"
+        >
+          <FaTrash size={24} />
+        </button>
       </div>
+      {isModalOpen && (
+        <DeleteTrackModal
+          onClose={handleModalClose}
+          onConfirm={handleDeleteConfirm} // Passa handleDeleteConfirm come onConfirm
+        />
+      )}
+      {isModalOpen && (
+        <DeleteTrackModal
+          onClose={handleModalClose}
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
     </div>
   );
 }
