@@ -9,7 +9,7 @@ import BandcampWidget from "./BandcampWidget";
 import FavoriteButton from "./FavoriteButton";
 import EditTrackButton from "./EditTrackButton";
 import DeleteTrackModal from "./DeleteTrackModal";
-import { deleteTrack } from "../api/tracks";
+import { deleteTrack } from "../api/tracksAddEditDelete";
 import { useToast } from "../context/ToastContext"; // Usa il contesto del toast
 
 function TrackDetailPage() {
