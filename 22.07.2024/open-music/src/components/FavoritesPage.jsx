@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFavorites } from "../context/FavoriteContext";
 import TrackRow from "./TrackRow";
 import { trackLabels } from "../data/labels";
+import SkeletonLoader from "./SkeletonLoader"; // Import the new SkeletonLoader
 
 function FavoritesPage() {
   const { favorites } = useFavorites();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) return <SkeletonLoader />;
 
   if (favorites.length === 0) {
     return <p>No favorite tracks.</p>;
