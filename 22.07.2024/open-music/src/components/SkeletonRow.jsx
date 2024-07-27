@@ -25,13 +25,13 @@ function SkeletonRow() {
         <div className="h-6 bg-gray-200 rounded-lg w-full"></div>
       </td>
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-10 bg-gray-200 rounded-lg w-16"></div>
+        <div className="h-6 bg-gray-200 rounded-lg w-16"></div>
       </td>
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-10 bg-gray-200 rounded-lg w-16"></div>
+        <div className="h-8 rounded-full bg-gray-200 p-2 w-8"></div>
       </td>
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-10 bg-gray-200 rounded-lg w-16"></div>
+        <div className="h-8 bg-gray-200 rounded-full w-8"></div>
       </td>
     </tr>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import SkeletonRow from "./SkeletonRow";
+import { trackLabels } from "../data/labels";
 
 function SkeletonLoader() {
   const skeletonRows = Array.from({ length: 10 }).map((_, index) => (
@@ -17,36 +18,14 @@ function SkeletonLoader() {
           <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
             <thead className="text-left">
               <tr>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Title
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Artist
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Album
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Genre
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Release Date
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  URL
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Duration
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  View
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Edit
-                </th>
-                <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                  Favorite
-                </th>
+                {Object.values(trackLabels).map((label, index) => (
+                  <th
+                    key={index}
+                    className="whitespace-nowrap px-4 py-1 font-medium text-gray-900"
+                  >
+                    {label}
+                  </th>
+                ))}
               </tr>
             </thead>
 
