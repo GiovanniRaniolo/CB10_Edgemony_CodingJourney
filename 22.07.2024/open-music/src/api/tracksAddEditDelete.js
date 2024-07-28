@@ -1,11 +1,5 @@
 // Importazioni necessarie da Firebase
-import {
-  getDatabase,
-  ref as dbRef,
-  set,
-  update,
-  remove,
-} from "firebase/database";
+import { ref as dbRef, set, update, remove } from "firebase/database";
 import { db } from "../firebase";
 
 // Funzione per aggiungere una traccia specifica nel Realtime Database
