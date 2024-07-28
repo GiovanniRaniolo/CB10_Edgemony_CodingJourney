@@ -10,7 +10,7 @@ function App() {
   const [trackList, setTrackList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { filterText } = useFilter();
+  const { filterText, filteredTrackList, setFilteredTrackList } = useFilter();
 
   const getTracks = async () => {
     try {
@@ -24,19 +24,22 @@ function App() {
     }
   };
 
-  const filteredTrackList = trackList.filter((track) => {
-    const lowercasedFilter = filterText.toLowerCase();
-    return (
-      track.title.toLowerCase().includes(lowercasedFilter) ||
-      track.artist.toLowerCase().includes(lowercasedFilter) ||
-      track.album.toLowerCase().includes(lowercasedFilter) ||
-      track.genre.toLowerCase().includes(lowercasedFilter)
-    );
-  });
-
   useEffect(() => {
     getTracks();
   }, []);
+
+  useEffect(() => {
+    const lowercasedFilter = filterText.toLowerCase();
+    const filtered = trackList.filter((track) => {
+      return (
+        track.title.toLowerCase().includes(lowercasedFilter) ||
+        track.artist.toLowerCase().includes(lowercasedFilter) ||
+        track.album.toLowerCase().includes(lowercasedFilter) ||
+        track.genre.toLowerCase().includes(lowercasedFilter)
+      );
+    });
+    setFilteredTrackList(filtered);
+  }, [filterText, trackList, setFilteredTrackList]);
 
   if (isLoading) return <SkeletonLoader />;
   if (error)

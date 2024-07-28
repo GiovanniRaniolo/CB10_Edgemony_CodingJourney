@@ -8,9 +8,17 @@ export const useFilter = () => {
 
 export const FilterProvider = ({ children }) => {
   const [filterText, setFilterText] = useState("");
+  const [filteredTrackList, setFilteredTrackList] = useState([]);
 
   return (
-    <FilterContext.Provider value={{ filterText, setFilterText }}>
+    <FilterContext.Provider
+      value={{
+        filterText,
+        setFilterText,
+        filteredTrackList,
+        setFilteredTrackList,
+      }}
+    >
       {children}
     </FilterContext.Provider>
   );

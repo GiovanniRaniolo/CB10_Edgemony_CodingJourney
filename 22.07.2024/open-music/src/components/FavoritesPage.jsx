@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useFavorites } from "../context/FavoriteContext";
+import { useFilter } from "../context/FilterContext";
 import TrackRow from "./TrackRow";
 import { trackLabels } from "../data/labels";
-import SkeletonLoader from "./SkeletonLoader"; // Import the new SkeletonLoader
+import SkeletonLoader from "./SkeletonLoader";
 
 function FavoritesPage() {
   const { favorites } = useFavorites();
+  const { filterText, filteredTrackList, setFilteredTrackList } = useFilter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -16,6 +18,19 @@ function FavoritesPage() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const lowercasedFilter = filterText.toLowerCase();
+    const filtered = favorites.filter((track) => {
+      return (
+        track.title.toLowerCase().includes(lowercasedFilter) ||
+        track.artist.toLowerCase().includes(lowercasedFilter) ||
+        track.album.toLowerCase().includes(lowercasedFilter) ||
+        track.genre.toLowerCase().includes(lowercasedFilter)
+      );
+    });
+    setFilteredTrackList(filtered);
+  }, [filterText, favorites, setFilteredTrackList]);
 
   if (isLoading) return <SkeletonLoader />;
 
@@ -47,7 +62,7 @@ function FavoritesPage() {
             </thead>
 
             <tbody className="divide-y divide-gray-200">
-              {favorites.map((track) => (
+              {filteredTrackList.map((track) => (
                 <TrackRow key={track.id} track={track} />
               ))}
             </tbody>
