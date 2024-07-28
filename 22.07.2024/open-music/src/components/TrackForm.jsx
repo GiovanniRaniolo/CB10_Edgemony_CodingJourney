@@ -117,7 +117,7 @@ const TrackForm = ({
                 className={`block overflow-hidden rounded-md border border-gray-200 px-3 pt-3 shadow-sm ${
                   isError
                     ? "border-red-600 focus-within:border-red-600 focus-within:ring-red-600"
-                    : "focus-within:border-blue-600 focus-within:ring-blue-600"
+                    : "focus-within:border-violet-600 focus-within:ring-violet-600"
                 }`}
               >
                 {key === "releaseDate" ? (

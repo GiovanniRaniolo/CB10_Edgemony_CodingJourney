@@ -25,9 +25,9 @@ function TrackRow({ track }) {
           href={track.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 hover:underline"
+          className="text-violet-400 hover:text-violet-700"
         >
-          <FaExternalLinkAlt size={20} />
+          <FaExternalLinkAlt size={18} />
         </a>
       </td>
       <td className="whitespace-nowrap pr-5 py-2 text-center">
@@ -36,7 +36,7 @@ function TrackRow({ track }) {
       <td className="whitespace-nowrap  py-2">
         <NavLink
           to={`/track/${track.id}`}
-          className="btn btn-primary flex items-center bg-violet-200 pl-3 py-1 rounded-md"
+          className="btn btn-primary flex items-center bg-violet-200 hover:bg-violet-300 pl-3 py-1 rounded-md"
         >
           <FaEye className="mr-2" />
           View
