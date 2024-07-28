@@ -11,7 +11,7 @@ function SkeletonLoader() {
     <div className="flex justify-center">
       <main className="w-[1200px]">
         <div className="p-4">
-          <h1 className="text-2xl font-semibold">Loading...</h1>
+          {/* <h1 className="text-2xl font-semibold">Loading...</h1> */}
         </div>
 
         <div className="overflow-x-auto">

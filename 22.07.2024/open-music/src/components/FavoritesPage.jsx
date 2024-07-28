@@ -35,14 +35,16 @@ function FavoritesPage() {
   if (isLoading) return <SkeletonLoader />;
 
   if (favorites.length === 0) {
-    return <p>No favorite tracks.</p>;
+    return (
+      <p className="flex items-center justify-center">No favorite tracks.</p>
+    );
   }
 
   return (
     <div className="flex justify-center">
       <main className="w-[1200px]">
         <div className="p-4">
-          <h1 className="text-2xl font-semibold">{trackLabels.favorites}</h1>
+          {/* <h1 className="text-2xl font-semibold">{trackLabels.favorites}</h1> */}
         </div>
 
         <div className="overflow-x-auto">
