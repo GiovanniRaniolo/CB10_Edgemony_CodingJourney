@@ -10,7 +10,8 @@ import FavoriteButton from "./FavoriteButton";
 import EditTrackButton from "./EditTrackButton";
 import DeleteTrackModal from "./DeleteTrackModal";
 import { deleteTrack } from "../api/tracksAddEditDelete";
-import { useToast } from "../context/ToastContext"; // Usa il contesto del toast
+import { useToast } from "../context/ToastContext";
+import AudioPlayer from "./AudioPlayer";
 
 function TrackDetailPage() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ function TrackDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { showToast } = useToast(); // Usa il contesto del toast
+  const { showToast } = useToast();
 
   useEffect(() => {
     const fetchTrack = async () => {
@@ -113,6 +114,9 @@ function TrackDetailPage() {
           className="w-full max-w-4xl"
         />
       </div>
+      <div className="w-full pl-20 mb-4">
+        <AudioPlayer track={track} className="w-full max-w-4xl" />
+      </div>
       <div className="flex items-center gap-4 mt-2">
         <FavoriteButton track={track} />
         <button
@@ -132,7 +136,7 @@ function TrackDetailPage() {
       {isModalOpen && (
         <DeleteTrackModal
           onClose={handleModalClose}
-          onConfirm={handleDeleteConfirm} // Passa handleDeleteConfirm come onConfirm
+          onConfirm={handleDeleteConfirm}
         />
       )}
       {isModalOpen && (
