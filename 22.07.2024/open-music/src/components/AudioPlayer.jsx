@@ -1,11 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  FaPlay,
-  FaPause,
-  FaForward,
-  FaBackward,
-  FaHeart,
-} from "react-icons/fa";
+import { FaPlay, FaPause, FaForward, FaBackward } from "react-icons/fa";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../firebase";
 
@@ -18,9 +12,8 @@ function AudioPlayer({ track }) {
   const progressBarRef = useRef(null);
 
   useEffect(() => {
-    if (track.audioUrl) {
-      const audioRef = ref(storage, track.audioUrl);
-
+    if (track.audioFile) {
+      const audioRef = ref(storage, track.audioFile);
       getDownloadURL(audioRef)
         .then((url) => {
           setAudioUrl(url);
@@ -29,25 +22,32 @@ function AudioPlayer({ track }) {
           console.error("Error fetching audio URL:", error);
         });
     }
-  }, [track.audioUrl]);
+  }, [track.audioFile]);
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (isPlaying && audio) {
-      audio.play().catch((error) => console.error("Playback error:", error));
-    } else if (audio) {
-      audio.pause();
+    if (audio) {
+      if (isPlaying) {
+        audio.play().catch((error) => console.error("Playback error:", error));
+      } else {
+        audio.pause();
+      }
     }
   }, [isPlaying]);
 
   useEffect(() => {
-    if (audioRef.current && audioUrl) {
-      audioRef.current.src = audioUrl;
-      audioRef.current.load();
+    const audio = audioRef.current;
+    if (audio && audioUrl) {
+      audio.src = audioUrl;
+      audio.load();
+      if (isPlaying) {
+        audio.play().catch((error) => console.error("Playback error:", error));
+      }
     }
   }, [audioUrl]);
 
   const handlePlayPause = () => setIsPlaying(!isPlaying);
+
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       const progress =
@@ -99,8 +99,8 @@ function AudioPlayer({ track }) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-2/3">
+    <div className="flex items-center justify-center bg-gray-100">
+      <div className="w-full">
         <div className="bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8 items-center">
           <div className="flex items-center space-x-4">
             <img
@@ -113,10 +113,10 @@ function AudioPlayer({ track }) {
             />
             <div className="min-w-0 flex-auto space-y-1 font-semibold">
               <p className="text-cyan-500 dark:text-cyan-400 text-sm leading-6">
-                <abbr title="Track">Track:</abbr> {track.id}
+                <abbr title="Track"></abbr> {track.title}
               </p>
               <h2 className="text-slate-500 dark:text-slate-400 text-sm leading-6 truncate">
-                {track.title}
+                {track.album}
               </h2>
               <p className="text-slate-900 dark:text-slate-50 text-lg">
                 {track.artist}
@@ -154,13 +154,11 @@ function AudioPlayer({ track }) {
         </div>
         <div className="bg-slate-50 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center">
           <div className="flex-auto flex items-center justify-evenly">
-            <button type="button" aria-label="Add to favorites">
-              <FaHeart size={24} />
-            </button>
             <button
               type="button"
               aria-label="Rewind 10 seconds"
               onClick={handleRewind}
+              className="flex items-center justify-center p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
             >
               <FaBackward size={24} />
             </button>
@@ -178,6 +176,7 @@ function AudioPlayer({ track }) {
               type="button"
               aria-label="Skip 10 seconds"
               onClick={handleSkip}
+              className="flex items-center justify-center p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
             >
               <FaForward size={24} />
             </button>
@@ -188,6 +187,7 @@ function AudioPlayer({ track }) {
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => setIsPlaying(false)}
       />
     </div>
   );

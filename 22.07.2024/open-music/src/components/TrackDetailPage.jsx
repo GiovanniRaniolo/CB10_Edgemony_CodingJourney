@@ -5,7 +5,6 @@ import { trackLabels } from "../data/labels";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import TrackDetailSkeleton from "./TrackDetailSkeleton";
 import ErrorPage from "./ErrorPage";
-import BandcampWidget from "./BandcampWidget";
 import FavoriteButton from "./FavoriteButton";
 import EditTrackButton from "./EditTrackButton";
 import DeleteTrackModal from "./DeleteTrackModal";
@@ -61,13 +60,16 @@ function TrackDetailPage() {
     }
   };
 
-  const handleCloseToast = () => {
-    setToast({ show: false, message: "", type: "" });
-  };
-
   if (isLoading) return <TrackDetailSkeleton />;
   if (error) return <ErrorPage message={error.message} />;
   if (!track) return <ErrorPage message={"No track found."} />;
+
+  // Construct the URL for the audio file using Firebase Storage
+  const audioUrl = track.audioFile
+    ? `https://firebasestorage.googleapis.com/v0/b/${
+        import.meta.env.VITE_STORAGE_BUCKET
+      }/o/${encodeURIComponent(track.audioFile)}?alt=media`
+    : null;
 
   return (
     <div className="flex flex-col items-center justify-center p-4 max-w-4xl mx-auto bg-violet-100 shadow-md rounded-lg">
@@ -89,7 +91,7 @@ function TrackDetailPage() {
             <strong>{trackLabels.trackTableGenre}:</strong> {track.genre}
           </p>
           <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableReleaseDate}:</strong>{" "}
+            <strong>{trackLabels.trackTableReleaseDate}:</strong>
             {track.releaseDate}
           </p>
           <p className="text-lg mb-2">
@@ -109,13 +111,11 @@ function TrackDetailPage() {
         </div>
       </div>
       <div className="w-full pl-20 mb-4">
-        <BandcampWidget
-          trackId={track.bandcampTrackId}
-          className="w-full max-w-4xl"
-        />
-      </div>
-      <div className="w-full pl-20 mb-4">
-        <AudioPlayer track={track} className="w-full max-w-4xl" />
+        {audioUrl ? (
+          <AudioPlayer track={track} className="w-full max-w-4xl" />
+        ) : (
+          <p>No audio available for this track.</p>
+        )}
       </div>
       <div className="flex items-center gap-4 mt-2">
         <FavoriteButton track={track} />
@@ -125,7 +125,7 @@ function TrackDetailPage() {
         >
           <FaPlus size={24} />
         </button>
-        <EditTrackButton />
+        <EditTrackButton trackId={id} />
         <button
           onClick={handleDeleteClick}
           className="p-3 bg-orange-500 text-white rounded-full hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-black"
@@ -133,12 +133,6 @@ function TrackDetailPage() {
           <FaTrash size={24} />
         </button>
       </div>
-      {isModalOpen && (
-        <DeleteTrackModal
-          onClose={handleModalClose}
-          onConfirm={handleDeleteConfirm}
-        />
-      )}
       {isModalOpen && (
         <DeleteTrackModal
           onClose={handleModalClose}

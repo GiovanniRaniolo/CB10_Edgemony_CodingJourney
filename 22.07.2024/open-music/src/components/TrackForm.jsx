@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { inputLabels } from "../data/labels";
 import { useToast } from "../context/ToastContext"; // Importa il contesto del toast
+import { ref as storageRef, uploadBytes } from "firebase/storage";
+import { storage } from "../firebase";
 
 const TrackForm = ({
   initialTrack = {},
@@ -11,42 +13,54 @@ const TrackForm = ({
   submitButtonText = "Add Track",
 }) => {
   const [track, setTrack] = useState({
-    id: uuidv4(),
-    title: "",
-    artist: "",
-    genre: "",
-    album: "",
-    releaseDate: new Date(),
-    url: "",
-    duration: "",
-    cover: "",
-    bandcampTrackId: "",
+    id: initialTrack.id || uuidv4(),
+    title: initialTrack.title || "",
+    artist: initialTrack.artist || "",
+    genre: initialTrack.genre || "",
+    album: initialTrack.album || "",
+    releaseDate: initialTrack.releaseDate
+      ? new Date(initialTrack.releaseDate)
+      : new Date(),
+    url: initialTrack.url || "",
+    duration: initialTrack.duration || "",
+    cover: initialTrack.cover || "",
+    audioFile: null,
   });
 
   const [errors, setErrors] = useState({});
   const { showToast } = useToast(); // Usa il contesto del toast
+  const fileInputRef = useRef(null);
 
+  // Gestisci l'aggiornamento dell'ID quando la traccia iniziale cambia
   useEffect(() => {
-    if (initialTrack.id) {
+    if (initialTrack.id && initialTrack.id !== track.id) {
       setTrack((prevTrack) => ({
         ...prevTrack,
         ...initialTrack,
+        id: initialTrack.id, // Assicura che l'ID sia mantenuto
       }));
-    } else {
+    } else if (!initialTrack.id && !track.id) {
       setTrack((prevTrack) => ({
         ...prevTrack,
         ...initialTrack,
         id: uuidv4(),
       }));
     }
-  }, [initialTrack]);
+  }, [initialTrack, track.id]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setTrack((prevTrack) => ({
-      ...prevTrack,
-      [name]: value,
-    }));
+    const { name, value, files } = e.target;
+    if (name === "audioFile") {
+      setTrack((prevTrack) => ({
+        ...prevTrack,
+        audioFile: files[0],
+      }));
+    } else {
+      setTrack((prevTrack) => ({
+        ...prevTrack,
+        [name]: value,
+      }));
+    }
   };
 
   const handleDateChange = (date) => {
@@ -59,23 +73,27 @@ const TrackForm = ({
   const validateTrack = () => {
     const newErrors = {};
 
+    // Verifica i campi obbligatori
     Object.keys(track).forEach((key) => {
-      if (!track[key] && key !== "id") {
+      if (!track[key] && key !== "id" && key !== "audioFile") {
         newErrors[key] = `${inputLabels[key] || key} is required`;
       }
     });
 
+    // Verifica l'URL
     const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
     if (track.url && !urlPattern.test(track.url)) {
       newErrors.url =
         "Invalid URL format. Must be a valid URL (e.g., http://example.com)";
     }
 
+    // Verifica l'URL della cover
     if (track.cover && !urlPattern.test(track.cover)) {
       newErrors.cover =
         "Invalid cover URL format. Must be a valid URL (e.g., http://example.com/image.jpg)";
     }
 
+    // Verifica la durata
     const durationPattern = /^([0-9]{1,2}):([0-5][0-9])$/;
     if (track.duration && !durationPattern.test(track.duration)) {
       newErrors.duration =
@@ -85,7 +103,7 @@ const TrackForm = ({
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = validateTrack();
@@ -99,16 +117,54 @@ const TrackForm = ({
       );
     } else {
       setErrors({});
-      onSubmit(track);
+
+      let audioFileUrl = "";
+      if (track.audioFile) {
+        const fileExtension = track.audioFile.name.split(".").pop();
+        const audioRef = storageRef(
+          storage,
+          `audio/${track.id}.${fileExtension}` // Usa l'ID della traccia come nome file
+        );
+
+        try {
+          await uploadBytes(audioRef, track.audioFile);
+          audioFileUrl = `audio/${track.id}.${fileExtension}`; // Salva l'URL del file audio
+        } catch (error) {
+          console.error("Error uploading audio file:", error);
+          showToast("error", "Failed to upload audio file.");
+          return;
+        }
+      }
+
+      // Formatta la data come YYYY-MM-DD
+      const formattedDate = track.releaseDate.toISOString().split("T")[0];
+
+      // Debug: Stampa i dati prima dell'invio
+      console.log("Track data before submit:", {
+        ...track,
+        releaseDate: formattedDate, // Usa il formato YYYY-MM-DD
+        audioFile: audioFileUrl,
+      });
+
+      onSubmit({
+        ...track,
+        releaseDate: formattedDate, // Usa il formato YYYY-MM-DD
+        audioFile: audioFileUrl,
+      });
+
       showToast("success", "Track submitted successfully!");
     }
+  };
+
+  const handleFileSelect = () => {
+    fileInputRef.current.click();
   };
 
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit} className="space-y-2 w-1/2 mx-auto">
         {Object.keys(track).map((key) => {
-          if (key === "id") return null;
+          if (key === "id" || key === "audioFile") return null;
           const isError = !!errors[key];
           return (
             <div key={key} className="relative">
@@ -159,6 +215,21 @@ const TrackForm = ({
             </div>
           );
         })}
+        <button
+          type="button"
+          onClick={handleFileSelect}
+          className="w-full px-5 py-3 text-sm font-medium leading-5 text-white bg-violet-600 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 hover:bg-violet-700"
+        >
+          Select Audio File
+        </button>
+        <input
+          type="file"
+          id="audioFile"
+          name="audioFile"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleChange}
+        />
         <button
           type="submit"
           className="w-full px-5 py-3 text-sm font-medium leading-5 text-white bg-violet-600 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 hover:bg-violet-700"

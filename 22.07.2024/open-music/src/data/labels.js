@@ -47,10 +47,10 @@ export const inputLabels = {
   genre: "Genre:",
   album: "Album:",
   releaseDate: "Release Date:",
-  url: "URL:",
-  duration: "Duration:",
-  cover: "Cover url:",
-  bandcampTrackId: "Bandcamp Track ID:",
+  cover: "Cover URL:",
+  audioFile: "",
+  url: "Buy url:",
+  duration: "Duration (es 03:12)",
 };
 
 // Labels for Errors
