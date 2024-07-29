@@ -6,31 +6,28 @@ import {
   FaBackward,
   FaHeart,
 } from "react-icons/fa";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../firebase";
 
 function AudioPlayer({ track }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [audioUrl, setAudioUrl] = useState(null);
   const audioRef = useRef(null);
   const progressBarRef = useRef(null);
 
   useEffect(() => {
     if (track.audioUrl) {
-      // Pulizia e codifica del percorso
-      const sanitizedPath = track.audioUrl
-        .replace(/^\/|\/$/g, "") // Rimuovi barre iniziali e finali
-        .replace(/\/{2,}/g, "/"); // Rimuovi barre doppie
+      const audioRef = ref(storage, track.audioUrl);
 
-      const url = `https://firebasestorage.googleapis.com/v0/b/open-music-44533.appspot.com/o/${encodeURIComponent(
-        sanitizedPath
-      )}?alt=media`;
-      console.log("Generated URL:", url); // Log dell'URL
-
-      // Assegna l'URL all'elemento audio
-      if (audioRef.current) {
-        audioRef.current.src = url;
-        audioRef.current.load(); // Forza il ricaricamento della sorgente
-      }
+      getDownloadURL(audioRef)
+        .then((url) => {
+          setAudioUrl(url);
+        })
+        .catch((error) => {
+          console.error("Error fetching audio URL:", error);
+        });
     }
   }, [track.audioUrl]);
 
@@ -43,10 +40,14 @@ function AudioPlayer({ track }) {
     }
   }, [isPlaying]);
 
-  const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
+  useEffect(() => {
+    if (audioRef.current && audioUrl) {
+      audioRef.current.src = audioUrl;
+      audioRef.current.load();
+    }
+  }, [audioUrl]);
 
+  const handlePlayPause = () => setIsPlaying(!isPlaying);
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       const progress =
