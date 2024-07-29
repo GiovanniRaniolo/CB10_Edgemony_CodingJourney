@@ -1,9 +1,26 @@
 import React from "react";
+import { deleteFile } from "../api/storageClient"; // Assicurati che questa sia la tua funzione di eliminazione del file
+import { deleteTrack } from "../api/tracksAddEditDelete"; // Assicurati che questa sia la tua funzione di eliminazione della traccia
 
-const DeleteTrackModal = ({ onClose, onConfirm }) => {
+const DeleteTrackModal = ({ onClose, onConfirm, trackId, filePath }) => {
   const handleConfirm = async () => {
-    await onConfirm(); // Chiama la funzione onConfirm che gestisce la cancellazione e il toast
-    onClose(); // Chiudi la modale dopo la cancellazione
+    try {
+      if (!filePath) {
+        throw new Error("File path is required");
+      }
+
+      // Elimina il file associato
+      await deleteFile(filePath);
+
+      // Elimina la traccia dal database
+      await deleteTrack(trackId);
+
+      // Chiudi la modale e mostra un messaggio di successo (se necessario)
+      onConfirm(); // Chiama la funzione di conferma passata come props
+    } catch (error) {
+      console.error("Error in delete track:", error.message);
+      // Gestisci l'errore (mostra un messaggio all'utente, etc.)
+    }
   };
 
   return (

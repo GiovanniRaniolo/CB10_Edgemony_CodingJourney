@@ -9,6 +9,7 @@ import FavoriteButton from "./FavoriteButton";
 import EditTrackButton from "./EditTrackButton";
 import DeleteTrackModal from "./DeleteTrackModal";
 import { deleteTrack } from "../api/tracksAddEditDelete";
+import { deleteFile, fileExists } from "../api/storageClient";
 import { useToast } from "../context/ToastContext";
 import AudioPlayer from "./AudioPlayer";
 
@@ -51,12 +52,24 @@ function TrackDetailPage() {
 
   const handleDeleteConfirm = async () => {
     try {
-      await deleteTrack(id);
-      showToast("success", "Track deleted successfully");
-      navigate("/"); // Navigate to home page after successful deletion
+      if (track && track.audioFile) {
+        const fileExistsOnStorage = await fileExists(track.audioFile);
+        if (!fileExistsOnStorage) {
+          console.warn(
+            "File does not exist on storage, proceeding with database deletion only."
+          );
+        } else {
+          await deleteFile(track.audioFile); // Rimuove il file dallo storage
+        }
+      }
+      await deleteTrack(id); // Rimuove la traccia dal database
+      showToast("success", "Track deleted successfully"); // Mostra il messaggio di successo
+      navigate("/"); // Naviga alla home page dopo la cancellazione
     } catch (error) {
       console.log("Error deleting track:", error);
-      showToast("error", "Failed to delete track");
+      showToast("error", "Failed to delete track"); // Mostra il messaggio di errore
+    } finally {
+      setIsModalOpen(false); // Chiudi la modale dopo la cancellazione
     }
   };
 
@@ -64,7 +77,6 @@ function TrackDetailPage() {
   if (error) return <ErrorPage message={error.message} />;
   if (!track) return <ErrorPage message={"No track found."} />;
 
-  // Construct the URL for the audio file using Firebase Storage
   const audioUrl = track.audioFile
     ? `https://firebasestorage.googleapis.com/v0/b/${
         import.meta.env.VITE_STORAGE_BUCKET
@@ -137,6 +149,8 @@ function TrackDetailPage() {
         <DeleteTrackModal
           onClose={handleModalClose}
           onConfirm={handleDeleteConfirm}
+          trackId={id}
+          filePath={track.audioFile} // Passa il percorso del file
         />
       )}
     </div>
