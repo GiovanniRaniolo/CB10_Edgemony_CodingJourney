@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { inputLabels } from "../data/labels";
-import { useToast } from "../context/ToastContext"; // Importa il contesto del toast
+import { useToast } from "../context/ToastContext";
 import { ref as storageRef, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase";
 
@@ -28,16 +28,15 @@ const TrackForm = ({
   });
 
   const [errors, setErrors] = useState({});
-  const { showToast } = useToast(); // Usa il contesto del toast
+  const { showToast } = useToast();
   const fileInputRef = useRef(null);
 
-  // Gestisci l'aggiornamento dell'ID quando la traccia iniziale cambia
   useEffect(() => {
     if (initialTrack.id && initialTrack.id !== track.id) {
       setTrack((prevTrack) => ({
         ...prevTrack,
         ...initialTrack,
-        id: initialTrack.id, // Assicura che l'ID sia mantenuto
+        id: initialTrack.id,
       }));
     } else if (!initialTrack.id && !track.id) {
       setTrack((prevTrack) => ({
@@ -53,7 +52,7 @@ const TrackForm = ({
     if (name === "audioFile") {
       setTrack((prevTrack) => ({
         ...prevTrack,
-        audioFile: files[0],
+        audioFile: files[0] || prevTrack.audioFile, // Usa il file esistente se nessun nuovo file è selezionato
       }));
     } else {
       setTrack((prevTrack) => ({
@@ -73,27 +72,23 @@ const TrackForm = ({
   const validateTrack = () => {
     const newErrors = {};
 
-    // Verifica i campi obbligatori
     Object.keys(track).forEach((key) => {
       if (!track[key] && key !== "id" && key !== "audioFile") {
         newErrors[key] = `${inputLabels[key] || key} is required`;
       }
     });
 
-    // Verifica l'URL
     const urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
     if (track.url && !urlPattern.test(track.url)) {
       newErrors.url =
         "Invalid URL format. Must be a valid URL (e.g., http://example.com)";
     }
 
-    // Verifica l'URL della cover
     if (track.cover && !urlPattern.test(track.cover)) {
       newErrors.cover =
         "Invalid cover URL format. Must be a valid URL (e.g., http://example.com/image.jpg)";
     }
 
-    // Verifica la durata
     const durationPattern = /^([0-9]{1,2}):([0-5][0-9])$/;
     if (track.duration && !durationPattern.test(track.duration)) {
       newErrors.duration =
@@ -118,8 +113,9 @@ const TrackForm = ({
     } else {
       setErrors({});
 
-      let audioFileUrl = "";
-      if (track.audioFile) {
+      let audioFileUrl = initialTrack.audioFile || ""; // Usa l'URL esistente se non viene fornito un nuovo file
+
+      if (track.audioFile && track.audioFile instanceof File) {
         const fileExtension = track.audioFile.name.split(".").pop();
         const audioRef = storageRef(
           storage,
@@ -143,13 +139,13 @@ const TrackForm = ({
       console.log("Track data before submit:", {
         ...track,
         releaseDate: formattedDate, // Usa il formato YYYY-MM-DD
-        audioFile: audioFileUrl,
+        audioFile: audioFileUrl, // Usa l'URL esistente se non viene fornito un nuovo file
       });
 
       onSubmit({
         ...track,
         releaseDate: formattedDate, // Usa il formato YYYY-MM-DD
-        audioFile: audioFileUrl,
+        audioFile: audioFileUrl, // Usa l'URL esistente se non viene fornito un nuovo file
       });
 
       showToast("success", "Track submitted successfully!");

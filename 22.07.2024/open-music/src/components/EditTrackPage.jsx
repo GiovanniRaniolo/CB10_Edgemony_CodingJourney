@@ -4,7 +4,6 @@ import TrackForm from "./TrackForm";
 import { getTrackById } from "../api/trackByIdClient";
 import { updateTrack } from "../api/tracksAddEditDelete"; // Supponendo che queste siano le tue funzioni API
 import { useToast } from "../context/ToastContext";
-
 const EditTrackPage = () => {
   const { trackId } = useParams();
   const navigate = useNavigate();
@@ -55,5 +54,4 @@ const EditTrackPage = () => {
     </div>
   );
 };
-
 export default EditTrackPage;
