@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import TrackForm from "./TrackForm";
+import TrackForm from "./TrackForm/TrackForm";
 import { getTrackById } from "../api/trackByIdClient";
 import { updateTrack } from "../api/tracksAddEditDelete";
 import { uploadFile, deleteFile } from "../api/storageClient";
