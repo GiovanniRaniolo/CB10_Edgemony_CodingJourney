@@ -47,7 +47,7 @@ export const inputLabels = {
   genre: "Genre:",
   album: "Album:",
   releaseDate: "Release Date:",
-  cover: "Cover URL:",
+  // cover: "Cover URL:",
   audioFile: "",
   url: "Buy url:",
   duration: "Duration (es 03:12)",

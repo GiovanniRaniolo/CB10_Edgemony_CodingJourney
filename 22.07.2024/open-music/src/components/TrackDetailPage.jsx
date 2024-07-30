@@ -149,8 +149,9 @@ function TrackDetailPage() {
         <DeleteTrackModal
           onClose={handleModalClose}
           onConfirm={handleDeleteConfirm}
-          trackId={id}
-          filePath={track.audioFile} // Passa il percorso del file
+          trackId={track.id}
+          audioFilePath={track.audioFile} // Passa il percorso del file audio
+          coverFilePath={track.cover}
         />
       )}
     </div>

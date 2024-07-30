@@ -1,25 +1,36 @@
 import React from "react";
-import { deleteFile } from "../api/storageClient"; // Assicurati che questa sia la tua funzione di eliminazione del file
-import { deleteTrack } from "../api/tracksAddEditDelete"; // Assicurati che questa sia la tua funzione di eliminazione della traccia
+import { deleteFile } from "../api/storageClient"; // Funzione di eliminazione dei file
+import { deleteTrack } from "../api/tracksAddEditDelete"; // Funzione di eliminazione della traccia
 
-const DeleteTrackModal = ({ onClose, onConfirm, trackId, filePath }) => {
+const DeleteTrackModal = ({
+  onClose,
+  onConfirm,
+  trackId,
+  audioFilePath,
+  coverFilePath,
+}) => {
   const handleConfirm = async () => {
     try {
-      if (!filePath) {
-        throw new Error("File path is required");
+      if (!audioFilePath && !coverFilePath) {
+        throw new Error("At least one file path is required");
       }
 
-      // Elimina il file associato
-      await deleteFile(filePath);
+      // Elimina il file audio associato
+      if (audioFilePath) {
+        await deleteFile(audioFilePath);
+      }
+
+      // Elimina il file di copertina associato
+      if (coverFilePath) {
+        await deleteFile(coverFilePath);
+      }
 
       // Elimina la traccia dal database
       await deleteTrack(trackId);
 
-      // Chiudi la modale e mostra un messaggio di successo (se necessario)
-      onConfirm(); // Chiama la funzione di conferma passata come props
+      onConfirm();
     } catch (error) {
       console.error("Error in delete track:", error.message);
-      // Gestisci l'errore (mostra un messaggio all'utente, etc.)
     }
   };
 

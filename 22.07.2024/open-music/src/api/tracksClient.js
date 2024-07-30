@@ -7,10 +7,8 @@ const getTrackList = async () => {
     const snapshot = await get(trackRef);
 
     if (snapshot.exists()) {
-      // Ottieni i dati come oggetto
       const data = snapshot.val();
 
-      // Converti l'oggetto in un array
       const trackArray = Object.values(data);
 
       return trackArray;

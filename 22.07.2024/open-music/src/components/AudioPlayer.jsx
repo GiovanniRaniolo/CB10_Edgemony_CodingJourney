@@ -154,6 +154,13 @@ function AudioPlayer({ track }) {
         </div>
         <div className="bg-slate-50 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center">
           <div className="flex-auto flex items-center justify-evenly">
+            {/* <button
+              type="button"
+              aria-label="Add to favorites"
+              className="flex items-center justify-center p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+            >
+              <FaHeart size={24} />
+            </button> */}
             <button
               type="button"
               aria-label="Rewind 10 seconds"

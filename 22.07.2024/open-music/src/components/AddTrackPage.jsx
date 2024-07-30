@@ -10,9 +10,9 @@ const AddTrackPage = () => {
 
   const handleAddTrack = async (newTrack) => {
     try {
-      await addTrack(newTrack); // Aggiungi la traccia al backend o storage
+      await addTrack(newTrack);
       showToast("success", "Track added successfully");
-      navigate("/"); // Reindirizza alla home o alla pagina delle tracce
+      navigate("/");
     } catch (error) {
       console.error("Error adding track:", error);
       showToast("error", "Failed to add track");
@@ -21,8 +21,7 @@ const AddTrackPage = () => {
 
   return (
     <div>
-      <h1>Add New Track</h1>
-      {/* Se non hai bisogno di `initialTrack`, rimuovilo */}
+      {/* <h1>Add New Track</h1> */}
       <TrackForm onSubmit={handleAddTrack} submitButtonText="Add Track" />
     </div>
   );
