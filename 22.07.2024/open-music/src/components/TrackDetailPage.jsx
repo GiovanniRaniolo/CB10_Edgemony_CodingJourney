@@ -89,7 +89,7 @@ function TrackDetailPage() {
         <img
           src={track.cover}
           alt={track.title}
-          className="w-80 h-80 object-cover rounded-lg mr-6"
+          className="w-64 h-64 object-cover rounded-lg mr-6"
         />
         <div>
           <h1 className="text-violet-900 text-3xl font-bold mb-4">

@@ -47,7 +47,6 @@ function AudioPlayer({ track }) {
   }, [audioUrl]);
 
   const handlePlayPause = () => setIsPlaying(!isPlaying);
-
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       const progress =
@@ -99,93 +98,86 @@ function AudioPlayer({ track }) {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
-      <div className="w-full">
-        <div className="bg-white border-slate-100 dark:bg-slate-800 dark:border-slate-500 border-b rounded-t-xl p-4 pb-6 sm:p-10 sm:pb-8 lg:p-6 xl:p-10 xl:pb-8 space-y-6 sm:space-y-8 lg:space-y-6 xl:space-y-8 items-center">
-          <div className="flex items-center space-x-4">
-            <img
-              src={track.cover}
-              alt={track.title}
-              width="88"
-              height="88"
-              className="flex-none rounded-lg bg-slate-100"
-              loading="lazy"
-            />
-            <div className="min-w-0 flex-auto space-y-1 font-semibold">
-              <p className="text-cyan-500 dark:text-cyan-400 text-sm leading-6">
-                <abbr title="Track"></abbr> {track.title}
-              </p>
-              <h2 className="text-slate-500 dark:text-slate-400 text-sm leading-6 truncate">
-                {track.album}
-              </h2>
-              <p className="text-slate-900 dark:text-slate-50 text-lg">
-                {track.artist}
-              </p>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <div
-              className="relative"
-              ref={progressBarRef}
-              onClick={handleProgressBarClick}
-            >
-              <div className="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-                <div
-                  className="bg-cyan-500 dark:bg-cyan-400 h-2"
-                  style={{ width: `${progress}%` }}
-                ></div>
-              </div>
-              <div
-                className="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute left-1/2 top-1/2 w-4 h-4 -mt-2 -ml-2 flex items-center justify-center bg-white rounded-full shadow"
-                style={{ left: `${progress}%` }}
-              >
-                <div className="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
-              </div>
-            </div>
-            <div className="flex justify-between text-sm leading-6 font-medium tabular-nums">
-              <div className="text-cyan-500 dark:text-slate-100">
-                {formatTime(audioRef.current?.currentTime || 0)}
-              </div>
-              <div className="text-slate-500 dark:text-slate-400">
-                {formatTime(duration)}
-              </div>
-            </div>
+    <div className="flex items-center justify-center bg-violet-100">
+      <div className="w-full max-w-2xl flex border-slate-100 dark:bg-slate-800 dark:border-slate-500 border rounded-xl p-2">
+        {/* Left Side: Cover and Details */}
+        <div className="flex items-center w-1/2 space-x-4">
+          <img
+            src={track.cover}
+            alt={track.title}
+            width="100"
+            height="100"
+            className="rounded-lg bg-slate-100"
+            loading="lazy"
+          />
+          <div className="flex flex-col">
+            <p className="text-cyan-500 dark:text-cyan-400 text-sm">
+              {track.title}
+            </p>
+            <h2 className="text-slate-500 dark:text-slate-400 text-sm truncate">
+              {track.album}
+            </h2>
+            <p className="text-slate-900 dark:text-slate-50 text-sm">
+              {track.artist}
+            </p>
           </div>
         </div>
-        <div className="bg-slate-50 text-slate-500 dark:bg-slate-600 dark:text-slate-200 rounded-b-xl flex items-center">
-          <div className="flex-auto flex items-center justify-evenly">
-            {/* <button
-              type="button"
-              aria-label="Add to favorites"
-              className="flex items-center justify-center p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+
+        {/* Right Side: Controls */}
+        <div className="flex flex-col w-1/2 mt-3 space-y-2">
+          {/* Progress Bar */}
+          <div
+            className="relative"
+            ref={progressBarRef}
+            onClick={handleProgressBarClick}
+          >
+            <div className="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+              <div
+                className="bg-cyan-500 dark:bg-cyan-400 h-1"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <div
+              className="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute top-1/2 w-4 h-4 -mt-2 flex items-center justify-center bg-white rounded-full shadow"
+              style={{ left: `${progress}%` }}
             >
-              <FaHeart size={24} />
-            </button> */}
+              <div className="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between text-xs leading-5 font-medium">
+            <div className="text-cyan-500 dark:text-slate-100">
+              {formatTime(audioRef.current?.currentTime || 0)}
+            </div>
+            <div className="text-slate-500 dark:text-slate-400">
+              {formatTime(duration)}
+            </div>
+          </div>
+
+          {/* Control Buttons */}
+          <div className="flex items-center justify-between space-x-2 pb-1">
             <button
               type="button"
               aria-label="Rewind 10 seconds"
               onClick={handleRewind}
-              className="flex items-center justify-center p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+              className="p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
             >
-              <FaBackward size={24} />
+              <FaBackward size={18} />
             </button>
-          </div>
-          <button
-            type="button"
-            className="bg-white text-slate-900 dark:bg-slate-100 dark:text-slate-700 flex-none -my-2 mx-auto w-20 h-20 rounded-full ring-1 ring-slate-900/5 shadow-md flex items-center justify-center"
-            aria-label={isPlaying ? "Pause" : "Play"}
-            onClick={handlePlayPause}
-          >
-            {isPlaying ? <FaPause size={30} /> : <FaPlay size={30} />}
-          </button>
-          <div className="flex-auto flex items-center justify-evenly">
+            <button
+              type="button"
+              aria-label={isPlaying ? "Pause" : "Play"}
+              onClick={handlePlayPause}
+              className="bg-white text-slate-900 dark:bg-slate-100 dark:text-slate-700 w-12 h-12 rounded-full ring-1 ring-slate-900/5 shadow-md flex items-center justify-center"
+            >
+              {isPlaying ? <FaPause size={22} /> : <FaPlay size={22} />}
+            </button>
             <button
               type="button"
               aria-label="Skip 10 seconds"
               onClick={handleSkip}
-              className="flex items-center justify-center p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+              className="p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
             >
-              <FaForward size={24} />
+              <FaForward size={18} />
             </button>
           </div>
         </div>
