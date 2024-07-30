@@ -8,6 +8,8 @@ function AudioPlayer({ track }) {
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [audioUrl, setAudioUrl] = useState(null);
+  const [dragging, setDragging] = useState(false);
+  const [hoverProgress, setHoverProgress] = useState(null);
   const audioRef = useRef(null);
   const progressBarRef = useRef(null);
 
@@ -44,9 +46,10 @@ function AudioPlayer({ track }) {
         audio.play().catch((error) => console.error("Playback error:", error));
       }
     }
-  }, [audioUrl]);
+  }, [audioUrl, isPlaying]);
 
   const handlePlayPause = () => setIsPlaying(!isPlaying);
+
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       const progress =
@@ -97,9 +100,58 @@ function AudioPlayer({ track }) {
     }
   };
 
+  const startDragging = (event) => {
+    event.preventDefault();
+    setDragging(true);
+    updateHoverProgress(event);
+  };
+
+  const stopDragging = () => {
+    if (dragging) {
+      setDragging(false);
+      if (hoverProgress !== null && audioRef.current) {
+        audioRef.current.currentTime =
+          (hoverProgress / 100) * audioRef.current.duration;
+        setProgress(hoverProgress);
+      }
+    }
+  };
+
+  const updateHoverProgress = (event) => {
+    if (progressBarRef.current) {
+      const { offsetWidth, offsetLeft } = progressBarRef.current;
+      const clickPosition = event.clientX - offsetLeft;
+      const newProgress = Math.min(
+        Math.max((clickPosition / offsetWidth) * 100, 0),
+        100
+      );
+      setHoverProgress(newProgress);
+    }
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      if (dragging) {
+        updateHoverProgress(event);
+      }
+    };
+
+    const handleMouseUp = () => {
+      stopDragging();
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging, hoverProgress]);
+
   return (
     <div className="flex items-center justify-center bg-violet-100">
-      <div className="w-full max-w-2xl flex border-slate-100 dark:bg-slate-800 dark:border-slate-500 border rounded-xl p-2">
+      <div className="w-full max-w-2xl flex border-slate-100 dark:bg-slate-800 dark:border-slate-500 border rounded-xl p-4">
         {/* Left Side: Cover and Details */}
         <div className="flex items-center w-1/2 space-x-4">
           <img
@@ -124,16 +176,16 @@ function AudioPlayer({ track }) {
         </div>
 
         {/* Right Side: Controls */}
-        <div className="flex flex-col w-1/2 mt-3 space-y-2">
+        <div className="flex flex-col w-1/2 mt-3 space-y-1 px-2">
           {/* Control Buttons */}
-          <div className="flex items-center justify-between space-x-2 pb-1">
+          <div className="flex items-center justify-around space-x-2 pb-1">
             <button
               type="button"
               aria-label="Rewind 10 seconds"
               onClick={handleRewind}
-              className="p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+              className="p-3 rounded-full dark:hover:bg-violet-700"
             >
-              <FaBackward size={18} />
+              <FaBackward size={18} className="text-white" />
             </button>
             <button
               type="button"
@@ -147,30 +199,46 @@ function AudioPlayer({ track }) {
               type="button"
               aria-label="Skip 10 seconds"
               onClick={handleSkip}
-              className="p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700"
+              className="p-3 rounded-full hover:bg-slate-200 dark:hover:bg-violet-700"
             >
-              <FaForward size={18} />
+              <FaForward size={18} className="text-white" />
             </button>
           </div>
+
+          {/* Progress Bar */}
           <div
             className="relative"
             ref={progressBarRef}
             onClick={handleProgressBarClick}
+            onMouseDown={startDragging}
+            onMouseUp={stopDragging}
+            onMouseLeave={stopDragging}
           >
-            {/* Progress Bar */}
             <div className="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
               <div
                 className="bg-cyan-500 dark:bg-cyan-400 h-1"
                 style={{ width: `${progress}%` }}
               ></div>
+              {hoverProgress !== null && (
+                <div
+                  className="absolute top-0 left-0 h-full bg-cyan-200 dark:bg-cyan-600"
+                  style={{ width: `${hoverProgress}%` }}
+                ></div>
+              )}
             </div>
-            <div
-              className="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute top-1/2 w-4 h-4 -mt-2 flex items-center justify-center bg-white rounded-full shadow"
-              style={{ left: `${progress}%` }}
-            >
-              <div className="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
-            </div>
+            {hoverProgress !== null && (
+              <div
+                className="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute top-1/2 w-4 h-4 -mt-2 flex items-center justify-center bg-white rounded-full shadow"
+                style={{
+                  left: `${hoverProgress}%`,
+                  transform: "translateX(-50%)",
+                }}
+              >
+                <div className="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
+              </div>
+            )}
           </div>
+
           <div className="flex items-center justify-between text-xs leading-5 font-medium">
             <div className="text-cyan-500 dark:text-slate-100">
               {formatTime(audioRef.current?.currentTime || 0)}
