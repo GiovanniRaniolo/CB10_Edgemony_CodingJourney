@@ -180,7 +180,7 @@ function AudioPlayer({ track }) {
 
   return (
     <div className="flex items-center justify-center bg-violet-100">
-      <div className="w-full max-w-2xl flex border-violet-100 dark:bg-violet-950 dark:border-violet-500 border rounded-xl p-4">
+      <div className="w-full max-w-2xl flex border-violet-100 dark:bg-violet-950 dark:border-violet-500 border rounded-xl p-2">
         {/* Left Side: Cover and Details */}
         <div className="flex items-center w-1/2 space-x-4">
           <img
@@ -207,7 +207,7 @@ function AudioPlayer({ track }) {
         {/* Right Side: Controls */}
         <div className="flex flex-col w-1/2 mt-3 space-y-1 px-2">
           {/* Control Buttons */}
-          <div className="flex items-center justify-around space-x-2 pb-1">
+          <div className="flex items-center justify-around space-x-2 pb-2">
             <button
               type="button"
               aria-label="Rewind 10 seconds"

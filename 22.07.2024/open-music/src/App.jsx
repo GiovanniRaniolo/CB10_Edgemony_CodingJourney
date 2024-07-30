@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div className="flex justify-center">
-      <main className="w-[1200px]">
+      <main className="w-[1400px]">
         <div className="p-4">
           <h1 className="text-2xl font-semibold">{trackLabels.listTitle}</h1>
         </div>
@@ -59,12 +59,12 @@ function App() {
                 {Object.keys(trackLabels).map((key) => (
                   <th
                     key={key}
-                    className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                    className="whitespace-nowrap px-4 py-2 font-medium text-violet-950"
                   >
                     {trackLabels[key]}
                   </th>
                 ))}
-                <th className="px-4 py-2"></th>
+                <th className="px-2 py-2"></th>
               </tr>
             </thead>
 
