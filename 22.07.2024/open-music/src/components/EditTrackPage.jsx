@@ -58,7 +58,6 @@ const EditTrackPage = () => {
 
   return (
     <div>
-      <h1>Edit Track</h1>
       <TrackForm
         initialTrack={track}
         onSubmit={handleUpdateTrack}

@@ -7,6 +7,7 @@ import InputField from "./InputField";
 import DatePickerField from "./DatePickerField";
 import FileUploadField from "./FileUploadField";
 import { FaSpinner } from "react-icons/fa";
+import { inputLabels } from "../../data/labels";
 
 const TrackForm = ({
   initialTrack = {},
@@ -124,28 +125,28 @@ const TrackForm = ({
       <form onSubmit={handleSubmit} className="space-y-2 w-1/2 mx-auto">
         <InputField
           id="title"
-          label="Title"
+          label={inputLabels.title}
           value={track.title}
           onChange={handleChange}
           error={errors.title}
         />
         <InputField
           id="artist"
-          label="Artist"
+          label={inputLabels.artist}
           value={track.artist}
           onChange={handleChange}
           error={errors.artist}
         />
         <InputField
           id="genre"
-          label="Genre"
+          label={inputLabels.genre}
           value={track.genre}
           onChange={handleChange}
           error={errors.genre}
         />
         <InputField
           id="album"
-          label="Album"
+          label={inputLabels.album}
           value={track.album}
           onChange={handleChange}
           error={errors.album}
@@ -154,30 +155,31 @@ const TrackForm = ({
           selected={track.releaseDate}
           onChange={handleDateChange}
           error={errors.releaseDate}
+          label={inputLabels.releaseDate} // Assicurati che DatePickerField supporti la prop label
         />
         <InputField
           id="url"
-          label="URL"
+          label={inputLabels.url}
           value={track.url}
           onChange={handleChange}
           error={errors.url}
         />
         <InputField
           id="duration"
-          label="Duration"
+          label={inputLabels.duration}
           value={track.duration}
           onChange={handleChange}
           error={errors.duration}
         />
         <FileUploadField
           id="audioFile"
-          label="Select Audio File"
+          label={inputLabels.file}
           onFileSelect={handleChange}
           fileName={track.audioFile && track.audioFile.name}
         />
         <FileUploadField
           id="coverFile"
-          label="Select Cover Image"
+          label={inputLabels.cover}
           onFileSelect={handleChange}
           fileName={track.coverFile && track.coverFile.name}
         />

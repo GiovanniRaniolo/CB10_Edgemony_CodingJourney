@@ -47,10 +47,11 @@ export const inputLabels = {
   genre: "Genre:",
   album: "Album:",
   releaseDate: "Release Date:",
-  // cover: "Cover URL:",
   audioFile: "",
   url: "Buy url:",
   duration: "Duration (es 03:12)",
+  file: "Select a File (mp3, wav)",
+  cover: "Select a Cover (jpg, png)",
 };
 
 // Labels for Errors
