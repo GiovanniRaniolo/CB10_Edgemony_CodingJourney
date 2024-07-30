@@ -92,25 +92,31 @@ function TrackDetailPage() {
           className="w-80 h-80 object-cover rounded-lg mr-6"
         />
         <div>
-          <h1 className="text-3xl font-bold mb-4">{track.title}</h1>
+          <h1 className="text-violet-900 text-3xl font-bold mb-4">
+            {track.title}
+          </h1>
           <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableArtist}:</strong> {track.artist}
+            {trackLabels.trackTableArtist}:{" "}
+            <strong className="text-violet-800">{track.artist}</strong>
           </p>
           <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableAlbum}:</strong> {track.album}
+            {trackLabels.trackTableAlbum}:{" "}
+            <strong className="text-violet-800">{track.album}</strong>
           </p>
           <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableGenre}:</strong> {track.genre}
+            {trackLabels.trackTableGenre}:{" "}
+            <strong className="text-violet-800">{track.genre}</strong>
           </p>
           <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableReleaseDate}:</strong>
-            {track.releaseDate}
+            {trackLabels.trackTableReleaseDate}:{" "}
+            <strong className="text-violet-800">{track.releaseDate}</strong>
           </p>
           <p className="text-lg mb-2">
-            <strong>{trackLabels.trackTableDuration}:</strong> {track.duration}
+            {trackLabels.trackTableDuration}:{" "}
+            <strong className="text-violet-800">{track.duration}</strong>
           </p>
           <p className="text-sm mb-2">
-            <strong>{trackLabels.trackTableUrl}:</strong>
+            {trackLabels.trackTableUrl}:{" "}
             <a
               href={track.url}
               target="_blank"
@@ -122,7 +128,7 @@ function TrackDetailPage() {
           </p>
         </div>
       </div>
-      <div className="w-full pl-20 mb-4">
+      <div className="w-full mb-8">
         {audioUrl ? (
           <AudioPlayer track={track} className="w-full max-w-4xl" />
         ) : (
