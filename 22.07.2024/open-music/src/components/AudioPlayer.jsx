@@ -1,15 +1,41 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useReducer, useRef, useEffect } from "react";
 import { FaPlay, FaPause, FaForward, FaBackward } from "react-icons/fa";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../firebase";
 
+// Riduttore e stato iniziale
+const initialState = {
+  isPlaying: false,
+  progress: 0,
+  duration: 0,
+  audioUrl: null,
+  dragging: false,
+  hoverProgress: null,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "TOGGLE_PLAY":
+      return { ...state, isPlaying: !state.isPlaying };
+    case "SET_PROGRESS":
+      return { ...state, progress: action.payload };
+    case "SET_DURATION":
+      return { ...state, duration: action.payload };
+    case "SET_AUDIO_URL":
+      return { ...state, audioUrl: action.payload };
+    case "SET_DRAGGING":
+      return { ...state, dragging: action.payload };
+    case "SET_HOVER_PROGRESS":
+      return { ...state, hoverProgress: action.payload };
+    case "UPDATE_AUDIO_URL":
+      return { ...state, audioUrl: action.payload };
+    default:
+      return state;
+  }
+}
+
 function AudioPlayer({ track }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [audioUrl, setAudioUrl] = useState(null);
-  const [dragging, setDragging] = useState(false);
-  const [hoverProgress, setHoverProgress] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const audioRef = useRef(null);
   const progressBarRef = useRef(null);
 
@@ -18,7 +44,7 @@ function AudioPlayer({ track }) {
       const audioRef = ref(storage, track.audioFile);
       getDownloadURL(audioRef)
         .then((url) => {
-          setAudioUrl(url);
+          dispatch({ type: "SET_AUDIO_URL", payload: url });
         })
         .catch((error) => {
           console.error("Error fetching audio URL:", error);
@@ -29,38 +55,40 @@ function AudioPlayer({ track }) {
   useEffect(() => {
     const audio = audioRef.current;
     if (audio) {
-      if (isPlaying) {
+      if (state.isPlaying) {
         audio.play().catch((error) => console.error("Playback error:", error));
       } else {
         audio.pause();
       }
     }
-  }, [isPlaying]);
+  }, [state.isPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (audio && audioUrl) {
-      audio.src = audioUrl;
+    if (audio && state.audioUrl) {
+      audio.src = state.audioUrl;
       audio.load();
-      if (isPlaying) {
+      if (state.isPlaying) {
         audio.play().catch((error) => console.error("Playback error:", error));
       }
     }
-  }, [audioUrl, isPlaying]);
+  }, [state.audioUrl, state.isPlaying]);
 
-  const handlePlayPause = () => setIsPlaying(!isPlaying);
+  const handlePlayPause = () => {
+    dispatch({ type: "TOGGLE_PLAY" });
+  };
 
   const handleTimeUpdate = () => {
-    if (audioRef.current && !dragging) {
+    if (audioRef.current && !state.dragging) {
       const progress =
         (audioRef.current.currentTime / audioRef.current.duration) * 100;
-      setProgress(progress);
+      dispatch({ type: "SET_PROGRESS", payload: progress });
     }
   };
 
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
-      setDuration(audioRef.current.duration);
+      dispatch({ type: "SET_DURATION", payload: audioRef.current.duration });
     }
   };
 
@@ -79,7 +107,7 @@ function AudioPlayer({ track }) {
     const newProgress = (clickPosition / offsetWidth) * 100;
     audioRef.current.currentTime =
       (newProgress / 100) * audioRef.current.duration;
-    setProgress(newProgress);
+    dispatch({ type: "SET_PROGRESS", payload: newProgress });
   };
 
   const handleRewind = () => {
@@ -102,19 +130,19 @@ function AudioPlayer({ track }) {
 
   const startDragging = (event) => {
     event.preventDefault();
-    setDragging(true);
+    dispatch({ type: "SET_DRAGGING", payload: true });
     updateHoverProgress(event);
   };
 
   const stopDragging = () => {
-    if (dragging) {
-      setDragging(false);
-      if (hoverProgress !== null && audioRef.current) {
+    if (state.dragging) {
+      dispatch({ type: "SET_DRAGGING", payload: false });
+      if (state.hoverProgress !== null && audioRef.current) {
         audioRef.current.currentTime =
-          (hoverProgress / 100) * audioRef.current.duration;
-        setProgress(hoverProgress);
+          (state.hoverProgress / 100) * audioRef.current.duration;
+        dispatch({ type: "SET_PROGRESS", payload: state.hoverProgress });
       }
-      setHoverProgress(null);
+      dispatch({ type: "SET_HOVER_PROGRESS", payload: null });
     }
   };
 
@@ -126,13 +154,13 @@ function AudioPlayer({ track }) {
         Math.max((clickPosition / offsetWidth) * 100, 0),
         100
       );
-      setHoverProgress(newProgress);
+      dispatch({ type: "SET_HOVER_PROGRESS", payload: newProgress });
     }
   };
 
   useEffect(() => {
     const handleMouseMove = (event) => {
-      if (dragging) {
+      if (state.dragging) {
         updateHoverProgress(event);
       }
     };
@@ -148,7 +176,7 @@ function AudioPlayer({ track }) {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [dragging, hoverProgress]);
+  }, [state.dragging, state.hoverProgress]);
 
   return (
     <div className="flex items-center justify-center bg-violet-100">
@@ -190,11 +218,11 @@ function AudioPlayer({ track }) {
             </button>
             <button
               type="button"
-              aria-label={isPlaying ? "Pause" : "Play"}
+              aria-label={state.isPlaying ? "Pause" : "Play"}
               onClick={handlePlayPause}
               className="bg-white text-violet-900 dark:bg-violet-100 dark:text-violet-700 w-12 h-12 rounded-full ring-1 ring-violet-950 shadow-md flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-violet-950"
             >
-              {isPlaying ? <FaPause size={22} /> : <FaPlay size={22} />}
+              {state.isPlaying ? <FaPause size={22} /> : <FaPlay size={22} />}
             </button>
             <button
               type="button"
@@ -218,7 +246,9 @@ function AudioPlayer({ track }) {
                 className="bg-cyan-500 dark:bg-cyan-400 h-1"
                 style={{
                   width: `${
-                    hoverProgress !== null ? hoverProgress : progress
+                    state.hoverProgress !== null
+                      ? state.hoverProgress
+                      : state.progress
                   }%`,
                 }}
               ></div>
@@ -227,7 +257,9 @@ function AudioPlayer({ track }) {
               className="absolute top-0 -mt-1 w-4 h-4 bg-white border-2 border-cyan-500 rounded-full shadow"
               style={{
                 left: `calc(${
-                  hoverProgress !== null ? hoverProgress : progress
+                  state.hoverProgress !== null
+                    ? state.hoverProgress
+                    : state.progress
                 }% - 8px)`,
               }}
             ></div>
@@ -238,7 +270,7 @@ function AudioPlayer({ track }) {
               {formatTime(audioRef.current?.currentTime || 0)}
             </div>
             <div className="text-violet-500 dark:text-violet-400">
-              {formatTime(duration)}
+              {formatTime(state.duration)}
             </div>
           </div>
         </div>
@@ -247,7 +279,7 @@ function AudioPlayer({ track }) {
         ref={audioRef}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={() => dispatch({ type: "TOGGLE_PLAY" })}
       />
     </div>
   );
