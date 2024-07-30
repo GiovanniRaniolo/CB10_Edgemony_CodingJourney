@@ -51,7 +51,7 @@ function AudioPlayer({ track }) {
   const handlePlayPause = () => setIsPlaying(!isPlaying);
 
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
+    if (audioRef.current && !dragging) {
       const progress =
         (audioRef.current.currentTime / audioRef.current.duration) * 100;
       setProgress(progress);
@@ -114,6 +114,7 @@ function AudioPlayer({ track }) {
           (hoverProgress / 100) * audioRef.current.duration;
         setProgress(hoverProgress);
       }
+      setHoverProgress(null);
     }
   };
 
@@ -151,7 +152,7 @@ function AudioPlayer({ track }) {
 
   return (
     <div className="flex items-center justify-center bg-violet-100">
-      <div className="w-full max-w-2xl flex border-slate-100 dark:bg-slate-800 dark:border-slate-500 border rounded-xl p-4">
+      <div className="w-full max-w-2xl flex border-violet-100 dark:bg-violet-950 dark:border-violet-500 border rounded-xl p-4">
         {/* Left Side: Cover and Details */}
         <div className="flex items-center w-1/2 space-x-4">
           <img
@@ -159,17 +160,17 @@ function AudioPlayer({ track }) {
             alt={track.title}
             width="100"
             height="100"
-            className="rounded-lg bg-slate-100"
+            className="rounded-lg bg-violet-100"
             loading="lazy"
           />
           <div className="flex flex-col">
             <p className="text-cyan-500 dark:text-cyan-400 text-sm">
               {track.title}
             </p>
-            <h2 className="text-slate-500 dark:text-slate-400 text-sm truncate">
+            <h2 className="text-violet-500 dark:text-violet-400 text-sm truncate">
               {track.album}
             </h2>
-            <p className="text-slate-900 dark:text-slate-50 text-sm">
+            <p className="text-violet-900 dark:text-violet-50 text-sm">
               {track.artist}
             </p>
           </div>
@@ -191,7 +192,7 @@ function AudioPlayer({ track }) {
               type="button"
               aria-label={isPlaying ? "Pause" : "Play"}
               onClick={handlePlayPause}
-              className="bg-white text-slate-900 dark:bg-slate-100 dark:text-slate-700 w-12 h-12 rounded-full ring-1 ring-slate-900/5 shadow-md flex items-center justify-center"
+              className="bg-white text-violet-900 dark:bg-violet-100 dark:text-violet-700 w-12 h-12 rounded-full ring-1 ring-violet-950 shadow-md flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-violet-950"
             >
               {isPlaying ? <FaPause size={22} /> : <FaPlay size={22} />}
             </button>
@@ -199,7 +200,7 @@ function AudioPlayer({ track }) {
               type="button"
               aria-label="Skip 10 seconds"
               onClick={handleSkip}
-              className="p-3 rounded-full hover:bg-slate-200 dark:hover:bg-violet-700"
+              className="p-3 rounded-full hover:bg-violet-200 dark:hover:bg-violet-700"
             >
               <FaForward size={18} className="text-white" />
             </button>
@@ -211,39 +212,32 @@ function AudioPlayer({ track }) {
             ref={progressBarRef}
             onClick={handleProgressBarClick}
             onMouseDown={startDragging}
-            onMouseUp={stopDragging}
-            onMouseLeave={stopDragging}
           >
-            <div className="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div className="bg-violet-100 dark:bg-violet-700 rounded-full overflow-hidden h-1">
               <div
                 className="bg-cyan-500 dark:bg-cyan-400 h-1"
-                style={{ width: `${progress}%` }}
-              ></div>
-              {hoverProgress !== null && (
-                <div
-                  className="absolute top-0 left-0 h-full bg-cyan-200 dark:bg-cyan-600"
-                  style={{ width: `${hoverProgress}%` }}
-                ></div>
-              )}
-            </div>
-            {hoverProgress !== null && (
-              <div
-                className="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute top-1/2 w-4 h-4 -mt-2 flex items-center justify-center bg-white rounded-full shadow"
                 style={{
-                  left: `${hoverProgress}%`,
-                  transform: "translateX(-50%)",
+                  width: `${
+                    hoverProgress !== null ? hoverProgress : progress
+                  }%`,
                 }}
-              >
-                <div className="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
-              </div>
-            )}
+              ></div>
+            </div>
+            <div
+              className="absolute top-0 -mt-1 w-4 h-4 bg-white border-2 border-cyan-500 rounded-full shadow"
+              style={{
+                left: `calc(${
+                  hoverProgress !== null ? hoverProgress : progress
+                }% - 8px)`,
+              }}
+            ></div>
           </div>
 
           <div className="flex items-center justify-between text-xs leading-5 font-medium">
-            <div className="text-cyan-500 dark:text-slate-100">
+            <div className="text-cyan-500 dark:text-violet-100">
               {formatTime(audioRef.current?.currentTime || 0)}
             </div>
-            <div className="text-slate-500 dark:text-slate-400">
+            <div className="text-violet-500 dark:text-violet-400">
               {formatTime(duration)}
             </div>
           </div>

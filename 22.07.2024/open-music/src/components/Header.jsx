@@ -4,7 +4,7 @@ import Filter from "./Filter";
 
 function Header() {
   return (
-    <div className="navbar bg-base-100 flex justify-between items-center px-6 py-2 bg-violet-700 text-violet-100">
+    <div className="navbar bg-base-100 flex justify-between items-center px-6 py-2 bg-violet-950 text-violet-100">
       <NavLink to="/" className="text-xl font-bold">
         {navLabels.openMusic}
       </NavLink>
