@@ -125,34 +125,6 @@ function AudioPlayer({ track }) {
 
         {/* Right Side: Controls */}
         <div className="flex flex-col w-1/2 mt-3 space-y-2">
-          {/* Progress Bar */}
-          <div
-            className="relative"
-            ref={progressBarRef}
-            onClick={handleProgressBarClick}
-          >
-            <div className="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-              <div
-                className="bg-cyan-500 dark:bg-cyan-400 h-1"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-            <div
-              className="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute top-1/2 w-4 h-4 -mt-2 flex items-center justify-center bg-white rounded-full shadow"
-              style={{ left: `${progress}%` }}
-            >
-              <div className="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
-            </div>
-          </div>
-          <div className="flex items-center justify-between text-xs leading-5 font-medium">
-            <div className="text-cyan-500 dark:text-slate-100">
-              {formatTime(audioRef.current?.currentTime || 0)}
-            </div>
-            <div className="text-slate-500 dark:text-slate-400">
-              {formatTime(duration)}
-            </div>
-          </div>
-
           {/* Control Buttons */}
           <div className="flex items-center justify-between space-x-2 pb-1">
             <button
@@ -179,6 +151,33 @@ function AudioPlayer({ track }) {
             >
               <FaForward size={18} />
             </button>
+          </div>
+          <div
+            className="relative"
+            ref={progressBarRef}
+            onClick={handleProgressBarClick}
+          >
+            {/* Progress Bar */}
+            <div className="bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+              <div
+                className="bg-cyan-500 dark:bg-cyan-400 h-1"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <div
+              className="ring-cyan-500 dark:ring-cyan-400 ring-2 absolute top-1/2 w-4 h-4 -mt-2 flex items-center justify-center bg-white rounded-full shadow"
+              style={{ left: `${progress}%` }}
+            >
+              <div className="w-1.5 h-1.5 bg-cyan-500 dark:bg-cyan-400 rounded-full ring-1 ring-inset ring-slate-900/5"></div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between text-xs leading-5 font-medium">
+            <div className="text-cyan-500 dark:text-slate-100">
+              {formatTime(audioRef.current?.currentTime || 0)}
+            </div>
+            <div className="text-slate-500 dark:text-slate-400">
+              {formatTime(duration)}
+            </div>
           </div>
         </div>
       </div>
