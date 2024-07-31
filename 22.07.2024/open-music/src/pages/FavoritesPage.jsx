@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useFavorites } from "../context/FavoriteContext";
 import { useFilter } from "../context/FilterContext";
-import TrackRow from "./TrackRow";
+import TrackRow from "../components/TrackRow";
 import { trackLabels } from "../data/labels";
-import SkeletonLoader from "./SkeletonLoader";
+import SkeletonLoader from "../components/SkeletonLoader";
 
 function FavoritesPage() {
   const { favorites } = useFavorites();

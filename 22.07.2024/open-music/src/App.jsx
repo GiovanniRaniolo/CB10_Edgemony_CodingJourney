@@ -3,7 +3,7 @@ import { trackLabels } from "./data/labels";
 import { getTrackList } from "./api/tracksClient";
 import TrackRow from "./components/TrackRow";
 import SkeletonLoader from "./components/SkeletonLoader";
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "./pages/ErrorPage";
 import { useFilter } from "./context/FilterContext";
 
 function App() {

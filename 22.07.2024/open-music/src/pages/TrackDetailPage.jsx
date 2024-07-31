@@ -3,15 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getTrackById } from "../api/trackByIdClient";
 import { trackLabels } from "../data/labels";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import TrackDetailSkeleton from "./TrackDetailSkeleton";
+import TrackDetailSkeleton from "../components/TrackDetailSkeleton";
 import ErrorPage from "./ErrorPage";
-import FavoriteButton from "./FavoriteButton";
-import EditTrackButton from "./EditTrackButton";
-import DeleteTrackModal from "./DeleteTrackModal";
+import FavoriteButton from "../components/FavoriteButton";
+import EditTrackButton from "../components/EditTrackButton";
+import DeleteTrackModal from "../components/DeleteTrackModal";
 import { deleteTrack } from "../api/tracksAddEditDelete";
 import { deleteFile, fileExists } from "../api/storageClient";
 import { useToast } from "../context/ToastContext";
-import AudioPlayer from "./AudioPlayer";
+import AudioPlayer from "../components/AudioPlayer";
 
 function TrackDetailPage() {
   const { id } = useParams();
