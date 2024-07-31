@@ -59,7 +59,7 @@ function App() {
                 {Object.keys(trackLabels).map((key) => (
                   <th
                     key={key}
-                    className="whitespace-nowrap px-4 py-2 font-medium text-violet-950"
+                    className="whitespace-nowrap px-4 py-2 font-semibold text-violet-950"
                   >
                     {trackLabels[key]}
                   </th>
