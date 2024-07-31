@@ -84,7 +84,7 @@ function TrackDetailPage() {
     : null;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-4xl mx-auto bg-violet-100 shadow-md rounded-lg">
+    <div className="flex flex-col items-center justify-center p-4 max-w-2xl mx-auto bg-violet-100 shadow-md rounded-lg">
       <div className="flex items-center mb-6">
         <img
           src={track.cover}
@@ -95,27 +95,35 @@ function TrackDetailPage() {
           <h1 className="text-violet-900 text-3xl font-bold mb-4">
             {track.title}
           </h1>
-          <p className="text-lg mb-2">
+          <p className="text-lg mb-2 text-slate-400">
             {trackLabels.trackTableArtist}:{" "}
-            <strong className="text-violet-800">{track.artist}</strong>
+            <strong className="text-violet-800 font-medium">
+              {track.artist}
+            </strong>
           </p>
-          <p className="text-lg mb-2">
+          <p className="text-lg mb-2 text-slate-400">
             {trackLabels.trackTableAlbum}:{" "}
-            <strong className="text-violet-800">{track.album}</strong>
+            <strong className="text-violet-800 font-medium">
+              {track.album}
+            </strong>
           </p>
-          <p className="text-lg mb-2">
+          <p className="text-lg mb-2 text-slate-400">
             {trackLabels.trackTableGenre}:{" "}
-            <strong className="text-violet-800">{track.genre}</strong>
+            <strong className="text-violet-800 font-medium">
+              {track.genre}
+            </strong>
           </p>
-          <p className="text-lg mb-2">
+          <p className="text-lg mb-3 text-slate-400">
             {trackLabels.trackTableReleaseDate}:{" "}
-            <strong className="text-violet-800">{track.releaseDate}</strong>
+            <strong className="text-violet-800 font-medium">
+              {track.releaseDate}
+            </strong>
           </p>
           {/* <p className="text-lg mb-2">
             {trackLabels.trackTableDuration}:{" "}
             <strong className="text-violet-800">{track.duration}</strong>
           </p> */}
-          <p className="text-sm mb-2">
+          <p className="text-sm mb-2 text-slate-400">
             {trackLabels.trackTableUrl}:{" "}
             <a
               href={track.url}
@@ -128,7 +136,7 @@ function TrackDetailPage() {
           </p>
         </div>
       </div>
-      <div className="w-full mb-8">
+      <div className="w-full mb-4">
         {audioUrl ? (
           <AudioPlayer track={track} className="w-full max-w-4xl" />
         ) : (
@@ -139,16 +147,16 @@ function TrackDetailPage() {
         <FavoriteButton track={track} />
         <button
           onClick={handleAddToChartClick}
-          className="p-3 bg-blue-500 text-white rounded-full"
+          className="p-2 bg-blue-500 text-white rounded-full"
         >
-          <FaPlus size={24} />
+          <FaPlus size={20} />
         </button>
         <EditTrackButton trackId={id} />
         <button
           onClick={handleDeleteClick}
-          className="p-3 bg-orange-500 text-white rounded-full hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-black"
+          className="p-2 bg-orange-500 text-white rounded-full hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-black"
         >
-          <FaTrash size={24} />
+          <FaTrash size={20} />
         </button>
       </div>
       {isModalOpen && (

@@ -42,7 +42,7 @@ function FavoritesPage() {
 
   return (
     <div className="flex justify-center">
-      <main className="w-[1200px]">
+      <main className="w-[1400px]">
         <div className="p-4">
           {/* <h1 className="text-2xl font-semibold">{trackLabels.favorites}</h1> */}
         </div>

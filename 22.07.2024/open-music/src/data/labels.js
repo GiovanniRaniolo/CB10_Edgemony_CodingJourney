@@ -6,10 +6,10 @@ export const trackLabels = {
   trackTableGenre: "Genre", // Musical genre of the track
   trackTableReleaseDate: "Release Date", // Release date of the track
 
-  trackTableUrl: "Track URL", // URL for the track on Bandcamp
+  trackTableUrl: "Buy URL", // URL for the track on Bandcamp
   // trackTableDuration: "Duration",
   details: "Details",
-  edit: "Edit Track",
+  edit: "Edit",
   favorites: "Favorites",
 };
 
