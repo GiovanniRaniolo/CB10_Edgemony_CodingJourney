@@ -4,34 +4,33 @@ function SkeletonRow() {
   return (
     <tr className="animate-pulse">
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-3/4"></div>
+        <div className="h-6 bg-gray-200 rounded-lg w-32"></div>
       </td>
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-3/4"></div>
+        <div className="h-6 bg-gray-200 rounded-lg w-32"></div>
       </td>
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-3/4"></div>
+        <div className="h-6 bg-gray-200 rounded-lg w-32"></div>
       </td>
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-3/4"></div>
+        <div className="h-6 bg-gray-200 rounded-lg w-24"></div>
       </td>
       <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-1/2"></div>
+        <div className="h-6 bg-gray-200 rounded-lg w-20"></div>
       </td>
       <td className="whitespace-nowrap px-10 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-full"></div>
+        <div className="flex items-center justify-center">
+          <div className="h-6 bg-gray-200 rounded-full w-10"></div>
+        </div>
       </td>
-      <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-full"></div>
+      <td className="whitespace-nowrap py-2">
+        <div className="h-6 bg-gray-200 rounded-lg w-20"></div>
       </td>
-      <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-6 bg-gray-200 rounded-lg w-16"></div>
+      <td className="whitespace-nowrap flex gap-8 px-5 py-2">
+        <div className="h-6 bg-gray-200 rounded-full w-6"></div>
       </td>
-      <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-8 rounded-full bg-gray-200 p-2 w-8"></div>
-      </td>
-      <td className="whitespace-nowrap px-4 py-2">
-        <div className="h-8 bg-gray-200 rounded-full w-8"></div>
+      <td className="whitespace-nowrap px-8 py-2">
+        <div className="h-6 bg-gray-200 rounded-full w-6"></div>
       </td>
     </tr>
   );

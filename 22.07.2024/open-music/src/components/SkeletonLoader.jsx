@@ -9,7 +9,7 @@ function SkeletonLoader() {
 
   return (
     <div className="flex justify-center">
-      <main className="w-[1200px]">
+      <main className="w-[1400px]">
         <div className="p-4">
           {/* <h1 className="text-2xl font-semibold">Loading...</h1> */}
         </div>
@@ -21,7 +21,7 @@ function SkeletonLoader() {
                 {Object.values(trackLabels).map((label, index) => (
                   <th
                     key={index}
-                    className="whitespace-nowrap px-4 py-1 font-medium text-gray-900"
+                    className="whitespace-nowrap px-4 py-2 font-semibold text-violet-800"
                   >
                     {label}
                   </th>

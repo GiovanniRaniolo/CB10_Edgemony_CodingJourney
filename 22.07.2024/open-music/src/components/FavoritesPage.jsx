@@ -54,7 +54,7 @@ function FavoritesPage() {
                 {Object.keys(trackLabels).map((key) => (
                   <th
                     key={key}
-                    className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                    className="whitespace-nowrap px-4 py-2 font-semibold text-violet-800"
                   >
                     {trackLabels[key]}
                   </th>

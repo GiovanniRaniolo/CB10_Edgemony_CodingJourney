@@ -50,10 +50,10 @@ function TrackRow({ track }) {
           View
         </NavLink>
       </td>
-      <td className="whitespace-nowrap flex gap-8 px-8 py-2">
+      <td className="whitespace-nowrap flex gap-8 px-5 py-2">
         <EditTrackButton trackId={track.id} size={10} />
       </td>
-      <td className="whitespace-nowrap px-6 py-2">
+      <td className="whitespace-nowrap px-8 py-2">
         <FavoriteButton track={track} size={10} />
       </td>
     </tr>
