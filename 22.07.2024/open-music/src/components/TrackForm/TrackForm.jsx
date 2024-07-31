@@ -24,7 +24,7 @@ const TrackForm = ({
       ? new Date(initialTrack.releaseDate)
       : new Date(),
     url: initialTrack.url || "",
-    duration: initialTrack.duration || "",
+    // duration: initialTrack.duration || "",
     audioFile: null,
     coverFile: null,
   });
@@ -72,7 +72,7 @@ const TrackForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     const validationErrors = validateTrack(track);
 
@@ -83,7 +83,7 @@ const TrackForm = ({
         "Please correct the following errors before submitting:\n" +
           Object.values(validationErrors).join("\n")
       );
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
       return;
     }
 
@@ -110,13 +110,13 @@ const TrackForm = ({
         cover: coverFileUrl || "",
       };
 
-      await onSubmit(updatedTrack); // Assumendo che onSubmit sia una funzione async
+      await onSubmit(updatedTrack);
       showToast("success", "Track submitted successfully!");
     } catch (error) {
       console.error("Error submitting track:", error);
       showToast("error", "Failed to submit track.");
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
@@ -155,7 +155,7 @@ const TrackForm = ({
           selected={track.releaseDate}
           onChange={handleDateChange}
           error={errors.releaseDate}
-          label={inputLabels.releaseDate} // Assicurati che DatePickerField supporti la prop label
+          label={inputLabels.releaseDate}
         />
         <InputField
           id="url"
@@ -164,13 +164,13 @@ const TrackForm = ({
           onChange={handleChange}
           error={errors.url}
         />
-        <InputField
+        {/* <InputField
           id="duration"
           label={inputLabels.duration}
           value={track.duration}
           onChange={handleChange}
           error={errors.duration}
-        />
+        /> */}
         <FileUploadField
           id="audioFile"
           label={inputLabels.file}
