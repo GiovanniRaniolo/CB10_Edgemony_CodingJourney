@@ -111,10 +111,10 @@ function TrackDetailPage() {
             {trackLabels.trackTableReleaseDate}:{" "}
             <strong className="text-violet-800">{track.releaseDate}</strong>
           </p>
-          <p className="text-lg mb-2">
+          {/* <p className="text-lg mb-2">
             {trackLabels.trackTableDuration}:{" "}
             <strong className="text-violet-800">{track.duration}</strong>
-          </p>
+          </p> */}
           <p className="text-sm mb-2">
             {trackLabels.trackTableUrl}:{" "}
             <a
