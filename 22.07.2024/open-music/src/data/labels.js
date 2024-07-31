@@ -7,9 +7,9 @@ export const trackLabels = {
   trackTableReleaseDate: "Release Date", // Release date of the track
 
   trackTableUrl: "Track URL", // URL for the track on Bandcamp
-  trackTableDuration: "Duration",
+  // trackTableDuration: "Duration",
   details: "Details",
-  edit: "Edit",
+  edit: "Edit Track",
   favorites: "Favorites",
 };
 
