@@ -20,7 +20,7 @@ const AddTrackPage = () => {
   };
 
   return (
-    <div>
+    <div className="mt-16">
       {/* <h1>Add New Track</h1> */}
       <TrackForm onSubmit={handleAddTrack} submitButtonText="Add Track" />
     </div>

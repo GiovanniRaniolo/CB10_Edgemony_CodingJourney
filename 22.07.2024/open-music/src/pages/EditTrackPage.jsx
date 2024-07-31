@@ -57,7 +57,7 @@ const EditTrackPage = () => {
   if (!track) return <div>No track found.</div>;
 
   return (
-    <div>
+    <div className="mt-16">
       <TrackForm
         initialTrack={track}
         onSubmit={handleUpdateTrack}
