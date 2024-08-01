@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
+import Home from "./pages/Home";
 import DefaultLayout from "./components/DefaultLayout";
 import TrackDetailPage from "./pages/TrackDetailPage";
 import FavoritesPage from "./pages/FavoritesPage";
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/all",
         element: <App />,
       },
       {

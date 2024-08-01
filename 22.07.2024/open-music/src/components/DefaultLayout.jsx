@@ -7,7 +7,6 @@ function DefaultLayout({ onFilterChange }) {
     <div>
       <Header onFilterChange={onFilterChange} />
       <div className="p-4">
-        <Hero />
         <Outlet />
       </div>
     </div>

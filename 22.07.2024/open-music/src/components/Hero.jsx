@@ -50,8 +50,8 @@ const Hero = () => {
             className="w-full h-[300px] object-cover"
           />
           <div className="text-center pt-4">
-            <h3 className="text-lg font-bold">{track.title}</h3>
-            <p className="text-sm text-gray-500">{track.artist}</p>
+            <h3 className="text-lg text-violet-900 font-bold">{track.title}</h3>
+            <p className="text-sm text-violet-500">{track.artist}</p>
           </div>
         </SwiperSlide>
       ))}

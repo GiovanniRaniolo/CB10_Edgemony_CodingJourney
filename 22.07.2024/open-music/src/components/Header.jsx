@@ -11,7 +11,7 @@ function Header() {
       <div className="flex items-center gap-8">
         <Filter />
         <NavLink
-          to="/"
+          to="/all"
           className={({ isActive }) =>
             `btn btn-ghost ${isActive ? "font-bold underline" : ""}`
           }
