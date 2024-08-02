@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-import "swiper/css/scrollbar";
+import "swiper/css/pagination";
 import {
   EffectCoverflow,
-  Scrollbar,
+  Pagination,
   Keyboard,
   Mousewheel,
 } from "swiper/modules";
@@ -40,7 +40,7 @@ const Hero = () => {
       grabCursor={true}
       centeredSlides={true}
       slidesPerView={4}
-      spaceBetween={-30}
+      spaceBetween={30}
       coverflowEffect={{
         rotate: 30,
         stretch: 0,
@@ -48,11 +48,11 @@ const Hero = () => {
         modifier: 1,
         slideShadows: false,
       }}
-      scrollbar={{ draggable: true }}
-      keyboard={{ enabled: true }} // Abilita la navigazione con la tastiera
-      mousewheel={{ invert: false }} // Abilita la navigazione con la rotella del mouse
-      modules={[EffectCoverflow, Scrollbar, Keyboard, Mousewheel]}
-      className="w-full h-[550px] mySwiper relative"
+      pagination={{ dynamicBullets: true }}
+      keyboard={{ enabled: true }}
+      mousewheel={{ invert: false }}
+      modules={[EffectCoverflow, Pagination, Keyboard, Mousewheel]}
+      className="w-full h-[500px] mySwiper relative "
     >
       {tracks.map((track) => (
         <SwiperSlide
@@ -60,14 +60,14 @@ const Hero = () => {
           onClick={() => navigate(`/track/${track.id}`)}
           className="cursor-pointer flex justify-center items-center"
         >
-          <div className="w-[300px] h-[300px]">
+          <div className="w-[350px]">
             <img
               src={track.cover}
               alt={track.title}
               className="w-full h-full object-cover rounded-lg"
             />
             <div className="text-center pt-4">
-              <h3 className="text-lg text-violet-900 font-bold">
+              <h3 className="text-lg text-violet-700 font-bold">
                 {track.title}
               </h3>
               <p className="text-sm text-violet-500">{track.artist}</p>

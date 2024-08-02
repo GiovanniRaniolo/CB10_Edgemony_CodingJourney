@@ -84,12 +84,12 @@ function TrackDetailPage() {
     : null;
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-2xl mx-auto bg-violet-100 shadow-md rounded-lg">
+    <div className="flex flex-col items-center justify-center p-4 max-w-2xl mx-auto">
       <div className="flex items-center mb-6">
         <img
           src={track.cover}
           alt={track.title}
-          className="w-64 h-64 object-cover rounded-lg mr-6"
+          className="w-80 object-cover rounded-lg mr-6"
         />
         <div>
           <h1 className="text-violet-900 text-3xl font-bold mb-4">

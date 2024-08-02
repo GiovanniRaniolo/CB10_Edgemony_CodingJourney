@@ -1,14 +1,4 @@
 /* Hero.css */
-
-/* Assicurati che il contenitore della scrollbar sia visibile */
-.swiper-scrollbar {
-  background: #d5d3d3; /* Colore di sfondo della scrollbar */
-  bottom: 10px; /* Margine dal fondo per visibilità */
-  border-radius: 8px; /* Arrotonda gli angoli del contenitore */
-  min-height: 8px;
-}
-
-/* Stile del cursore della scrollbar */
-.swiper-scrollbar-drag {
-  background: #6c5ce7; /* Colore del cursore della scrollbar */
+.swiper-pagination-bullet {
+  background-color: #6c5ce7;
 }
