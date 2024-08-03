@@ -1,15 +1,17 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
-import Hero from "./Hero";
+import FooterPlayer from "./FooterPlayer";
+import { PlayerProvider } from "../context/PlayerContext";
 
 function DefaultLayout({ onFilterChange }) {
   return (
-    <div>
+    <PlayerProvider>
       <Header onFilterChange={onFilterChange} />
       <div className="p-4">
         <Outlet />
       </div>
-    </div>
+      <FooterPlayer />
+    </PlayerProvider>
   );
 }
 

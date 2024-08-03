@@ -2,3 +2,45 @@
 .swiper-pagination-bullet {
   background-color: #6c5ce7;
 }
+
+/* Contenitore del pulsante di play */
+.play-button-container {
+  position: absolute;
+  bottom: 10px;
+  z-index: 10;
+}
+
+/* Pulsante di play */
+.play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, border-color 0.3s;
+}
+
+/* Hover sul pulsante di play */
+.play-button:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Opaco al passaggio del mouse */
+  border-color: rgba(255, 255, 255, 0.8); /* Opaco al passaggio del mouse */
+  transform: scale(1.1);
+}
+
+/* Icona di play */
+.play-icon {
+  font-size: 20px;
+  padding-left: 4px;
+  color: rgba(68, 68, 68, 0.8); /* Colore iniziale con opacità */
+  transition: color 0.3s;
+}
+
+/* Hover sull'icona di play */
+.play-button:hover .play-icon {
+  color: rgba(0, 0, 0, 0.9); /* Colore opaco al passaggio del mouse */
+}
