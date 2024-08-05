@@ -20,10 +20,7 @@ const FooterPlayer = () => {
         audio
           .play()
           .catch((error) =>
-            console.error(
-              "Errore durante la riproduzione del file audio:",
-              error
-            )
+            console.error("Error on file audio reproduction:", error)
           );
       } else {
         audio.pause();
@@ -141,17 +138,19 @@ const FooterPlayer = () => {
           </div>
           <div className="flex-1 mx-4">
             <div
-              className="relative w-full h-1 bg-violet-200 dark:bg-violet-700 cursor-pointer rounded-full overflow-hidden"
+              className="relative w-full h-1 bg-violet-200 dark:bg-violet-700 cursor-pointer rounded-full"
               ref={progressBarRef}
               onClick={handleProgressBarClick}
               onMouseDown={startDragging}
+              style={{ overflow: "visible" }}
             >
               <div
-                className="absolute top-0 -mt-1 w-6 h-4 bg-violet-100  rounded-lg shadow"
+                className="absolute w-3 h-3 bg-white border-2 border-cyan-500 rounded-full shadow"
                 style={{
+                  top: "-4px",
                   left: `calc(${
                     hoverProgress !== null ? hoverProgress : progress
-                  }% - 8px)`,
+                  }% - 2px)`,
                 }}
               ></div>
               <div
