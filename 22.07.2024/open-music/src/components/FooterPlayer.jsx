@@ -3,7 +3,8 @@ import { usePlayer } from "../context/PlayerContext";
 import { FaPlay, FaPause } from "react-icons/fa";
 
 const FooterPlayer = () => {
-  const { currentTrack, isPlaying, togglePlayPause } = usePlayer();
+  const { currentTrack, isPlaying, playNextTrack, togglePlayPause } =
+    usePlayer();
   const audioRef = useRef(null);
   const progressBarRef = useRef(null);
   const [progress, setProgress] = useState(0);
@@ -18,6 +19,7 @@ const FooterPlayer = () => {
     if (audio && currentTrack?.url) {
       audio.src = currentTrack.url;
       audio.load();
+      setProgress(0); // Azzera la progress bar quando cambia la traccia
       if (isPlaying) {
         audio
           .play()
@@ -154,6 +156,8 @@ const FooterPlayer = () => {
               ref={progressBarRef}
               onClick={handleProgressBarClick}
               onMouseDown={startDragging}
+              onMouseUp={stopDragging}
+              onMouseMove={(e) => dragging && updateHoverProgress(e)}
               style={{ overflow: "visible" }}
             >
               <div
@@ -183,7 +187,7 @@ const FooterPlayer = () => {
             ref={audioRef}
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
-            onEnded={togglePlayPause}
+            onEnded={playNextTrack}
           >
             <source src={currentTrack.url} type="audio/mpeg" />
             <p>Your browser does not support the audio element.</p>
