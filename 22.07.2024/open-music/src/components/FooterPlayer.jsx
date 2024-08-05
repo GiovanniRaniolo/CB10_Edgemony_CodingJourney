@@ -10,6 +10,8 @@ const FooterPlayer = () => {
   const [duration, setDuration] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [hoverProgress, setHoverProgress] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [autoHideTimeout, setAutoHideTimeout] = useState(null);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -22,6 +24,11 @@ const FooterPlayer = () => {
           .catch((error) =>
             console.error("Error on file audio reproduction:", error)
           );
+        setVisible(true);
+        if (autoHideTimeout) {
+          clearTimeout(autoHideTimeout);
+        }
+        setAutoHideTimeout(setTimeout(() => setVisible(false), 2000));
       } else {
         audio.pause();
       }
@@ -90,23 +97,24 @@ const FooterPlayer = () => {
 
   useEffect(() => {
     const handleMouseMove = (event) => {
-      if (dragging) {
-        updateHoverProgress(event);
+      if (window.innerHeight - event.clientY < 50) {
+        setVisible(true);
+        if (autoHideTimeout) {
+          clearTimeout(autoHideTimeout);
+        }
+        setAutoHideTimeout(setTimeout(() => setVisible(false), 2000));
       }
     };
 
-    const handleMouseUp = () => {
-      stopDragging();
-    };
-
     window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      if (autoHideTimeout) {
+        clearTimeout(autoHideTimeout);
+      }
     };
-  }, [dragging, hoverProgress]);
+  }, [autoHideTimeout]);
 
   const formatTime = (time) => {
     if (!time || isNaN(time)) return "00:00";
@@ -116,7 +124,11 @@ const FooterPlayer = () => {
   };
 
   return (
-    <div className="fixed bottom-0 w-full h-[40px] bg-violet-100 dark:bg-violet-900 flex items-center justify-between px-80 border-t border-gray-200 dark:border-violet-700">
+    <div
+      className={`fixed bottom-0 w-full h-[40px] bg-violet-100 dark:bg-violet-950 flex items-center justify-between px-80 border-t border-gray-200 dark:border-violet-700 transition-transform duration-500 ease-in-out ${
+        visible ? "translate-y-0" : "translate-y-full"
+      }`}
+    >
       {currentTrack && (
         <>
           <div className="flex items-center">
