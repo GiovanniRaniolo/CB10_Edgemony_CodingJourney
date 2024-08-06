@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getTrackById } from "../api/trackByIdClient";
 import { trackLabels } from "../data/labels";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash, FaPlay } from "react-icons/fa"; // Importa l'icona di Play
 import TrackDetailSkeleton from "../components/TrackDetailSkeleton";
 import ErrorPage from "./ErrorPage";
 import FavoriteButton from "../components/FavoriteButton";
@@ -11,7 +11,7 @@ import DeleteTrackModal from "../components/DeleteTrackModal";
 import { deleteTrack } from "../api/tracksAddEditDelete";
 import { deleteFile, fileExists } from "../api/storageClient";
 import { useToast } from "../context/ToastContext";
-import AudioPlayer from "../components/AudioPlayer";
+import { usePlayer } from "../context/PlayerContext"; // Importa il context del Player
 
 function TrackDetailPage() {
   const { id } = useParams();
@@ -21,6 +21,7 @@ function TrackDetailPage() {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { showToast } = useToast();
+  const { playTrack } = usePlayer(); // Usa il context del Player per controllare la riproduzione
 
   useEffect(() => {
     const fetchTrack = async () => {
@@ -73,24 +74,32 @@ function TrackDetailPage() {
     }
   };
 
+  const handlePlayClick = () => {
+    if (track) {
+      playTrack(track); // Avvia la riproduzione della traccia selezionata
+    }
+  };
+
   if (isLoading) return <TrackDetailSkeleton />;
   if (error) return <ErrorPage message={error.message} />;
   if (!track) return <ErrorPage message={"No track found."} />;
 
-  const audioUrl = track.audioFile
-    ? `https://firebasestorage.googleapis.com/v0/b/${
-        import.meta.env.VITE_STORAGE_BUCKET
-      }/o/${encodeURIComponent(track.audioFile)}?alt=media`
-    : null;
-
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-2xl mx-auto">
+    <div className="flex flex-col items-center justify-center p-4">
       <div className="flex items-center mb-6">
-        <img
-          src={track.cover}
-          alt={track.title}
-          className="w-80 object-cover rounded-lg mr-6"
-        />
+        <div className="relative mr-6">
+          <img
+            src={track.cover}
+            alt={track.title}
+            className="w-80 object-cover rounded-lg "
+          />
+          <button
+            onClick={handlePlayClick}
+            className="absolute bottom-2 left-2 p-2 bg-blue-500 text-white rounded-full"
+          >
+            <FaPlay size={20} className="pl-1" />
+          </button>
+        </div>
         <div>
           <h1 className="text-violet-900 text-3xl font-bold mb-4">
             {track.title}
@@ -119,10 +128,6 @@ function TrackDetailPage() {
               {track.releaseDate}
             </strong>
           </p>
-          {/* <p className="text-lg mb-2">
-            {trackLabels.trackTableDuration}:{" "}
-            <strong className="text-violet-800">{track.duration}</strong>
-          </p> */}
           <p className="text-sm mb-2 text-slate-400">
             {trackLabels.trackTableUrl}:{" "}
             <a
@@ -135,13 +140,6 @@ function TrackDetailPage() {
             </a>
           </p>
         </div>
-      </div>
-      <div className="w-full mb-4">
-        {audioUrl ? (
-          <AudioPlayer track={track} className="w-full max-w-4xl" />
-        ) : (
-          <p>No audio available for this track.</p>
-        )}
       </div>
       <div className="flex items-center gap-4 mt-2">
         <FavoriteButton track={track} />
