@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getDownloadURL, ref } from "firebase/storage";
-import { getTrackList } from "../api/tracksClient"; // Import the function to get the track list
+import { getTrackList } from "../api/tracksClient";
 import { storage } from "../firebase";
 
 const PlayerContext = createContext();
@@ -63,6 +63,27 @@ export const PlayerProvider = ({ children }) => {
     }
   };
 
+  const playPreviousTrack = async () => {
+    if (!trackList.length || !currentTrack) {
+      return;
+    }
+
+    const currentIndex = trackList.findIndex(
+      (track) => track.audioFile === currentTrack.audioFile
+    );
+    if (currentIndex === -1) {
+      return;
+    }
+
+    const previousIndex =
+      currentIndex === 0 ? trackList.length - 1 : currentIndex - 1;
+    const previousTrack = trackList[previousIndex];
+
+    if (previousTrack) {
+      await playTrack(previousTrack);
+    }
+  };
+
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
@@ -74,6 +95,7 @@ export const PlayerProvider = ({ children }) => {
         isPlaying,
         playTrack,
         playNextTrack,
+        playPreviousTrack,
         togglePlayPause,
         setTrackList,
       }}

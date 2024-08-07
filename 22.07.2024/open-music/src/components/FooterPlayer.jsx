@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { usePlayer } from "../context/PlayerContext";
-import { FaPlay, FaPause } from "react-icons/fa";
+import { FaPlay, FaPause, FaStepForward, FaStepBackward } from "react-icons/fa";
 
 const FooterPlayer = () => {
-  const { currentTrack, isPlaying, playNextTrack, togglePlayPause } =
-    usePlayer();
+  const {
+    currentTrack,
+    isPlaying,
+    playNextTrack,
+    playPreviousTrack, // Nuova funzione per traccia precedente
+    togglePlayPause,
+  } = usePlayer();
   const audioRef = useRef(null);
   const progressBarRef = useRef(null);
   const [progress, setProgress] = useState(0);
@@ -142,12 +147,20 @@ const FooterPlayer = () => {
                 | {currentTrack.artist}
               </span>
             </div>
-            <button onClick={togglePlayPause} className="ml-10">
+            <button onClick={togglePlayPause} className="mx-8">
               {isPlaying ? (
                 <FaPause className="text-violet-700 dark:text-violet-100" />
               ) : (
                 <FaPlay className="text-violet-700 dark:text-violet-100" />
               )}
+            </button>
+          </div>
+          <div className="flex items-center">
+            <button onClick={playPreviousTrack} className="mr-2">
+              <FaStepBackward className="text-violet-700 dark:text-violet-100" />
+            </button>
+            <button onClick={playNextTrack}>
+              <FaStepForward className="text-violet-700 dark:text-violet-100" />
             </button>
           </div>
           <div className="flex-1 mx-4">
