@@ -1,15 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { usePlayer } from "../context/PlayerContext";
-import { FaPlay, FaPause, FaStepForward, FaStepBackward } from "react-icons/fa";
+import { useFavorites } from "../context/FavoriteContext";
+import {
+  FaPlay,
+  FaPause,
+  FaStepForward,
+  FaStepBackward,
+  FaHeart,
+} from "react-icons/fa";
 
 const FooterPlayer = () => {
   const {
     currentTrack,
     isPlaying,
     playNextTrack,
-    playPreviousTrack, // Nuova funzione per traccia precedente
+    playPreviousTrack,
     togglePlayPause,
   } = usePlayer();
+  const { addFavorite, removeFavorite, isFavorite } = useFavorites();
   const audioRef = useRef(null);
   const progressBarRef = useRef(null);
   const [progress, setProgress] = useState(0);
@@ -24,7 +32,7 @@ const FooterPlayer = () => {
     if (audio && currentTrack?.url) {
       audio.src = currentTrack.url;
       audio.load();
-      setProgress(0); // Azzera la progress bar quando cambia la traccia
+      setProgress(0);
       if (isPlaying) {
         audio
           .play()
@@ -130,6 +138,16 @@ const FooterPlayer = () => {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
 
+  const toggleFavorite = () => {
+    if (currentTrack) {
+      if (isFavorite(currentTrack.id)) {
+        removeFavorite(currentTrack.id);
+      } else {
+        addFavorite(currentTrack);
+      }
+    }
+  };
+
   return (
     <div
       className={`fixed bottom-0 w-full h-[40px] bg-violet-100 dark:bg-violet-950 flex items-center justify-between px-80 border-t border-gray-200 dark:border-violet-700 transition-transform duration-500 ease-in-out ${
@@ -195,6 +213,15 @@ const FooterPlayer = () => {
           <div className="text-violet-700 dark:text-violet-100 text-xs">
             {formatTime(audioRef.current?.currentTime || 0)} /{" "}
             {formatTime(duration)}
+          </div>
+          <div className="flex items-center">
+            <button onClick={toggleFavorite} className="ml-4">
+              <FaHeart
+                className={`${
+                  isFavorite(currentTrack.id) ? "text-red-500" : "text-gray-400"
+                }`}
+              />
+            </button>
           </div>
           <audio
             ref={audioRef}
