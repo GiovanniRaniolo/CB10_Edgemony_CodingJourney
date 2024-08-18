@@ -14,6 +14,7 @@ import AddTrackPage from "./pages/AddTrackPage";
 import EditTrackPage from "./pages/EditTrackPage";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage"; // Importa SignUpPage
 import { FilterProvider } from "./context/FilterContext";
 import { FavoriteProvider } from "./context/FavoriteContext";
 import { ToastProvider } from "./context/ToastContext";
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUpPage />, // Aggiungi la rotta per SignUpPage
   },
 ]);
 
